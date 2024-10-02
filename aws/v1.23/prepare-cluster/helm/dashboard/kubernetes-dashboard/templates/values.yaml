@@ -1,0 +1,40 @@
+ingress:
+  enabled: true
+  annotations: {
+      ingress.kubernetes.io/ssl-redirect: "true",
+      kubernetes.io/tls-acme: "true",
+      cert-manager.io/issuer: "letsencrypt-production",
+      kubernetes.io/ingress.class: nginx
+  }
+
+  hosts:
+    - ${host}
+
+  tls:
+    - secretName: ${secret_name}
+      hosts:
+        - ${host}
+
+  paths:
+    - /
+
+
+rbac:
+  clusterAdminRole: true
+
+
+extraArgs:
+  - --authentication-mode=token
+  - --system-banner=Welcome to PipeOps Kubernetes Dashboard, We believe you know what you are doing. Happy Shipping
+
+extraEnv:
+  - name: DASHBOARD_STYLE_OVERRIDE
+    value: |
+      .navbar {background-color: #4F21EA;}
+      .nav-tabs>li.active>a, .nav-tabs>li.active>a:focus, .nav-tabs>li.active>a:hover {background-color: #4F21EA;}
+
+
+service:
+  type: NodePort
+  externalPort: 8443
+
