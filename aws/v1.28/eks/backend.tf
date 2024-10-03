@@ -1,7 +1,7 @@
 terraform {
   backend "s3" {
-    bucket         = "<replaceAccountID>-owned-by-pipeops-do-not-delete"
-    key            = "<replaceKey>-tf-state"
+    bucket         = "pipeops-prod-cluster-tf"
+    key            = "tf-v1.28-tf-state"
     region         = "eu-west-2"
     encrypt        = true
   }
