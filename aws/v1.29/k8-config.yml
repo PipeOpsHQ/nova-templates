@@ -1,0 +1,32 @@
+apiVersion: v1
+clusters:
+- cluster:
+    server: https://D27626C036D73A2EC8702C69F838840D.gr7.eu-west-2.eks.amazonaws.com
+    certificate-authority-data: LS0tLS1CRUdJTiBDRVJUSUZJQ0FURS0tLS0tCk1JSURCVENDQWUyZ0F3SUJBZ0lJRy9ENzFsZGU1SDR3RFFZSktvWklodmNOQVFFTEJRQXdGVEVUTUJFR0ExVUUKQXhNS2EzVmlaWEp1WlhSbGN6QWVGdzB5TkRFd01UQXdOakEzTVRoYUZ3MHpOREV3TURnd05qRXlNVGhhTUJVeApFekFSQmdOVkJBTVRDbXQxWW1WeWJtVjBaWE13Z2dFaU1BMEdDU3FHU0liM0RRRUJBUVVBQTRJQkR3QXdnZ0VLCkFvSUJBUURHU3djYVlSTGJxV05zTTVsa2N1UExJZzA5OTNmdk9EaVdReldMYUY5bzFPekl1bkIzVGt0UWtLalUKQ3RneGRUb3NybWcyK0hEdEtobjdMNTAzdmxYc3NaZ2NjL0hiTU0vRkovVDFybFJ5dWh1VjdNUjdMb1NzMVdhYgpuWlVuUUdaZDJYWWhrUFdpVjRGOXl4SFlrMHVXeldsN3Y5ckZEZlg3bHNNTzRNYVVqNktFN204MHlPRzJJK2RTCmg2ckcwTHYzN0MwYlpHVnErSjVOc1pYSVJLeUhnckZ6MVZGa1daejUzZWpxZUhsS3JIZVFMaTA5WmtGWW1XUjMKZ2xOdm1zNi9NZkJRa24xU1ZYbHBHdkRkN3ZQNGt1YzhhZDA0K3JDUDFxWG93eXdpN3l6WnlQZTVCc0tTZnlsTwp2eHJqMmhPd3Bhd3l2TlhYQndiNkFsdXVidFpkQWdNQkFBR2pXVEJYTUE0R0ExVWREd0VCL3dRRUF3SUNwREFQCkJnTlZIUk1CQWY4RUJUQURBUUgvTUIwR0ExVWREZ1FXQkJRb0pRZE5oektTbEVtbG9kaklQNTNqcURhMzd6QVYKQmdOVkhSRUVEakFNZ2dwcmRXSmxjbTVsZEdWek1BMEdDU3FHU0liM0RRRUJDd1VBQTRJQkFRQVlYNXVJVjU3bApmajA4ZWNUREw2ZWlueERQcWU4YU5UUHBvaEk0ZUJmWXVVM2pRMUtia2U4eGpUYThWelJCNWFXYUNoajMvYURsCmJBVWJIN1hRRWtsdzZqL3U1dzYya21ZTmpVaFV5ODd4WndabW56Wi9zQ2xjRWYrbUl5cUo2OVZZSzVIZnVDOXoKTmRBVThTMEN4Ujd4YmlHKzY1OUlGOWdjaXIyWlZ1emQzY1BkNHN4V2FGU1I2MGlQSnp5TlJIcEN6UUVyREd5UwppSFU3VWhXV2JrSU1YbFRycHZMY0lGZURZSHEvWVA1czMrcWtVd3BvZ25XNndZdERXSnZqWWhkSkFwdU8wRm9lClhHdVFHTHRrZG12YXdZTDBQc3ZFZ2xleURNMFU5R0k5alVDN0lDZkdZOVZiUVdFYS9nUmkwZmVFRy96bFdPTEUKTnExVENwQUpPWitVCi0tLS0tRU5EIENFUlRJRklDQVRFLS0tLS0K
+  name: pipeops-cluster
+contexts:
+- context:
+    cluster: pipeops-cluster
+    user: pipeops-cluster
+  name: pipeops-cluster
+current-context: pipeops-cluster
+kind: Config
+preferences: {}
+users:
+- name: pipeops-cluster
+  user:
+    exec:
+      apiVersion: client.authentication.k8s.io/v1
+      args:
+      - --region
+      - "eu-west-2"
+      - eks
+      - get-token
+      - --cluster-name
+      - "pipeops-cluster"
+      command: aws
+      env:
+      - name: AWS_PROFILE
+        value: "default"
+      interactiveMode: IfAvailable
+      provideClusterInfo: true

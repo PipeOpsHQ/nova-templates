@@ -39,8 +39,6 @@ data "aws_subnets" "intra_subnets" {
   }
 }
 
-
-
 locals {
   sanitized_kubernetes_version = replace(var.eks_version, "v", "")
 }
@@ -51,7 +49,6 @@ module "ebs_csi_irsa_role" {
 
   role_name             = "${var.cluster_name}-driver"
   attach_ebs_csi_policy = true
-  policy_name_prefix    = var.cluster_name
 
   oidc_providers = {
     ex = {
@@ -60,7 +57,6 @@ module "ebs_csi_irsa_role" {
     }
   }
 }
-
 /*
 module "cluster_autoscaler_irsa_role" {
   source = "terraform-aws-modules/iam/aws//modules/iam-role-for-service-accounts-eks"
@@ -105,25 +101,28 @@ resource "aws_iam_policy" "cluster_autoscaler_policy" {
     ]
   })
 }
-
 */
+
 
 module "eks" {
   source  = "terraform-aws-modules/eks/aws"
   version = "20.24.0"
 
-  cluster_name    = var.cluster_name
-  cluster_version = local.sanitized_kubernetes_version
-  cluster_endpoint_public_access           = true
+  cluster_name                             = var.cluster_name
+  cluster_version                          = local.sanitized_kubernetes_version
+  # enable_cluster_creator_admin_permissions = true
+  authentication_mode                      = "API_AND_CONFIG_MAP"
 
   # Enable IRSA
   enable_irsa = true
 
+
+
   cluster_addons = {
     vpc-cni = {
-      most_recent = true
-      resolve_conflicts        = "OVERWRITE"
+      most_recent    = true
       before_compute = true
+      resolve_conflicts = "OVERWRITE"
       configuration_values = jsonencode({
         env = {
           ENABLE_PREFIX_DELEGATION = "true"
@@ -133,9 +132,10 @@ module "eks" {
     }
 
     coredns = {
-      preserve    = true
-      most_recent = true
-      resolve_conflicts        = "OVERWRITE"
+      preserve          = true
+      most_recent       = true
+      resolve_conflicts = "OVERWRITE"
+
       timeouts = {
         create = "25m"
         delete = "10m"
@@ -143,13 +143,13 @@ module "eks" {
     }
 
     eks-pod-identity-agent = {
-      most_recent = true
-      resolve_conflicts        = "OVERWRITE"
+      most_recent       = true
+      resolve_conflicts = "OVERWRITE"
     }
 
     kube-proxy = {
-      most_recent = true
-      resolve_conflicts        = "OVERWRITE"
+      most_recent       = true
+      resolve_conflicts = "OVERWRITE"
     }
 
     aws-ebs-csi-driver = {
@@ -168,27 +168,14 @@ module "eks" {
 
   vpc_id                         = data.aws_vpc.selected.id
   subnet_ids                     = data.aws_subnets.private_subnets.ids
+  cluster_endpoint_public_access = true
   control_plane_subnet_ids       = data.aws_subnets.intra_subnets.ids
 
-  
-
   eks_managed_node_groups = {
-    /*
-    one = {
-      name                     = "${var.cluster_name}-ng"
-      subnet_ids               = data.aws_subnets.private_subnets.ids
-      instance_types           = var.eks_instance_class
-      ami_type        = var.ami_type
-      min_size                 = var.eks_min_node
-      max_size                 = var.eks_max_node
-      desired_size             = var.eks_cluster_desired_node
-      disk_size                = var.eks_cluster_storage
-     */
-     karpenter = {
+    karpenter = {
       name            = "${var.cluster_name}-ng"
       subnet_ids      = data.aws_subnets.private_subnets.ids
       instance_types  = var.eks_instance_class
-      ami_type        = var.ami_type
       min_size        = var.eks_min_node
       max_size        = var.eks_max_node
       desired_size    = var.eks_cluster_desired_node
@@ -198,7 +185,7 @@ module "eks" {
       iam_role_use_name_prefix = true
       iam_role_name            = "${var.cluster_name}-role"
       iam_role_description     = "EKS managed node group role for Karpenter"
- 
+
 
       labels = {
         "karpenter.sh/controller" = "true"
@@ -250,6 +237,6 @@ module "eks_auth" {
       ]
     },
   ]
- 
+
   map_users = var.map_users
 }
