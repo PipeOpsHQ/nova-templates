@@ -1,18 +1,14 @@
 provider "http" {}
 
-
-data "aws_eks_cluster_auth" "default" {
-  name = module.eks.cluster_name
-}
-
 provider "aws" {
   region = var.aws_region
+  #alias  = "virginia"
 }
-/*
+
 provider "aws" {
   region = "us-east-1"
   alias  = "virginia"
-}*/
+}
 
 provider "kubernetes" {
   host                   = module.eks.cluster_endpoint

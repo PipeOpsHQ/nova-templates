@@ -1,0 +1,85 @@
+variable "pipeops_workspace" {
+  description = "PipeOps WorkSpace Account"
+  default     = "test"
+}
+
+#done
+variable "eks_version" {
+  type        = string
+  default     = "1.29"
+  description = "Desired Kubernetes master version. If you do not specify a value, the latest available version is used"
+}
+
+variable "cluster_name" {
+  description = "Name of Cluster"
+  type        = string
+  default     = "pipeops-cluster"
+}
+
+variable "eks_cluster_desired_node" {
+  description = "cluster default node"
+  type        = number
+  default     = 3
+}
+
+variable "ami_type" {
+  type    = string
+  default = "AL2_x86_64"
+}
+
+
+variable "eks_min_node" {
+  description = "cluster min node"
+  type        = number
+  default     = 1
+}
+
+variable "eks_max_node" {
+  description = "cluster max node"
+  type        = number
+  default     = 3
+}
+
+variable "eks_instance_class" {
+  description = "machine type to be used"
+  default     = ["t3a.medium"] #-
+  /*
+  default = {
+    dev = "t3a.large"
+    pro  = "m5.large"
+    startup  = "c5a.2xlarge"
+  }*/
+}
+
+variable "eks_cluster_storage" {
+  description = "cluster storage"
+  type        = number
+  default     = 50
+}
+
+variable "map_users" {
+  description = "Additional IAM users to add to the aws-auth configmap."
+  type = list(object({
+    userarn  = string
+    username = string
+    groups   = list(string)
+  }))
+  default = []
+}
+
+
+variable "aws_config_path" {
+  description = "path to aws config"
+  type        = string
+  default     = "~/.aws/config" #-
+}
+
+variable "aws_profile" {
+  description = "AWS PROFILE"
+  default     = "default" #-
+}
+
+variable "aws_region" {
+  description = "AWS region to launch servers."
+  default     = "eu-west-2" #-
+}
