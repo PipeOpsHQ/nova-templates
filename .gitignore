@@ -38,4 +38,7 @@ terraform.rc
 
 .terraform.lock.hcl
 
+.terraform
+
 tfplan.txt
+tf.plan 
