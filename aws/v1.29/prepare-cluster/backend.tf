@@ -1,4 +1,4 @@
-/*
+
 terraform {
   backend "s3" {
     bucket         = "<replaceAccountID>-owned-by-pipeops-do-not-delete"
@@ -6,4 +6,4 @@ terraform {
     region         = "eu-west-2"
     encrypt        = true
   }
-}*/
+}
