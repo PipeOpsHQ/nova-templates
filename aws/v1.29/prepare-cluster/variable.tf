@@ -11,13 +11,18 @@ variable "eks_cluster_name" {
 
 variable "cluster_package" {
   description = "cluster package"
-  default = "t3a-medium"
+  default = "t3.medium"
+}
+
+variable "bucket_name" {
+  description = "Name of S3 bucket to store loki data"
+  default = "grafana-loki-pipeops"  
 }
 
 variable "aws_config_path" {
   description = "path to aws config"
-  type = string
-  default = "~/.aws/credentials"
+  type = list(string)
+  default =[ "~/.aws/credentials"]
 }
 
 variable "aws_profile" {

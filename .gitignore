@@ -42,3 +42,4 @@ terraform.rc
 
 k8-config.yml
 
+test-folder/

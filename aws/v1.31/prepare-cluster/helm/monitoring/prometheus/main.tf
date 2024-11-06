@@ -4,18 +4,6 @@ resource "random_string" "password" {
   override_special = "_@"
 }
 
-#newly added
-resource "kubernetes_namespace" "monitoring" {
-  metadata {
-    annotations = {
-      name = var.k8s_namespace
-    }
-
-    name = var.k8s_namespace
-  }
-}
-
-
 resource "kubernetes_secret" "prometheus-basic-auth" {
   type = "Opaque"
   metadata {
@@ -25,6 +13,16 @@ resource "kubernetes_secret" "prometheus-basic-auth" {
 
   data = {
     "auth" : "${var.cluster_name}:${bcrypt(random_string.password.result)}"
+  }
+}
+
+resource "kubernetes_namespace" "monitoring" {
+  metadata {
+    annotations = {
+      name = "monitoring"
+    }
+
+    name = "monitoring"
   }
 }
 

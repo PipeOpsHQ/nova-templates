@@ -1,0 +1,7 @@
+## If nil, select own namespace. Namespaces to be selected for scrapeConfig discovery.
+## If null, exclude the field from the prometheusSpec (keeping downward compatibility with older versions of CRD)
+prometheus:
+  prometheusSpec:
+    scrapeConfigNamespaceSelector: 
+      matchLabels:
+        prometheus: ${namespace}
