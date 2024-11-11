@@ -74,7 +74,7 @@ resource "kubectl_manifest" "karpenter_node_class" {
     apiVersion: karpenter.k8s.aws/v1beta1
     kind: EC2NodeClass
     metadata:
-      name: pipss-default-node-class
+      name: pipeops-default-node-class
       namespace: kube-system
       labels: 
         app.kubernetes.io/managed-by: "Helm"
@@ -151,7 +151,7 @@ resource "kubectl_manifest" "karpenter_node_pool" {
             pipeops.io/cluster-name: ${module.eks.cluster_name}
         spec:
           nodeClassRef:
-            name: pipss-default-node-class
+            name: pipeops-default-node-class
             namespace: kube-system
           # Note: changing this value in the nodepool will drift the nodeclaims.
           expireAfter: 720h 
