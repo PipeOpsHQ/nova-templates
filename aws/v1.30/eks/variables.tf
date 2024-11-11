@@ -44,10 +44,26 @@ variable "eks_instance_class" {
   } */
 }
 
+variable "ami_type" {
+  type    = string
+  default = "AL2_x86_64"
+}
+
+
 variable "eks_cluster_storage" {
   description = "cluster storage"
   type        = number
   default     = 10
+}
+
+variable "map_users" {
+  description = "Additional IAM users to add to the aws-auth configmap."
+  type = list(object({
+    userarn  = string
+    username = string
+    groups   = list(string)
+  }))
+  default = []
 }
 
 /*

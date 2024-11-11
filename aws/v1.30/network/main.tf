@@ -1,6 +1,7 @@
+
 module "network" {
   source  = "terraform-aws-modules/vpc/aws"
-  version = "5.0.0"
+  version = "5.6.0"
 
   name = "${var.pipeops_workspace_account}-vpc"
 
@@ -9,6 +10,7 @@ module "network" {
 
   private_subnets = var.private_subnets_cidrs
   public_subnets  = var.public_subnets_cidrs
+  intra_subnets   = var.intra_subnets_cidrs
 
   enable_nat_gateway   = true
   single_nat_gateway   = true
@@ -26,6 +28,18 @@ module "network" {
     "kubernetes.io/cluster/${var.eks_cluster_name}" = "shared"
     "kubernetes.io/role/internal-elb"           = 1
     "subnet"                                    = "private"
+     "karpenter.sh/discovery"                    = "${var.eks_cluster_name}"
+  }
+
+  tags = {
+    "Name"                   = var.eks_cluster_name
+    "karpenter.sh/discovery" = "${var.eks_cluster_name}"
+    "pipeops.io/cluster"     = "${var.eks_cluster_name}"
+
+    "Environment" = "production"
+    "Terraform"   = "true"
+    "ManagedBy"   = "pipeops.io"
+    # "DateCreated" = formatdate("YYYY-MM-DD", timestamp())
   }
 }
 

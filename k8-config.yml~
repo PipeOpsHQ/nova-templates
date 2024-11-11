@@ -1,0 +1,32 @@
+apiVersion: v1
+clusters:
+- cluster:
+    server: https://5842C7E3D1A546CE9EFE9BAF2B9406C0.gr7.eu-west-2.eks.amazonaws.com
+    certificate-authority-data: LS0tLS1CRUdJTiBDRVJUSUZJQ0FURS0tLS0tCk1JSURCVENDQWUyZ0F3SUJBZ0lJVTR0a2F6cksxL3d3RFFZSktvWklodmNOQVFFTEJRQXdGVEVUTUJFR0ExVUUKQXhNS2EzVmlaWEp1WlhSbGN6QWVGdzB5TkRFeE1EY3dOelV5TWpaYUZ3MHpOREV4TURVd056VTNNalphTUJVeApFekFSQmdOVkJBTVRDbXQxWW1WeWJtVjBaWE13Z2dFaU1BMEdDU3FHU0liM0RRRUJBUVVBQTRJQkR3QXdnZ0VLCkFvSUJBUUNyb1FlZENMaG92UUVyNmdSVVNxVkIraHl1L3RpVG9vU2RkV2I1NU1hL0ZzWmNUQmVTTkkwTzR3akEKUDBlUTNRdmxWczVhOHlHcEdFRkpoQXp1eDB5eit6U0ljWURIenVoWDNhTzdxbFR4dWg1WFZSdHExY2o3Q0FDTgphMlVyMUEwcTQ0MklSQnB5V0xsSnA4Mmwya29KNEpOajNobUJWQ2s0aVBrNmFkRXEyakc3VUtYaVVicnRhZU1FCitZVlA5M0xrcnpsdFUwemkweXdnZUQ2bzVKZVVSV1Rta0lPNDdabUUxcDJmZzRYaDhOVDVZLzFiN0xCK2pZaFIKTDFFblpCa1dhWUZwbkNub040di9jZU5QVHE2QlpIT3BZajJJU0EycU5HWkFqRWNaR1MyWm5LenJCWlllOHRudwpTVGpwUmJxcmdnVlF1Wjk0ZkxKNEhsbTJHR2VGQWdNQkFBR2pXVEJYTUE0R0ExVWREd0VCL3dRRUF3SUNwREFQCkJnTlZIUk1CQWY4RUJUQURBUUgvTUIwR0ExVWREZ1FXQkJUVVhpdzRGU0dKV0M4ZnVxcENNaHJKRElIclZqQVYKQmdOVkhSRUVEakFNZ2dwcmRXSmxjbTVsZEdWek1BMEdDU3FHU0liM0RRRUJDd1VBQTRJQkFRQ0tYaFRJVUhtcwpnVTlmTUV4dVk4V0dmRktXMXhheVhYZXhIc0l4cVlxU1d1RnR5U09ONzEzaDZqdW5wQmR2Z1czSWl0eElLalZuCkJia1NKOUxxUzJQQkpnSXR1NGFIL0ZINEU4UXJRR2hvTEVyMEhXUm9zYXo0VkM2WlgxY05tOEFTR0tDMENCaUgKLytrWnBpc2swbmk1ZU1vVWJuNkx4RVhpbGdzc1FJdHk1OUV5RHI2N1oyeVB3OGRqQUlCQ0h6UStOUmhuRlJQUQpLb1NXcjRQeEpjZHNnYmJNSnRRcGJCcit4SEp0c3M1Q2hTZHhOS25GNnRJejhCRU5uNzFETWJlY1FLV1Z5SWg4CjU1VWZFWWhmWjQzUm1UOUU1N2lkclVuN0w0V09rbVNmU3hoSXlBcjVyTUk3RytXM09YZ3BhV084Y2FIdTQ4L0kKR08ybXJ5WlZaUksrCi0tLS0tRU5EIENFUlRJRklDQVRFLS0tLS0K
+  name: pipeops
+contexts:
+- context:
+    cluster: pipeops
+    user: pipeops
+  name: pipeops
+current-context: pipeops
+kind: Config
+preferences: {}
+users:
+- name: pipeops
+  user:
+    exec:
+      apiVersion: client.authentication.k8s.io/v1
+      args:
+      - --region
+      - "eu-west-2"
+      - eks
+      - get-token
+      - --cluster-name
+      - "pipeops"
+      command: aws
+      env:
+      - name: AWS_PROFILE
+        value: "default"
+      interactiveMode: IfAvailable
+      provideClusterInfo: true

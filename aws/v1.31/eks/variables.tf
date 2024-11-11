@@ -43,6 +43,10 @@ variable "eks_instance_class" {
     startup = "c5a.2xlarge"
   } */
 }
+variable "ami_type" {
+  type    = string
+  default = "AL2_x86_64"
+}
 
 variable "eks_cluster_storage" {
   description = "cluster storage"
@@ -50,19 +54,29 @@ variable "eks_cluster_storage" {
   default     = 10
 }
 
-/*
+variable "map_users" {
+  description = "Additional IAM users to add to the aws-auth configmap."
+  type = list(object({
+    userarn  = string
+    username = string
+    groups   = list(string)
+  }))
+  default = []
+}
+
+
 variable "aws_config_path" {
   description = "path to aws config"
   type        = string
 
 }
-*/
+
 variable "aws_profile" {
   description = "AWS PROFILE"
-  default = "default"
+  
 }
 
 variable "aws_region" {
   description = "AWS region to launch servers."
-  default = "eu-west-2"
+  
 }

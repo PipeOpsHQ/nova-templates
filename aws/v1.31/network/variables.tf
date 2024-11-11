@@ -16,6 +16,12 @@ variable "public_subnets_cidrs" {
   default     = ["10.0.4.0/24", "10.0.5.0/24", "10.0.6.0/24"]
 }
 
+variable "intra_subnets_cidrs" {
+  description = "Public Subnets CIDR"
+  type        = list(string)
+  default     = ["10.0.7.0/24", "10.0.8.0/24", "10.0.9.0/24"]
+}
+
 variable "eks_cluster_name" {
   description = "Name of Cluster"
   type        = string
@@ -26,26 +32,26 @@ variable "pipeops_workspace_account" {
   description = "PipeOps WorkSpace Name"
   default = "test"
 }
-/*
+
 variable "eks_version" {
   description = "PipeOps Cluster Version"
-  default     = "1.28"
+  default     = "1.31"
 }
-*/
-/*
+
+
 variable "aws_config_path" {
   description = "path to aws config"
   type = string
-  default = "/home/toluwalope/.aws/credentials"
+
 }
 
 variable "aws_profile" {
   description = "AWS PROFILE"
-  default = "default"
+
   
 }
-*/
+
 variable "aws_region" {
   description = "AWS region to launch servers."
-  default = "eu-west-2"
+
 }
