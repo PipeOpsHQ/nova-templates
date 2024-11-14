@@ -1,5 +1,9 @@
+data "aws_ecrpublic_authorization_token" "token" {
+  provider = aws.virginia
+}
 
 module "karpenter" {
+  count   = var.install_karpenter ? 1 : 0
   source  = "terraform-aws-modules/eks/aws//modules/karpenter"
   version = "20.24.0"
 
@@ -30,15 +34,16 @@ module "karpenter" {
 }
 
 resource "helm_release" "karpenter" {
+  count     = var.install_karpenter ? 1 : 0
   namespace = "kube-system"
 
-  name       = "karpenter"
-  repository = "oci://public.ecr.aws/karpenter"
+  name                = "karpenter"
+  repository          = "oci://public.ecr.aws/karpenter"
   repository_username = data.aws_ecrpublic_authorization_token.token.user_name
   repository_password = data.aws_ecrpublic_authorization_token.token.password
-  chart      = "karpenter"
-  version    = "1.0.6"
-  wait       = true
+  chart               = "karpenter"
+  version             = "1.0.6"
+  wait                = true
 
   # Optional: Set this to true if you want to purge the release
   cleanup_on_fail = true
@@ -51,11 +56,11 @@ resource "helm_release" "karpenter" {
       replicas: 1
       serviceAccount:
         annotations:
-          eks.amazonaws.com/role-arn: ${module.karpenter.node_iam_role_arn}
+          eks.amazonaws.com/role-arn: ${module.karpenter[0].node_iam_role_arn}
       settings:
         clusterName: ${module.eks.cluster_name}
         clusterEndpoint: ${module.eks.cluster_endpoint}
-        interruptionQueue: ${module.karpenter.queue_name}
+        interruptionQueue: ${module.karpenter[0].queue_name}
         featureGates:
           spotToSpotConsolidation: true
       tolerations:
@@ -70,6 +75,7 @@ resource "helm_release" "karpenter" {
 }
 
 resource "kubectl_manifest" "karpenter_node_class" {
+  count     = var.install_karpenter ? 1 : 0
   yaml_body = <<-YAML
     apiVersion: karpenter.k8s.aws/v1beta1
     kind: EC2NodeClass
@@ -90,7 +96,7 @@ resource "kubectl_manifest" "karpenter_node_class" {
             meta.helm.sh/release-name: "karpenter-crd"
             meta.helm.sh/release-namespace: "kube-system"  
       amiFamily: AL2
-      role: ${module.karpenter.node_iam_role_name}
+      role: ${module.karpenter[0].node_iam_role_name}
       subnetSelectorTerms:
         - tags:
             karpenter.sh/discovery: ${module.eks.cluster_name}
@@ -133,6 +139,7 @@ resource "kubectl_manifest" "karpenter_node_class" {
 }
 
 resource "kubectl_manifest" "karpenter_node_pool" {
+  count     = var.install_karpenter ? 1 : 0
   yaml_body = <<-YAML
     apiVersion: karpenter.sh/v1beta1
     kind: NodePool

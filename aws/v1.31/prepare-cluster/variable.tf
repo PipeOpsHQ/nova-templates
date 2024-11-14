@@ -52,7 +52,7 @@ variable "install_kube_prometheus_stack" {
 variable "install_autoscaler" {
   type        = bool
   description = "To install Cluster Autoscaler"
-  default     = false
+  default     = true
 }
 
 variable "install_metrics_server" {
@@ -76,12 +76,12 @@ variable "install_opencost" {
 variable "aws_config_path" {
   description = "path to aws config"
   type        = list(string)
-  default     = ["~/.aws/credentials"]
+
 }
 
 variable "aws_profile" {
   description = "AWS PROFILE"
-  default     = "default"
+
 }
 
 variable "aws_region" {

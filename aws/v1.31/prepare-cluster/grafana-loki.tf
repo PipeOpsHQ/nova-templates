@@ -39,7 +39,7 @@ resource "aws_iam_role" "loki_irsa" {
 
   tags = {
     Name = var.eks_cluster_name
-    # arn = data.aws_eks_cluster.eks_cluster.oidc_provider_arn
+
   }
 }
 

@@ -30,7 +30,7 @@ variable "eks_cluster_name" {
 
 variable "pipeops_workspace_account" {
   description = "PipeOps WorkSpace Name"
-  default = "test"
+
 }
 
 variable "eks_version" {
