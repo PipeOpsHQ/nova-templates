@@ -1,7 +1,7 @@
 variable "k8_config" {
   description = "path to k8 config"
   type        = string
-  default     = "~/Work/PipeOps/nova-tf-templates/k8-config.yml"
+
 }
 
 variable "eks_cluster_name" {
