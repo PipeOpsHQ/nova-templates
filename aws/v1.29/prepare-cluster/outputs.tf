@@ -16,3 +16,9 @@ output "kubernetes_dashboard_auth_password" {
   sensitive   = true
   value       = module.kubernetes-dashboard.k8_dashboard_password
 }
+
+output "rabbitmq_auth_password" {
+  description = "kubernetes basic auth password"
+  sensitive = true
+  value = module.rabbitmq[0].rabbitmq_secret_password
+}

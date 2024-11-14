@@ -73,6 +73,12 @@ variable "install_opencost" {
   default     = true
 }
 
+variable "install_rabbitmq" {
+  type = bool
+  description = "To install rabbitmq"
+  default = true
+}
+
 variable "aws_config_path" {
   description = "path to aws config"
   type        = list(string)
