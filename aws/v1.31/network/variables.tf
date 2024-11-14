@@ -30,7 +30,7 @@ variable "eks_cluster_name" {
 
 variable "pipeops_workspace_account" {
   description = "PipeOps WorkSpace Name"
-  default = "test"
+
 }
 
 variable "eks_version" {
@@ -41,14 +41,14 @@ variable "eks_version" {
 
 variable "aws_config_path" {
   description = "path to aws config"
-  type = string
+  type        = string
 
 }
 
 variable "aws_profile" {
   description = "AWS PROFILE"
 
-  
+
 }
 
 variable "aws_region" {

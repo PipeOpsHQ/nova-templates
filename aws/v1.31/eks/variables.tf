@@ -1,6 +1,5 @@
 variable "pipeops_workspace" {
   description = "PipeOps WorkSpace Account"
-  default = "test"
 }
 
 variable "eks_version" {
@@ -18,7 +17,7 @@ variable "cluster_name" {
 variable "eks_cluster_desired_node" {
   description = "cluster default node"
   type        = number
-  default     =2
+  default     = 2
 }
 
 variable "eks_min_node" {
@@ -35,7 +34,7 @@ variable "eks_max_node" {
 
 variable "eks_instance_class" {
   description = "machine type to be used"
-  default = ["t3a.large"]
+  default     = ["t3a.large"]
   /*
   default = {
     dev     = "t3a.large"
@@ -64,6 +63,11 @@ variable "map_users" {
   default = []
 }
 
+variable "install_karpenter" {
+  type        = bool
+  description = "To install karpenter or not"
+  default     = false
+}
 
 variable "aws_config_path" {
   description = "path to aws config"
@@ -73,10 +77,10 @@ variable "aws_config_path" {
 
 variable "aws_profile" {
   description = "AWS PROFILE"
-  
+
 }
 
 variable "aws_region" {
   description = "AWS region to launch servers."
-  
+
 }

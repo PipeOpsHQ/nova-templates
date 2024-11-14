@@ -3,6 +3,7 @@ data "aws_iam_openid_connect_provider" "eks_oidc" {
 }
 
 resource "aws_s3_bucket" "grafana-loki-bucket" {
+  count  = var.install_grafana_loki ? 1 : 0
   bucket = var.bucket_name
 
   tags = {
@@ -12,38 +13,40 @@ resource "aws_s3_bucket" "grafana-loki-bucket" {
 
 
 resource "aws_iam_role" "loki_irsa" {
-  name = "${var.eks_cluster_name}-loki-irsa"
+  count = var.install_grafana_loki ? 1 : 0
+  name  = "${var.eks_cluster_name}-loki-irsa"
 
   assume_role_policy = jsonencode({
     Version = "2012-10-17"
     Statement = [
       {
-        Sid = ""
+        Sid    = ""
         Effect = "Allow"
         Principal = {
           Federated = "${data.aws_iam_openid_connect_provider.eks_oidc.arn}"
           # Federated = "${data.aws_eks_cluster.eks_cluster.identity[0].oidc[0].arn}"
         },
         Action = "sts:AssumeRoleWithWebIdentity"
-        
+
         Condition = {
           StringEquals = {
             "${replace(data.aws_iam_openid_connect_provider.eks_oidc.url, "https://", "")}:sub" = "system:serviceaccount:default:loki-sa"
-          } 
+          }
         }
       }
     ]
   })
 
   tags = {
-    Name  = var.eks_cluster_name
+    Name = var.eks_cluster_name
     # arn = data.aws_eks_cluster.eks_cluster.oidc_provider_arn
   }
 }
 
 resource "aws_iam_role_policy" "loki_s3_policy" {
-  name = "loki-policy"
-  role = aws_iam_role.loki_irsa.name
+  count = var.install_grafana_loki ? 1 : 0
+  name  = "loki-policy"
+  role  = aws_iam_role.loki_irsa.name
   policy = jsonencode({
     Version = "2012-10-17"
     Statement = [
@@ -55,19 +58,19 @@ resource "aws_iam_role_policy" "loki_s3_policy" {
           "s3:DeleteObject"
         ],
         Effect = "Allow",
-        Sid = ""
-        Resource = [ 
+        Sid    = ""
+        Resource = [
           "${aws_s3_bucket.grafana-loki-bucket.arn}",
           "${aws_s3_bucket.grafana-loki-bucket.arn}/*"
         ]
       }
     ]
-  }) 
+  })
 }
 
 module "grafana-loki" {
-  source           = "./helm/monitoring/grafana-loki"
-
+  source = "./helm/monitoring/grafana-loki"
+  count  = var.install_grafana_loki ? 1 : 0
 }
 
 ################ End Configure Grafana-Loki  #######################################

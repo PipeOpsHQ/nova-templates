@@ -23,8 +23,9 @@
 ################ Configure Kubernetes Ingress Controller #######################################
 
 module "ingress-controller" {
-  source           = "./helm/networking/ingress-controller"
-  k8_config        = var.k8_config
+  source    = "./helm/networking/ingress-controller"
+  count     = var.install_ingress_controller ? 1 : 0
+  k8_config = var.k8_config
   additional_set = [
     {
       name  = "controller.service.annotations.service\\.beta\\.kubernetes\\.io/aws-load-balancer-type"

@@ -1,4 +1,3 @@
-
 data "aws_availability_zones" "available" {
   filter {
     name   = "opt-in-status"
@@ -26,7 +25,7 @@ data "aws_subnets" "private_subnets" {
   tags = {
     "kubernetes.io/role/internal-elb" = "1"
     "subnet"                          = "private"
-    "karpenter.sh/discovery"        = "${var.cluster_name}"
+    "karpenter.sh/discovery"          = "${var.cluster_name}"
   }
 }
 
@@ -105,22 +104,21 @@ resource "aws_iam_policy" "cluster_autoscaler_policy" {
 }
 
 
-
 module "eks" {
   source  = "terraform-aws-modules/eks/aws"
   version = "20.24.0"
 
-  cluster_name    = var.cluster_name
-  cluster_version = local.sanitized_kubernetes_version
-
-  authentication_mode = "API_AND_CONFIG_MAP"
+  cluster_name                             = var.cluster_name
+  cluster_version                          = local.sanitized_kubernetes_version
+  enable_cluster_creator_admin_permissions = true
+  authentication_mode                      = "API_AND_CONFIG_MAP"
 
   # Enable IRSA
   enable_irsa = true
 
   cluster_addons = {
     vpc-cni = {
-      most_recent = true
+      most_recent    = true
       before_compute = true
       configuration_values = jsonencode({
         env = {
@@ -139,7 +137,7 @@ module "eks" {
       most_recent = true
 
       timeouts = {
-        create = "25m"
+        create = "35m"
         delete = "10m"
       }
     }
@@ -174,48 +172,70 @@ module "eks" {
     }
   }
 
-  eks_managed_node_groups = {
+  tags = {
+    Owner = var.pipeops_workspace
+    Name  = var.cluster_name
 
-    karpenter = {
-      name            = "${var.cluster_name}-ng"
-      subnet_ids      = data.aws_subnets.private_subnets.ids
-      instance_types  = var.eks_instance_class
-      ami_type        = var.ami_type
-      min_size        = var.eks_min_node
-      max_size        = var.eks_max_node
-      desired_size    = var.eks_cluster_desired_node
-      disk_size       = var.eks_cluster_storage
-      create_iam_role = true
+  }
 
-      iam_role_use_name_prefix = true
-      iam_role_name            = "${var.cluster_name}-role"
-      iam_role_description     = "EKS managed node group role for Karpenter"
+}
 
-      labels = {
-        "karpenter.sh/controller" = "true"
-      }
-      
-      taints = {
-        addons = {
-          key    = "CriticalAddonsOnly"
-          value  = "true"
-          effect = "NO_SCHEDULE"
-        }
-      }
 
+module "default_managed_node_group" {
+  source                            = "terraform-aws-modules/eks/aws//modules/eks-managed-node-group"
+  count                             = var.install_karpenter ? 0 : 1
+  name                              = "one"
+  cluster_name                      = module.eks.cluster_name
+  cluster_service_cidr              = "10.0.0.0/16"
+  cluster_primary_security_group_id = module.eks.cluster_primary_security_group_id
+  vpc_security_group_ids            = [module.eks.node_security_group_id]
+
+  subnet_ids               = data.aws_subnets.private_subnets.ids
+  instance_types           = var.eks_instance_class
+  min_size                 = var.eks_min_node
+  max_size                 = var.eks_max_node
+  desired_size             = var.eks_cluster_desired_node
+  disk_size                = var.eks_cluster_storage
+  iam_role_use_name_prefix = false
+  tags = {
+    "k8s.io/cluster-autoscaler/${var.cluster_name}" = "owned"
+    "k8s.io/cluster-autoscaler/enabled"             = "true"
+  }
+
+}
+
+module "karpenter_managed_node_group" {
+  source                            = "terraform-aws-modules/eks/aws//modules/eks-managed-node-group"
+  count                             = var.install_karpenter ? 1 : 0
+  name                              = "karpenter"
+  cluster_name                      = module.eks.cluster_name
+  cluster_service_cidr              = "10.0.0.0/16"
+  cluster_primary_security_group_id = module.eks.cluster_primary_security_group_id
+  vpc_security_group_ids            = [module.eks.node_security_group_id]
+
+  subnet_ids      = data.aws_subnets.private_subnets.ids
+  instance_types  = var.eks_instance_class
+  min_size        = var.eks_min_node
+  max_size        = var.eks_max_node
+  desired_size    = var.eks_cluster_desired_node
+  disk_size       = var.eks_cluster_storage
+  create_iam_role = true
+
+  iam_role_use_name_prefix = true
+  iam_role_name            = "${var.cluster_name}-role"
+  iam_role_description     = "EKS managed node group role for Karpenter"
+
+  labels = {
+    "karpenter.sh/controller" = "true"
+  }
+
+  taints = {
+    addons = {
+      key    = "CriticalAddonsOnly"
+      value  = "true"
+      effect = "NO_SCHEDULE"
     }
   }
-
-  node_security_group_tags = {
-    "Name"                   = var.cluster_name
-    "karpenter.sh/discovery" = var.cluster_name
-    "pipeops.io/cluster"     = "${var.cluster_name}"
-    "Environment"            = "production"
-    "Terraform"              = "true"
-    "ManagedBy"              = "pipeops.io"
-    "DateCreated"            = formatdate("YYYY-MM-DD", timestamp())
-  }
-
   tags = {
     "Name"                   = var.cluster_name
     "karpenter.sh/discovery" = var.cluster_name
@@ -225,14 +245,18 @@ module "eks" {
     "ManagedBy"              = "pipeops.io"
     "DateCreated"            = formatdate("YYYY-MM-DD", timestamp())
   }
+
 }
 
 
 module "eks_auth" {
-  source = "aidanmelen/eks-auth/aws"
-  eks    = module.eks
+  source  = "terraform-aws-modules/eks/aws//modules/aws-auth"
+  count   = var.install_karpenter ? 1 : 0
+  version = "~> 20.0"
 
-  map_roles = [
+  manage_aws_auth_configmap = true
+
+  aws_auth_roles = [
     {
       rolearn  = "arn:aws:iam::022499013216:role/KarpenterIRSA-${var.cluster_name}"
       username = "system:node:{{EC2PrivateDNSName}}"
@@ -242,7 +266,6 @@ module "eks_auth" {
       ]
     },
   ]
- 
-  map_users = var.map_users
 
-} 
+  aws_auth_users = var.map_users
+}
