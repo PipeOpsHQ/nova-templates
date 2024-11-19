@@ -12,7 +12,7 @@ provider "aws" {
 }
 
 provider "aws" {
-  region = "us-east-1"
+  region = var.ecr_region
   alias  = "virginia"
 }
 

@@ -84,3 +84,8 @@ variable "aws_region" {
   description = "AWS region to launch servers."
 
 }
+
+variable "ecr_region" {
+  description = "AWS region for Public ECR Authentication"
+  default = "us-east-1"
+}
