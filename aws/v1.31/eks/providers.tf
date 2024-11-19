@@ -11,9 +11,9 @@ provider "aws" {
 
 }
 
-variable "ecr_region" {
-  description = "AWS region for Public ECR Authentication"
-  default = "us-east-1"
+provider "aws" {
+  region = var.ecr_region
+  alias  = "virginia"
 }
 
 provider "kubernetes" {
