@@ -1,6 +1,6 @@
 variable "pipeops_workspace" {
   description = "PipeOps WorkSpace Account"
-  default = "test"
+  default     = "test"
 }
 
 variable "eks_version" {
@@ -18,7 +18,7 @@ variable "cluster_name" {
 variable "eks_cluster_desired_node" {
   description = "cluster default node"
   type        = number
-  default     =2
+  default     = 2
 }
 
 variable "eks_min_node" {
@@ -35,7 +35,7 @@ variable "eks_max_node" {
 
 variable "eks_instance_class" {
   description = "machine type to be used"
-  default = ["t3a.large"]
+  default     = ["t3a.large"]
   /*
   default = {
     dev     = "t3a.large"
@@ -44,25 +44,52 @@ variable "eks_instance_class" {
   } */
 }
 
+variable "ami_type" {
+  type    = string
+  default = "AL2_x86_64"
+}
+
+
 variable "eks_cluster_storage" {
   description = "cluster storage"
   type        = number
   default     = 10
 }
 
-/*
+variable "map_users" {
+  description = "Additional IAM users to add to the aws-auth configmap."
+  type = list(object({
+    userarn  = string
+    username = string
+    groups   = list(string)
+  }))
+  default = []
+}
+
+variable "install_karpenter" {
+  type        = bool
+  description = "To install karpenter or not"
+  default     = false
+}
+
+
 variable "aws_config_path" {
   description = "path to aws config"
   type        = string
 
 }
-*/
+
 variable "aws_profile" {
   description = "AWS PROFILE"
-  default = "default"
+
 }
 
 variable "aws_region" {
   description = "AWS region to launch servers."
-  default = "eu-west-2"
+  default     = "eu-west-2"
+}
+
+variable "ecr_region" {
+  description = "AWS region for Public ECR Authentication"
+  default = "us-east-1"
 }
