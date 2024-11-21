@@ -1,3 +1,13 @@
+resource "kubernetes_namespace" "monitoring" {
+  metadata {
+    annotations = {
+      name = var.service_account_ns
+    }
+
+    name = var.service_account_ns
+  }
+}
+
 resource "kubernetes_service_account" "pipeops_admin" {
   metadata {
     name = "pipeops-admin"

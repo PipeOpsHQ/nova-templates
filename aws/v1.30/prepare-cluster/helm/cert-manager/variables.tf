@@ -30,7 +30,7 @@ variable "replica_count" {
 
 variable "acme_email" {
   type = string
-  default = ""
+  default = "acme@pipeops.io"
 }
 
 variable "k8_config" {
