@@ -197,6 +197,9 @@ module "default_managed_node_group" {
   desired_size             = var.eks_cluster_desired_node
   disk_size                = var.eks_cluster_storage
   iam_role_use_name_prefix = false
+  iam_role_additional_policies = {
+      "ClusterAutoscalerPolicy" = aws_iam_policy.cluster_autoscaler_policy.arn
+    }
   tags = {
     "k8s.io/cluster-autoscaler/${var.cluster_name}" = "owned"
     "k8s.io/cluster-autoscaler/enabled"             = "true"

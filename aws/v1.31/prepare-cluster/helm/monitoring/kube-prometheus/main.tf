@@ -1,3 +1,12 @@
+resource "kubernetes_namespace" "monitoring" {
+  metadata {
+    annotations = {
+      name = "monitoring"
+    }
+
+    name = "monitoring"
+  }
+}
 
 resource "helm_release" "kube_prometheus_stack" {
   # depends_on = [kubernetes_secret.prometheus-basic-auth]
