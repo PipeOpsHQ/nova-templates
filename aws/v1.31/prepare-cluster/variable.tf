@@ -79,6 +79,12 @@ variable "install_rabbitmq" {
   default = true
 }
 
+variable "service_account_ns" {
+  type = string
+  description = "Namespace to create pipeops admin service account"
+  default = "default"
+}
+
 variable "aws_config_path" {
   description = "path to aws config"
   type        = list(string)

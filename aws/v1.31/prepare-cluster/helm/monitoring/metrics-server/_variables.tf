@@ -31,7 +31,7 @@ variable "helm_chart_repo" {
 
 variable "namespace" {
   type        = string
-  default     = "kube-system"
+  default     = "monitoring"
   description = "Kubernetes namespace to deploy Metrics Server Helm chart."
 }
 

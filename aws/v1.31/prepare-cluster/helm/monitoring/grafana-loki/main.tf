@@ -4,7 +4,7 @@ resource "helm_release" "grafana-loki" {
   repository = var.helm_repo_url
   chart      = "grafana-loki"
   version = var.helm_chart_version
-  namespace = "default"
+  namespace = "monitoring"
   set {
     name = "global.defaultStorageClass"
     value = "gp2"
