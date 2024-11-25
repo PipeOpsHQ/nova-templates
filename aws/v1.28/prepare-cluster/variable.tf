@@ -1,6 +1,7 @@
 variable "k8_config" {
   description = "path to k8 config"
   type = string
+  default = ""
 }
 
 variable "eks_cluster_name" {
@@ -9,11 +10,6 @@ variable "eks_cluster_name" {
 
 variable "cluster_package" {
   description = "cluster package"
-}
-
-variable "aws_config_path" {
-  description = "path to aws config"
-  type = string
 }
 
 variable "aws_profile" {

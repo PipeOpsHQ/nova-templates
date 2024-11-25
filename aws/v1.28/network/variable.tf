@@ -31,16 +31,6 @@ variable "eks_version" {
   default     = "1.28"
 }
 
-
-variable "aws_config_path" {
-  description = "path to aws config"
-  type = string
-}
-
-variable "aws_profile" {
-  description = "AWS PROFILE"
-}
-
 variable "aws_region" {
   description = "AWS region to launch servers."
 }

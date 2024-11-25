@@ -92,9 +92,3 @@ variable "additional_set" {
   description = "Add additional set for helm"
   default     = []
 }
-
-variable "k8_config" {
-  description = "path to k8 config"
-  type = string
-
-}
