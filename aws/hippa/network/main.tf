@@ -5,7 +5,12 @@ module "network" {
   name = "${var.pipeops_workspace_account}-vpc"
 
   cidr = var.vpc_cidr
-  azs  = slice(data.aws_availability_zones.available.names, 0, local.az_count)
+
+  azs = slice(
+    data.aws_availability_zones.available.names,
+    0,
+    min(length(data.aws_availability_zones.available.names), 3)
+  )
 
   private_subnets = var.private_subnets_cidrs
   public_subnets  = var.public_subnets_cidrs
@@ -28,12 +33,6 @@ module "network" {
     "subnet"                                        = "private"
   }
 }
-
-locals {
-  # Get the number of AZs, but cap it at 3
-  az_count = min(length(data.aws_availability_zones.available.names), 3)
-}
-
 
 data "aws_availability_zones" "available" {
   state = "available"
