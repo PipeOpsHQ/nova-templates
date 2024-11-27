@@ -5,7 +5,6 @@
 
 module "metrics-server" {
   source           = "./helm/monitoring/metrics-server"
-  k8_config        = var.k8_config
   cluster_package  = var.cluster_package
 }
 
