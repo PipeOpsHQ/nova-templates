@@ -1,9 +1,3 @@
-variable "k8_config" {
-  description = "path to k8 config"
-  type = string
-  default = ""
-}
-
 variable "eks_cluster_name" {
   description = "cluster name"
 }
@@ -22,6 +16,6 @@ variable "aws_region" {
 
 variable "dns_zone" {
   description = "DNS_Zone for all created addons"
-  default = "pipeops.co"
+  default     = "pipeops.co"
 }
 
