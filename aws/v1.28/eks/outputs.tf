@@ -14,24 +14,41 @@ output "cluster_name" {
 }
 
 locals {
-  config_map_aws_auth = <<CONFIGMAPAWSAUTH
+  kube_config_aws_auth = <<KUBECONFIG
 apiVersion: v1
-kind: ConfigMap
-metadata:
-  name: aws-auth
-  namespace: kube-system
-data:
-  mapRoles: |
-    - rolearn: ${module.eks.cluster_iam_role_arn}
-      username: system:node:{{EC2PrivateDNSName}}
-      groups:
-        - system:bootstrappers
-        - system:nodes
-CONFIGMAPAWSAUTH
+clusters:
+- cluster:
+    server: ${module.eks.cluster_endpoint}
+    certificate-authority-data: ${module.eks.cluster_certificate_authority_data}
+  name: ${var.cluster_name}
+contexts:
+- context:
+    cluster: ${module.eks.cluster_name}
+    user: ${module.eks.cluster_name}
+  name: ${module.eks.cluster_name}
+current-context: ${module.eks.cluster_name}
+kind: Config
+preferences: {}
+users:
+- name: ${module.eks.cluster_name}
+  user:
+    exec:
+      apiVersion: client.authentication.k8s.io/v1
+      args:
+      - --region
+      - "${var.aws_region}"
+      - eks
+      - get-token
+      - --cluster-name
+      - "${module.eks.cluster_name}"
+      command: aws
+      interactiveMode: IfAvailable
+      provideClusterInfo: true
+KUBECONFIG
 }
 
-output "config_map_aws_auth" {
-  value = local.config_map_aws_auth
+output "kube_config_aws_auth" {
+  value = local.kube_config_aws_auth
 }
 
 output "eks_certificate_authority" {
