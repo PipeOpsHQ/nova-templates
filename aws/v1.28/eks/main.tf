@@ -9,7 +9,6 @@ data "aws_availability_zones" "available" {
 data "aws_iam_policy" "ebs_csi_policy" {
   arn = "arn:aws:iam::aws:policy/service-role/AmazonEBSCSIDriverPolicy"
 }
-
 data "aws_vpc" "selected" {
   tags = {
     Name = "${var.pipeops_workspace}-vpc"
@@ -20,8 +19,8 @@ data "aws_subnet_ids" "private_subnets" {
   vpc_id = data.aws_vpc.selected.id
 
   tags = {
-    "kubernetes.io/role/internal-elb" = "1"
-    "subnet"                          = "private"
+    "kubernetes.io/role/internal-elb"           = "1"
+    "subnet"                                    = "private"
   }
 }
 
