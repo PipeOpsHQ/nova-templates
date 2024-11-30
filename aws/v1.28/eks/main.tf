@@ -9,6 +9,7 @@ data "aws_availability_zones" "available" {
 data "aws_iam_policy" "ebs_csi_policy" {
   arn = "arn:aws:iam::aws:policy/service-role/AmazonEBSCSIDriverPolicy"
 }
+
 data "aws_vpc" "selected" {
   tags = {
     Name = "${var.pipeops_workspace}-vpc"
@@ -35,7 +36,7 @@ module "ebs_csi_irsa_role" {
 
   role_name             = "${var.cluster_name}-ebs-csi"
   attach_ebs_csi_policy = true
-  policy_name_prefix    = var.cluster_name
+  policy_name_prefix = var.cluster_name
 
   oidc_providers = {
     ex = {
@@ -51,7 +52,7 @@ module "cluster_autoscaler_irsa_role" {
   role_name                        = "${var.cluster_name}-cluster-autoscaler"
   attach_cluster_autoscaler_policy = true
   cluster_autoscaler_cluster_names = [module.eks.cluster_name]
-  policy_name_prefix               = var.cluster_name
+  policy_name_prefix = var.cluster_name
 
   oidc_providers = {
     ex = {
@@ -61,7 +62,7 @@ module "cluster_autoscaler_irsa_role" {
   }
   tags = {
     Owner = var.pipeops_workspace
-    Name  = var.cluster_name
+    Name = var.cluster_name
   }
 }
 
@@ -119,15 +120,15 @@ module "eks" {
     }
 
     aws-ebs-csi-driver = {
-      most_recent              = true
-      resolve_conflicts        = "OVERWRITE"
+      most_recent = true
+      resolve_conflicts = "OVERWRITE"
       service_account_role_arn = module.ebs_csi_irsa_role.iam_role_arn
     }
   }
 
   vpc_id                         = data.aws_vpc.selected.id
   subnet_ids                     = data.aws_subnet_ids.private_subnets.ids
-  cluster_endpoint_public_access = true
+  cluster_endpoint_public_access  = true
 
   eks_managed_node_group_defaults = {
     ami_type = "AL2_x86_64"
@@ -138,13 +139,13 @@ module "eks" {
 
   eks_managed_node_groups = {
     one = {
-      name                     = var.cluster_name
-      subnet_ids               = data.aws_subnet_ids.private_subnets.ids
-      instance_models          = [var.eks_instance_class]
-      min_size                 = var.eks_min_node
-      max_size                 = var.eks_max_node
-      desired_size             = var.eks_cluster_desired_node
-      disk_size                = var.eks_cluster_storage
+      name           = var.cluster_name
+      subnet_ids     = data.aws_subnet_ids.private_subnets.ids
+      instance_models = [var.eks_instance_class]
+      min_size       = var.eks_min_node
+      max_size       = var.eks_max_node
+      desired_size   = var.eks_cluster_desired_node
+      disk_size      = var.eks_cluster_storage
       iam_role_use_name_prefix = false
       tags = {
         "k8s.io/cluster-autoscaler/${var.cluster_name}" = "owned"
@@ -155,6 +156,6 @@ module "eks" {
 
   tags = {
     Owner = var.pipeops_workspace
-    Name  = var.cluster_name
+    Name = var.cluster_name
   }
 }
