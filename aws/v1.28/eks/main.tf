@@ -16,11 +16,9 @@ data "aws_vpc" "selected" {
   }
 }
 
-data "aws_subnets" "private_subnets" {
-  filter {
-    name   = "vpc-id"
-    values = [data.aws_vpc.selected.id]
-  }
+data "aws_subnet_ids" "private_subnets" {
+  vpc_id = data.aws_vpc.selected.id
+
   tags = {
     "kubernetes.io/role/internal-elb" = "1"
     "subnet"                          = "private"
@@ -96,7 +94,7 @@ resource "aws_iam_policy" "cluster_autoscaler_policy" {
 
 module "eks" {
   source  = "terraform-aws-modules/eks/aws"
-  version = "19.15.3"
+  version = "19.21.0"
 
   cluster_name    = var.cluster_name
   cluster_version = local.sanitized_kubernetes_version
@@ -129,7 +127,7 @@ module "eks" {
   }
 
   vpc_id                         = data.aws_vpc.selected.id
-  subnet_ids                     = data.aws_subnets.private_subnets.ids
+  subnet_ids                     = data.aws_subnet_ids.private_subnets.ids
   cluster_endpoint_public_access = true
 
   eks_managed_node_group_defaults = {
@@ -142,8 +140,8 @@ module "eks" {
   eks_managed_node_groups = {
     one = {
       name                     = var.cluster_name
-      subnet_ids               = data.aws_subnets.private_subnets.ids
-      instance_types           = [var.eks_instance_class]
+      subnet_ids               = data.aws_subnet_ids.private_subnets.ids
+      instance_models          = [var.eks_instance_class]
       min_size                 = var.eks_min_node
       max_size                 = var.eks_max_node
       desired_size             = var.eks_cluster_desired_node
