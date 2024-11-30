@@ -28,6 +28,17 @@ data "aws_subnets" "private_subnets" {
   }
 }
 
+data "aws_subnets" "intra_subnets" {
+  filter {
+    name   = "vpc-id"
+    values = [data.aws_vpc.selected.id]
+  }
+  tags = {
+    "Name" = "${var.cluster_name}"
+  }
+}
+
+
 
 locals {
   sanitized_kubernetes_version = replace(var.eks_version, "v", "")
@@ -131,6 +142,7 @@ module "eks" {
 
   vpc_id                         = data.aws_vpc.selected.id
   subnet_ids                     = data.aws_subnets.private_subnets.ids
+  control_plane_subnet_ids       = data.aws_subnets.intra_subnets.ids
   cluster_endpoint_public_access = true
 
   eks_managed_node_group_defaults = {
