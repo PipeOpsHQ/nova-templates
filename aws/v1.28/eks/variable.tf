@@ -32,12 +32,9 @@ variable "eks_max_node" {
 }
 
 variable "eks_instance_class" {
+  type = string
   description = "machine type to be used"
-  default = {
-    dev     = "t3a.large"
-    pro     = "m5.large"
-    startup = "c5a.2xlarge"
-  }
+  default     = "t3.small"
 }
 
 variable "eks_cluster_storage" {
