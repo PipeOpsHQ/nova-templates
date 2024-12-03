@@ -130,7 +130,7 @@ module "eks" {
   }
 
   vpc_id                         = data.aws_vpc.selected.id
-  subnet_ids                     = data.aws_subnet_ids.private_subnets.ids
+  subnet_ids                     = data.aws_subnets.private_subnets.ids
   cluster_endpoint_public_access = true
 
   eks_managed_node_group_defaults = {
@@ -143,7 +143,7 @@ module "eks" {
   eks_managed_node_groups = {
     one = {
       name                     = var.cluster_name
-      subnet_ids               = data.aws_subnet_ids.private_subnets.ids
+      subnet_ids               = data.aws_subnets.private_subnets.ids
       instance_models          = [var.eks_instance_class]
       min_size                 = var.eks_min_node
       max_size                 = var.eks_max_node
