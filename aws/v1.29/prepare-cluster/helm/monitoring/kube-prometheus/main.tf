@@ -14,8 +14,29 @@ resource "kubernetes_secret" "kube-prom-auth" {
   }
 
   data = {
-    username = "admin"
-    password = random_string.kube-prom-password.result
+    "auth" : "admin:${bcrypt(random_string.kube-prom-password.result)}"
+  }
+}
+
+
+resource "random_string" "kube-grafana-password" {
+  length           = 16
+  special          = true
+  override_special = "_@"
+}
+
+
+resource "kubernetes_secret" "kube-grafana-basic-auth" {
+  depends_on = [random_string.kube-grafana-password]
+
+  type = "Opaque"
+  metadata {
+    name      = "kube-grafana-basic-auth"
+    namespace = "monitoring"
+  }
+
+  data = {
+    "auth" : "admin:${bcrypt(random_string.kube-grafana-password.result)}"
   }
 }
 

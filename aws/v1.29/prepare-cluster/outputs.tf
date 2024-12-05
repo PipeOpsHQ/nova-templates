@@ -37,3 +37,8 @@ output "grafana_loki_auth_password" {
   sensitive = true
   value = module.grafana-loki.grafana_loki_auth_secret_password
 }
+
+output "kube-grafana-secret-password" {
+  sensitive = false
+  value = module.kube-prometheus-stack.kube-grafana_auth_secret_password
+}
