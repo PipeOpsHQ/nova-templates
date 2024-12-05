@@ -1,3 +1,29 @@
+resource "random_string" "grafana-loki-password" {
+  length           = 16
+  special          = true
+  override_special = "_@"
+}
+
+resource "random_string" "grafana-loki-username" {
+  length = 5
+  special = false
+}
+
+resource "kubernetes_secret" "grafana-loki-auth" {
+  depends_on = [random_string.grafana-loki-password, random_string.grafana-loki-username]
+
+  type = "Opaque"
+  metadata {
+    name      = "grafana-loki-auth"
+    namespace = "monitoring"
+  }
+
+  data = {
+    "auth" : "${random_string.grafana-loki-username.result}:${bcrypt(random_string.grafana-loki-password.result)}"
+  }
+}
+
+
 resource "helm_release" "grafana-loki" {
 
   name = var.helm_release_name
@@ -25,7 +51,8 @@ resource "helm_release" "grafana-loki" {
   } 
   values = [
     templatefile("${path.module}/templates/values.yaml", {
-      s3 = "s3://eu-west-2/grafana-loki-pipeops"
+      s3 = "s3://eu-west-2/grafana-loki-pipeops",
+      host = "${var.grafana-loki-host}"
     })
   ]
 }

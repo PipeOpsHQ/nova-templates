@@ -1,3 +1,26 @@
+gateway:
+  ingress:
+    annotations: 
+      cert-manager.io/cluster-issuer: letsencrypt-production
+      kubernetes.io/tls-acme: "true"
+      kubernetes.io/ingress.class: "nginx"
+      ingress.kubernetes.io/ssl-redirect: "true"
+      nginx.ingress.kubernetes.io/auth-type: basic
+      nginx.ingress.kubernetes.io/auth-secret: grafana-loki-auth
+      nginx.ingress.kubernetes.io/auth-realm: 'Authentication Required'
+    enabled: true
+    hostname: ${host}
+    hosts:
+    - host: ${host}
+    ingressClassName: "nginx"
+    paths: 
+    - /
+    pathType: ImplementationSpecific
+    tls:
+    - hosts:
+      - ${host}
+      secretName: grafana-loki-tls
+
 loki:
   configuration: |
     auth_enabled: false

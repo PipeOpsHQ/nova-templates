@@ -27,3 +27,7 @@ variable "k8s_namespace" {
   default     = "default"
   description = "The K8s namespace where helm chart is to be installed"
 }
+
+variable "opencost_host" {
+  type = string
+}
