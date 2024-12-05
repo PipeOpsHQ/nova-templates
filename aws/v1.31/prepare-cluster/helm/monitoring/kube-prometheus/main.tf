@@ -1,3 +1,8 @@
+resource "random_string" "kube-prom-username" {
+  length = 5
+  special = false
+}
+
 resource "random_string" "kube-prom-password" {
   length           = 16
   special          = true
@@ -5,7 +10,7 @@ resource "random_string" "kube-prom-password" {
 }
 
 resource "kubernetes_secret" "kube-prom-auth" {
-  depends_on = [random_string.kube-prom-password]
+  depends_on = [random_string.kube-prom-password, random_string.kube-prom-username]
 
   type = "Opaque"
   metadata {
@@ -14,10 +19,14 @@ resource "kubernetes_secret" "kube-prom-auth" {
   }
 
   data = {
-    "auth" : "admin:${bcrypt(random_string.kube-prom-password.result)}"
+    "auth" : "${random_string.kube-prom-username.result}:${bcrypt(random_string.kube-prom-password.result)}"
   }
 }
 
+resource "random_string" "kube-grafana-username" {
+  length = 5
+  special = false
+}
 
 resource "random_string" "kube-grafana-password" {
   length           = 16
@@ -27,7 +36,7 @@ resource "random_string" "kube-grafana-password" {
 
 
 resource "kubernetes_secret" "kube-grafana-basic-auth" {
-  depends_on = [random_string.kube-grafana-password]
+  depends_on = [random_string.kube-grafana-password, random_string.kube-grafana-username]
 
   type = "Opaque"
   metadata {
@@ -36,9 +45,36 @@ resource "kubernetes_secret" "kube-grafana-basic-auth" {
   }
 
   data = {
-    "auth" : "admin:${bcrypt(random_string.kube-grafana-password.result)}"
+    "auth" : "${random_string.kube-grafana-username.result}:${bcrypt(random_string.kube-grafana-password.result)}"
   }
 }
+
+resource "random_string" "kube-alert-manager-username" {
+  length = 5
+  special = false
+}
+
+
+resource "random_string" "kube-alert-manager-password" {
+  length           = 16
+  special          = true
+  override_special = "_@"
+}
+
+resource "kubernetes_secret" "kube-alert-manager-auth" {
+  depends_on = [random_string.kube-alert-manager-password, random_string.kube-alert-manager-username]
+
+  type = "Opaque"
+  metadata {
+    name      = "kube-alert-manager-auth"
+    namespace = "monitoring"
+  }
+
+  data = {
+    "auth" : "${random_string.kube-alert-manager-username.result}:${bcrypt(random_string.kube-alert-manager-password.result)}"
+  }
+}
+
 
 resource "kubernetes_namespace" "monitoring" {
   metadata {
@@ -63,7 +99,9 @@ resource "helm_release" "kube_prometheus_stack" {
   values = [ 
     templatefile("${path.module}/templates/values.yaml", {
       namespace = "monitoring",
-      host = "kube-prom.pipeops.dev"
+      kube-prom-host = "${var.kube_prom_host}"
+      kube-grafana-host = "${var.kube_grafana_host}"
+      alert-manager-host = "${var.alert_manager_host}"
     })
    ]
 }

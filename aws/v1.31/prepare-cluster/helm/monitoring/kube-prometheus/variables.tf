@@ -23,3 +23,15 @@ variable "helm_chart_version" {
   description = "Version of the Helm chart"
 }
 
+variable "kube_prom_host" {
+  type = string
+}
+
+variable "kube_grafana_host" {
+  type = string
+
+}
+
+variable "alert_manager_host" {
+  type = string
+}

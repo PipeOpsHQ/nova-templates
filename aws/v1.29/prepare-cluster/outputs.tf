@@ -32,6 +32,10 @@ output "kube_prom_auth_password" {
   sensitive = true
   value = module.kube-prometheus-stack.kube_prom_auth_secret_password
 }
+output "kube-prom-auth-username" {
+  sensitive = true
+  value = module.kube-prometheus-stack.kube-prom-auth-username
+}
 
 output "grafana_loki_auth_password" {
   sensitive = true
@@ -39,6 +43,20 @@ output "grafana_loki_auth_password" {
 }
 
 output "kube-grafana-secret-password" {
-  sensitive = false
+  sensitive = true
   value = module.kube-prometheus-stack.kube-grafana_auth_secret_password
+}
+output "kube-grafana-auth-username" {
+  sensitive = true
+  value = module.kube-prometheus-stack.kube-grafana-auth-username
+}
+
+output "kube-alert-manager-username" {
+  sensitive = true
+  value = module.kube-prometheus-stack.kube-alert-manager-username
+}
+
+output "kube-alert-manager-password" {
+  sensitive = true
+  value = module.kube-prometheus-stack.kube-alert-manager-auth-password
 }
