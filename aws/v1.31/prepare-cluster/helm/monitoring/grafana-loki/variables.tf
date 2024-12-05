@@ -29,3 +29,13 @@ variable "k8s_namespace" {
   default     = "default"
   description = "The K8s namespace in which the helm chart is installed"
 }
+
+variable "bucket_name" {
+  description = "Name of S3 bucket to store loki data"
+  default = "grafana-loki-pipeops"  
+}
+
+variable "eks_cluster_name" {
+  description = "cluster name"
+  default = "pipeops"
+}
