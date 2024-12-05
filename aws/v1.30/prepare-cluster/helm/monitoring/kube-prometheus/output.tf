@@ -27,3 +27,18 @@ output "kube-alert-manager-auth-password" {
   sensitive = false
   value = random_string.kube-alert-manager-password.result
 }
+
+output "kube_prom_host" {
+  sensitive = true
+  value = var.kube_prom_host
+}
+
+output "kube_grafana_host" {
+  sensitive = true
+  value = var.kube_grafana_host
+}
+
+output "alert_manager_host" {
+  sensitive = true
+  value = var.alert_manager_host
+}

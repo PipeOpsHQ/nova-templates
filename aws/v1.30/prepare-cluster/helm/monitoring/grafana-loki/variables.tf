@@ -39,3 +39,7 @@ variable "eks_cluster_name" {
   description = "cluster name"
   default = "pipeops"
 }
+
+variable "grafana-loki-host" {
+  type = string
+}

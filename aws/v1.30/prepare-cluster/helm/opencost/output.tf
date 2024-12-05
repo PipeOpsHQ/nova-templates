@@ -4,6 +4,11 @@ output "opencost_auth_secret_password" {
 }
 
 output "opencost_auth_username" {
-  sensitive = true
+  sensitive = false
   value = random_string.opencost_username.result
+}
+
+output "opencost_host" {
+  sensitive = false
+  value = var.opencost_host
 }
