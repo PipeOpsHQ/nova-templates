@@ -27,3 +27,8 @@ output "opencost_auth_password" {
   sensitive = true
   value = module.opencost.opencost_auth_secret_password
 }
+
+output "kube_prom_auth_password" {
+  sensitive = true
+  value = module.kube-prometheus-stack.kube_prom_auth_secret_password
+}

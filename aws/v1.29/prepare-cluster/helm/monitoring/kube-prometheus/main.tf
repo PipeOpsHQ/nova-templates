@@ -1,3 +1,24 @@
+resource "random_string" "kube-prom-password" {
+  length           = 16
+  special          = true
+  override_special = "_@"
+}
+
+resource "kubernetes_secret" "kube-prom-auth" {
+  depends_on = [random_string.kube-prom-password]
+
+  type = "Opaque"
+  metadata {
+    name      = "kube-prom-auth"
+    namespace = monitoring
+  }
+
+  data = {
+    username = "admin"
+    password = random_string.kube-prom-password.result
+  }
+}
+
 resource "kubernetes_namespace" "monitoring" {
   metadata {
     annotations = {
@@ -20,7 +41,8 @@ resource "helm_release" "kube_prometheus_stack" {
 
   values = [ 
     templatefile("${path.module}/templates/values.yaml", {
-      namespace = "monitoring"
+      namespace = "monitoring",
+      host = "kube-prom.pipeops.dev"
     })
    ]
 }
