@@ -22,3 +22,8 @@ output "rabbitmq_auth_password" {
   sensitive = true
   value = module.rabbitmq[0].rabbitmq_secret_password
 }
+
+output "opencost_auth_password" {
+  sensitive = true
+  value = module.opencost.opencost_auth_secret_password
+}
