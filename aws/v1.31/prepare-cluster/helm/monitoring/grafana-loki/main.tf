@@ -14,8 +14,7 @@ resource "kubernetes_secret" "grafana-loki-auth" {
   }
 
   data = {
-    username = "admin"
-    password = random_string.grafana-loki-password.result
+    "auth" : "admin:${bcrypt(random_string.grafana-loki-password.result)}"
   }
 }
 

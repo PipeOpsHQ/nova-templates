@@ -14,8 +14,7 @@ resource "kubernetes_secret" "opencost-basic-auth" {
   }
 
   data = {
-    username = "admin"
-    password = random_string.opencost-password.result
+    "auth" : "admin:${bcrypt(random_string.opencost-password.result)}"
   }
 }
 
