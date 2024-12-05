@@ -60,3 +60,13 @@ output "kube-alert-manager-password" {
   sensitive = true
   value = module.kube-prometheus-stack.kube-alert-manager-auth-password
 }
+
+output "opencost_username" {
+  sensitive = true
+  value = module.opencost.opencost_auth_username
+}
+
+output "opencost_password" {
+  sensitive = true
+  value = module.opencost.opencost_auth_secret_password
+}

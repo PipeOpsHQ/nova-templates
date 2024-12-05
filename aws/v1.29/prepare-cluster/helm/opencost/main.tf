@@ -1,3 +1,8 @@
+resource "random_string" "opencost_username" {
+  length = 5
+  special = false
+}
+
 resource "random_string" "opencost-password" {
   length           = 16
   special          = true
@@ -5,7 +10,7 @@ resource "random_string" "opencost-password" {
 }
 
 resource "kubernetes_secret" "opencost-basic-auth" {
-  depends_on = [random_string.password]
+  depends_on = [random_string.opencost-password, random_string.opencost_username]
 
   type = "Opaque"
   metadata {
@@ -14,7 +19,7 @@ resource "kubernetes_secret" "opencost-basic-auth" {
   }
 
   data = {
-    "auth" : "admin:${bcrypt(random_string.opencost-password.result)}"
+    "auth" : "${random_string.opencost_username.result}:${bcrypt(random_string.opencost-password.result)}"
   }
 }
 
@@ -29,7 +34,7 @@ resource "helm_release" "opencost" {
 
   values = [
     templatefile("${path.module}/templates/values.yaml", {
-      host = "opencost.pipeops.dev"
+      host = "${var.opencost_host}"
     })
   ]
 }
