@@ -15,7 +15,7 @@ resource "kubernetes_secret" "kube-prom-auth" {
   type = "Opaque"
   metadata {
     name      = "kube-prom-auth"
-    namespace = monitoring
+    namespace = "monitoring"
   }
 
   data = {
