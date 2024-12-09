@@ -1,8 +1,13 @@
 variable "do_token" {
   type    = string
-  default = "dop_v1_189982c0462a0d892d72f4a8666446c40cc4da0735be56a243dff726a365bae5"
+  default = ""
 }
 
+variable "vpc_name" {
+  description = "Name of VPC"
+  type = string
+  default = "pipeops-vpc"
+}
 variable "create_cluster" {
   description = "Specifies whether a cluster should be created"
   type        = bool
@@ -44,13 +49,6 @@ variable "bucket_name" {
   default     = "grafana-loki-pipeops"
 }
 
-variable "access_id" {
-  default = "DO00DZTELXMXN47FDED8"
-}
-
-variable "secret_key" {
-  default = "J3jnTXdSIGyXcxjXT/zmdX3SoxcdiepIVhZXX01FciU"
-}
 variable "aws_config_path" {
   description = "path to aws config"
   type        = list(string)
