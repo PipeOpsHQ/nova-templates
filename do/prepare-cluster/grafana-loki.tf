@@ -1,5 +1,4 @@
 
-
 resource "aws_s3_bucket" "grafana-loki-bucket" {
   bucket = var.bucket_name
 
@@ -11,7 +10,7 @@ resource "aws_s3_bucket" "grafana-loki-bucket" {
 
 
 module "grafana-loki" {
-  source = "./prepare-cluster/helm/monitoring/grafana-loki"
+  source = "./helm/monitoring/grafana-loki"
 
 }
 

@@ -37,6 +37,7 @@ variable "bucket_name" {
 
 variable "grafana_loki_host" {
   type = string
+
 }
 
 variable "eks_cluster_name" {
@@ -46,12 +47,15 @@ variable "eks_cluster_name" {
 
 variable "aws_access_key_s3" {
   description = "Access Key to AWS acc where the s3 bucket is created"
+
 }
 
 variable "aws_secret_key_s3" {
   description = "Secret Key to AWS acc where the s3 bucket is created"
+
 }
 
 variable "aws_region_S3" {
   description = "Region where s3 bucket is created"
+
 }

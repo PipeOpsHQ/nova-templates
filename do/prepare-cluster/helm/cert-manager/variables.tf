@@ -27,12 +27,12 @@ variable "replica_count" {
   type        = number
   default     = 1
 }
-
+/*
 variable "context" {
   description = "context name"
   type        = string
 }
-
+*/
 variable "chart_version" {
   description = "Helm Chart Version"
   type        = string

@@ -8,7 +8,7 @@ output "kube_prom_auth_password" {
   value     = random_string.kube_prom_password.result
 }
 
-output "kube_grafana_auth-username" {
+output "kube_grafana_auth_username" {
   sensitive = false
   value     = random_string.kube_grafana_username.result
 }
@@ -18,12 +18,12 @@ output "kube_grafana_auth_password" {
   value     = random_string.kube_grafana_password.result
 }
 
-output "kube_alert_manager_username" {
+output "kube_alert_manager_auth_username" {
   sensitive = false
   value     = random_string.kube_alert_manager_username.result
 }
 
-output "kube_alert_manager-auth-password" {
+output "kube_alert_manager_auth_password" {
   sensitive = false
   value     = random_string.kube_alert_manager_password.result
 }

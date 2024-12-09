@@ -36,12 +36,12 @@ output "alert_manager_host" {
 
 output "kube_alert_manager_username" {
   sensitive = false
-  value     = module.kube-prometheus-stack.kube_alert_manager_username
+  value     = module.kube-prometheus-stack.kube_alert_manager_auth_username
 }
 
 output "kube_alert_manager_password" {
   sensitive = false
-  value     = module.kube-prometheus-stack.kube-alert-manager-auth-password
+  value     = module.kube-prometheus-stack.kube_alert_manager_auth_password
 }
 
 output "opencost_host" {

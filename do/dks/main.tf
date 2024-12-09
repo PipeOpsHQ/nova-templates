@@ -1,8 +1,12 @@
+data "digitalocean_vpc" "vpc" {
+  name = var.vpc_name
+}
+
 resource "digitalocean_kubernetes_cluster" "pks_cluster" {
   name    = var.cluster_name
   region  = var.region
   version = var.k8s_version
-  vpc_uuid = digitalocean_vpc.pipeops-vpc.id
+  vpc_uuid = data.digitalocean_vpc.vpc.id
   ha      = true
   node_pool {
     name       = "${var.cluster_name}-pool"

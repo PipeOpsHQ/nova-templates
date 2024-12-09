@@ -25,6 +25,7 @@ terraform {
 
 provider "digitalocean" {
   token = var.do_token
+
 }
 
 provider "aws" {
@@ -47,6 +48,7 @@ provider "kubernetes" {
     args = ["kubernetes", "cluster", "kubeconfig", "exec-credential",
     "--version=v1beta1", data.digitalocean_kubernetes_cluster.pipeops-cluster-details.id]
   }
+  #config_path    = "/home/toluwalope/Work/PipeOps/pks-lon1-kubeconfig (1).yaml"
 }
 
 provider "kubernetes-alpha" {

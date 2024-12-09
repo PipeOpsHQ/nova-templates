@@ -8,6 +8,7 @@ variable "vpc_name" {
   type = string
   default = "pipeops-vpc"
 }
+
 variable "create_cluster" {
   description = "Specifies whether a cluster should be created"
   type        = bool
@@ -17,7 +18,7 @@ variable "create_cluster" {
 variable "cluster_name" {
   description = "Name of the DOKS cluster"
   type        = string
-  default     = "pks-lon1"
+  default     = "dks-lon1"
 }
 
 variable "region" {
@@ -29,7 +30,7 @@ variable "region" {
 variable "k8s_version" {
   description = "Kubernetes version for the DOKS cluster"
   type        = string
-  default     = "1.29.9-do.4"
+  default     = "1.29.9-do.5"
 }
 
 variable "node_size" {

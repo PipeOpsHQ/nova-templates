@@ -30,4 +30,5 @@ variable "k8s_namespace" {
 
 variable "opencost_host" {
   type = string
+
 }

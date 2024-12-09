@@ -25,6 +25,7 @@ variable "helm_chart_version" {
 
 variable "kube_prom_host" {
   type = string
+
 }
 
 variable "kube_grafana_host" {
@@ -34,4 +35,5 @@ variable "kube_grafana_host" {
 
 variable "alert_manager_host" {
   type = string
+
 }
