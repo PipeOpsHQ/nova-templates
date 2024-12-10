@@ -6,12 +6,11 @@ variable "k8_config" {
 
 variable "eks_cluster_name" {
   description = "cluster name"
-  default     = "pipeops"
 }
 
 variable "cluster_package" {
   description = "cluster package"
-  default     = "t3.medium"
+  # default     = "t3.medium"
 }
 
 variable "bucket_name" {
@@ -74,35 +73,28 @@ variable "install_opencost" {
 }
 
 variable "install_rabbitmq" {
-  type = bool
+  type        = bool
   description = "To install rabbitmq"
-  default = true
+  default     = true
 }
 
 variable "service_account_ns" {
-  type = string
+  type        = string
   description = "Namespace to create pipeops admin service account"
-  default = "pipeops"
-}
-
-variable "aws_config_path" {
-  description = "path to aws config"
-  type        = list(string)
-
-}
-
-variable "aws_profile" {
-  description = "AWS PROFILE"
-
+  default     = "pipeops"
 }
 
 variable "aws_region" {
   description = "AWS region to launch servers."
-  default     = "eu-west-2"
 }
 
 variable "dns_zone" {
   description = "DNS_Zone for all created addons"
   default     = "pipeops.co"
 }
+
+variable "aws_access_key" {}
+variable "aws_secret_key" {}
+variable "aws_session_token" {}
+
 

@@ -70,23 +70,10 @@ variable "install_karpenter" {
   default     = false
 }
 
-variable "aws_config_path" {
-  description = "path to aws config"
-  type        = string
-
-}
-
-variable "aws_profile" {
-  description = "AWS PROFILE"
-
-}
-
 variable "aws_region" {
   description = "AWS region to launch servers."
-  default     = "eu-west-2"
 }
 
-variable "ecr_region" {
-  description = "AWS region for Public ECR Authentication"
-  default = "us-east-1"
-}
+variable "aws_access_key" {}
+variable "aws_secret_key" {}
+variable "aws_session_token" {}
