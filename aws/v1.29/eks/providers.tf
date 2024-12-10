@@ -14,11 +14,6 @@ provider "aws" {
   token      = var.aws_session_token
 }
 
-provider "aws" {
-  region = var.ecr_region
-  alias  = "virginia"
-}
-
 provider "kubernetes" {
   host                   = module.eks.cluster_endpoint
   cluster_ca_certificate = base64decode(module.eks.cluster_certificate_authority_data)
