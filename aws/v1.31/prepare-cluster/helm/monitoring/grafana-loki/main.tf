@@ -3,14 +3,14 @@ resource "random_string" "grafana-loki-password" {
   special          = true
   override_special = "_@"
 }
-
+/*
 resource "random_string" "grafana-loki-username" {
   length = 5
   special = false
 }
-
+*/
 resource "kubernetes_secret" "grafana-loki-auth" {
-  depends_on = [random_string.grafana-loki-password, random_string.grafana-loki-username]
+  depends_on = [random_string.grafana-loki-password]
 
   type = "Opaque"
   metadata {
@@ -19,7 +19,8 @@ resource "kubernetes_secret" "grafana-loki-auth" {
   }
 
   data = {
-    "auth" : "${random_string.grafana-loki-username.result}:${bcrypt(random_string.grafana-loki-password.result)}"
+    "htpasswd": "${bcrypt(random_string.grafana_loki_password.result)}"
+    "password": "${bcrypt(random_string.grafana_loki_password.result)}"
   }
 }
 

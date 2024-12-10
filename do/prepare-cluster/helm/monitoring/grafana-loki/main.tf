@@ -3,12 +3,12 @@ resource "random_string" "grafana_loki_password" {
   special          = true
   override_special = "_@"
 }
-
+/*
 resource "random_string" "grafana_loki_username" {
   length  = 5
   special = false
 }
-
+*/
 resource "kubernetes_secret" "grafana_loki_auth" {
   depends_on = [random_string.grafana_loki_password, random_string.grafana_loki_username]
 
