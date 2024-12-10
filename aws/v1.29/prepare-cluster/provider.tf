@@ -9,9 +9,11 @@ terraform {
 }
 
 provider "aws" {
-  shared_credentials_files = var.aws_config_path
-  profile                  = var.aws_profile
-  region                   = var.aws_region
+  region     = var.aws_region
+  alias      = "virginia"
+  access_key = var.aws_access_key
+  secret_key = var.aws_secret_key
+  token      = var.aws_session_token
 }
 
 data "aws_eks_cluster" "eks_cluster" {

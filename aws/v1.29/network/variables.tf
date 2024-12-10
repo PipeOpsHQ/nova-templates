@@ -16,41 +16,25 @@ variable "public_subnets_cidrs" {
   default     = ["10.0.4.0/24", "10.0.5.0/24", "10.0.6.0/24"]
 }
 
-variable "intra_subnets_cidrs" {
-  description = "Public Subnets CIDR"
-  type        = list(string)
-  default     = ["10.0.7.0/24", "10.0.8.0/24", "10.0.9.0/24"]
-}
-
 variable "eks_cluster_name" {
   description = "Name of Cluster"
   type        = string
-  default     = "pipeops"
+  default     = "pipeops-network-1"
 }
 
 variable "pipeops_workspace_account" {
   description = "PipeOps WorkSpace Name"
-
 }
 
 variable "eks_version" {
   description = "PipeOps Cluster Version"
-  default     = "1.29"
-}
-
-variable "aws_config_path" {
-  description = "path to aws config"
-  type        = string
-
-}
-
-variable "aws_profile" {
-  description = "AWS PROFILE"
-
-
+  default     = "1.28"
 }
 
 variable "aws_region" {
   description = "AWS region to launch servers."
-  default     = "eu-west-2"
 }
+
+variable "aws_access_key" {}
+variable "aws_secret_key" {}
+variable "aws_session_token" {}
