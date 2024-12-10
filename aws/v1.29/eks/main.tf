@@ -182,7 +182,9 @@ module "eks" {
 
 
 module "default_managed_node_group" {
-  source                            = "terraform-aws-modules/eks/aws//modules/eks-managed-node-group"
+  source  = "terraform-aws-modules/eks/aws//modules/eks-managed-node-group"
+  version = "19.21.0"
+
   count                             = var.install_karpenter ? 0 : 1
   name                              = "one"
   cluster_name                      = module.eks.cluster_name
@@ -198,8 +200,8 @@ module "default_managed_node_group" {
   disk_size                = var.eks_cluster_storage
   iam_role_use_name_prefix = false
   iam_role_additional_policies = {
-      "ClusterAutoscalerPolicy" = aws_iam_policy.cluster_autoscaler_policy.arn
-    }
+    "ClusterAutoscalerPolicy" = aws_iam_policy.cluster_autoscaler_policy.arn
+  }
   tags = {
     "k8s.io/cluster-autoscaler/${var.cluster_name}" = "owned"
     "k8s.io/cluster-autoscaler/enabled"             = "true"
