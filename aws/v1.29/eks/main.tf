@@ -185,10 +185,10 @@ module "default_managed_node_group" {
   source  = "terraform-aws-modules/eks/aws//modules/eks-managed-node-group"
   version = "19.21.0"
 
-  count                             = var.install_karpenter ? 0 : 1
-  name                              = "one"
-  cluster_name                      = module.eks.cluster_name
-  cluster_service_cidr              = "10.0.0.0/16"
+  count        = var.install_karpenter ? 0 : 1
+  name         = "one"
+  cluster_name = module.eks.cluster_name
+  # cluster_service_cidr              = "10.0.0.0/16"
   cluster_primary_security_group_id = module.eks.cluster_primary_security_group_id
   vpc_security_group_ids            = [module.eks.node_security_group_id]
 
@@ -210,11 +210,12 @@ module "default_managed_node_group" {
 }
 
 module "karpenter_managed_node_group" {
-  source                            = "terraform-aws-modules/eks/aws//modules/eks-managed-node-group"
-  count                             = var.install_karpenter ? 1 : 0
-  name                              = "karpenter"
-  cluster_name                      = module.eks.cluster_name
-  cluster_service_cidr              = "10.0.0.0/16"
+  source       = "terraform-aws-modules/eks/aws//modules/eks-managed-node-group"
+  version      = "19.21.0"
+  count        = var.install_karpenter ? 1 : 0
+  name         = "karpenter"
+  cluster_name = module.eks.cluster_name
+  # cluster_service_cidr              = "10.0.0.0/16"
   cluster_primary_security_group_id = module.eks.cluster_primary_security_group_id
   vpc_security_group_ids            = [module.eks.node_security_group_id]
 
