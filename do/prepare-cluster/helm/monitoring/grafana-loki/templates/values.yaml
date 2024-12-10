@@ -1,5 +1,9 @@
 
 gateway:
+  auth:
+    enabled: true
+    existingSecret: "grafana-loki-auth"
+    username: "user"
   ingress:
     annotations: 
       cert-manager.io/cluster-issuer: letsencrypt-production

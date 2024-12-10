@@ -41,12 +41,12 @@ output "grafana_loki_auth_password" {
   sensitive = true
   value = module.grafana-loki.grafana_loki_auth_secret_password
 }
-
+/*
 output "grafana-loki-auth-username" {
   sensitive = true
   value = module.grafana-loki.grafana-loki-auth-username
 }
-
+*/
 output "grafana-loki-host" {
   sensitive = true
   value = module.grafana-loki.grafana-loki-host
