@@ -74,11 +74,6 @@ variable "aws_region" {
   description = "AWS region to launch servers."
 }
 
-variable "ecr_region" {
-  description = "AWS region for Public ECR Authentication"
-  default     = "us-east-1"
-}
-
 variable "aws_access_key" {}
 variable "aws_secret_key" {}
 variable "aws_session_token" {}
