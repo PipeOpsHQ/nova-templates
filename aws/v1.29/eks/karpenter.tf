@@ -30,7 +30,6 @@ module "karpenter" {
     ManagedBy            = "pipeops.io"
     DateCreated          = formatdate("YYYY-MM-DD", timestamp())
   }
-
 }
 
 resource "helm_release" "karpenter" {
