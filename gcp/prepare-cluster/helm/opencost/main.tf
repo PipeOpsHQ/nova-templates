@@ -23,6 +23,19 @@ resource "kubernetes_secret" "opencost_basic_auth" {
   }
 }
 
+resource "google_apikeys_key" "opencost_api_key" {
+  name         = "opencost-api"
+  display_name = "opencost-api"
+
+  restrictions {
+
+    api_targets {
+      service = "cloudbilling.googleapis.com" 
+      methods = ["GET*"]
+    }
+  }
+}
+
 
 resource "helm_release" "opencost" {
 
@@ -35,6 +48,7 @@ resource "helm_release" "opencost" {
   values = [
     templatefile("${path.module}/templates/values.yaml", {
       host = "opencost-${var.cluster_name}.${var.dns_zone}"
+      apiKey = google_apikeys_key.opencost_api_key.key_string
     })
   ]
 

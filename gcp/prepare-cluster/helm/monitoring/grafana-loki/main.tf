@@ -5,18 +5,22 @@ resource "random_string" "grafana_loki_password" {
 }
 /*
 resource "random_string" "grafana_loki_username" {
-  length  = 5
+  length = 5
   special = false
 }
 */
 resource "kubernetes_secret" "grafana_loki_auth" {
-  depends_on = [random_string.grafana_loki_password, random_string.grafana_loki_username]
+  depends_on = [random_string.grafana_loki_password]
 
   type = "Opaque"
   metadata {
     name      = "grafana-loki-auth"
     namespace = "monitoring"
   }
+  /*
+  data = {
+    "password" : "${bcrypt(random_string.grafana_loki_password.result)}"
+  }*/
 
   data = {
     "htpasswd": "${bcrypt(random_string.grafana_loki_password.result)}"
@@ -26,15 +30,15 @@ resource "kubernetes_secret" "grafana_loki_auth" {
 
 resource "helm_release" "grafana-loki" {
 
-  name       = var.helm_release_name
+  name = var.helm_release_name
   repository = var.helm_repo_url
   chart      = "grafana-loki"
-  version    = var.helm_chart_version
-  namespace  = "monitoring"
-
+  version = var.helm_chart_version
+  namespace = "monitoring"
+   
   values = [
     templatefile("${path.module}/templates/values.yaml", {
-      s3   = "s3://${var.aws_access_key_s3}:${var.aws_secret_key_s3}@${var.aws_region_S3}",
+      s3 = "s3://${var.aws_access_key_s3}:${var.aws_secret_key_s3}@${var.aws_region_S3}",
       host = "grafana-loki-${var.cluster_name}.${var.dns_zone}"
     })
   ]

@@ -22,11 +22,11 @@ variable "helm_chart_version" {
   default     = "65.4.0"
   description = "Version of the Helm chart"
 }
+
 variable "cluster_name" {
   type = string
 
 }
-
 variable "dns_zone" {
   type = string
 
