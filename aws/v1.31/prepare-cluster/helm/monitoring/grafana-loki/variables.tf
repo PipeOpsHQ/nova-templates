@@ -35,11 +35,17 @@ variable "bucket_name" {
   default = "grafana-loki-pipeops"  
 }
 
-variable "eks_cluster_name" {
-  description = "cluster name"
-  default = "pipeops"
+variable "region" {
+  description = "AWS Region where s3 bucket was created"
+
 }
 
-variable "grafana-loki-host" {
+variable "cluster_name" {
   type = string
+
+}
+
+variable "dns_zone" {
+  type = string
+
 }

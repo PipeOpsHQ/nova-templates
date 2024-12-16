@@ -34,7 +34,7 @@ resource "helm_release" "opencost" {
 
   values = [
     templatefile("${path.module}/templates/values.yaml", {
-      host = "${var.opencost_host}"
+      host = "opencost-${var.cluster_name}.${var.dns_zone}"
     })
   ]
 }

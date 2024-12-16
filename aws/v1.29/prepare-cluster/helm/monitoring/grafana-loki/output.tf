@@ -1,14 +1,9 @@
-output "grafana_loki_auth_secret_password" {
+output "grafana_loki_auth_password" {
   sensitive = false
-  value     = random_string.grafana-loki-password.result
+  value     = random_string.grafana_loki_password.result
 }
-/*
-output "grafana-loki-auth-username" {
-  sensitive = false
-  value = random_string.grafana-loki-username.result
-}
-*/
+
 output "grafana-loki-host" {
   sensitive = false
-  value = var.grafana-loki-host
+  value = "grafana-loki-${var.cluster_name}.${var.dns_zone}"
 }

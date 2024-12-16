@@ -19,7 +19,7 @@ alertmanager:
     tls: 
     - hosts:
       - ${alert-manager-host}
-      secretName: test-alertmanager-pipeops-dev
+      secretName: kube-alertmanager-tls
 
 grafana:
   ingress:

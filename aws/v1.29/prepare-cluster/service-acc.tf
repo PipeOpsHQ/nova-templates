@@ -1,4 +1,4 @@
-resource "kubernetes_namespace" "monitoring" {
+resource "kubernetes_namespace" "service_account_ns" {
   metadata {
     annotations = {
       name = var.service_account_ns
