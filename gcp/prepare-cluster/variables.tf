@@ -1,0 +1,55 @@
+variable "project_id" {
+  type = string
+
+}
+
+variable "region" {
+  type = string
+
+}
+
+variable "cluster_name" {
+  type = string
+
+}
+
+variable "bucket_name" {
+  description = "Name of S3 bucket to store loki data"
+  default     = "grafana-loki-pipeops-s3"
+}
+
+variable "install_cert_manager" {
+  type = bool
+  description = "To install cert manager or not"
+  default = true
+}
+
+variable "install_ingress_controller" {
+  type = bool
+  description = "To install Nginx ingress controller"
+  default = true
+}
+
+variable "install_k8s_dashboard" {
+  type = bool
+  description = "To install Kubernetes dashboard or not"
+  default = true
+}
+
+variable "install_grafana_loki" {
+  type = bool
+  description = "To install Grafana Loki or not"
+  default = true
+}
+
+variable "install_opencost" {
+  type = bool
+  description = "To install opencost"
+  default = true
+}
+
+variable "install_kube_prometheus_stack" {
+  type = bool
+  description = "To install kube prom stack or not"
+  default = true
+}

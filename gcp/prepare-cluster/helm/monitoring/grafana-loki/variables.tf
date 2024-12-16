@@ -16,7 +16,6 @@ variable "helm_chart_name" {
   description = "Helm chart name to be installed"
 }
 
-
 variable "helm_chart_version" {
   type        = string
   default     = "4.6.21"
@@ -31,12 +30,7 @@ variable "k8s_namespace" {
 
 variable "bucket_name" {
   description = "Name of S3 bucket to store loki data"
-  default     = "grafana-loki-pipeops"
-}
-
-variable "grafana_loki_host" {
-  type = string
-
+  default = "grafana-loki-pipeops"  
 }
 variable "cluster_name" {
   type = string

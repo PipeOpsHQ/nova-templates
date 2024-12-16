@@ -28,7 +28,6 @@ output "kube_alert_manager_auth_password" {
   value     = random_string.kube_alert_manager_password.result
 }
 
-
 output "kube_prom_host" {
   sensitive = false
   value     = "kube-prom.${var.cluster_name}.${var.dns_zone}"

@@ -11,7 +11,7 @@ gateway:
       kubernetes.io/ingress.class: "nginx"
       ingress.kubernetes.io/ssl-redirect: "true"
     enabled: true
-    hostname: test-grafana-loki.pipeops.dev
+    hostname: ${host}
 
     hosts:
     - host: ${host}
