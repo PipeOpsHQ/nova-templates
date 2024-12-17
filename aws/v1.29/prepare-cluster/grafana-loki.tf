@@ -30,7 +30,7 @@ resource "aws_iam_role" "loki_irsa" {
 
         Condition = {
           StringEquals = {
-            "${replace(data.aws_iam_openid_connect_provider.eks_oidc.url, "https://", "")}:sub" = "system:serviceaccount:default:loki-sa"
+            "${replace(data.aws_iam_openid_connect_provider.eks_oidc.url, "https://", "")}:sub" = "system:serviceaccount:monitoring:loki-sa"
           }
         }
       }

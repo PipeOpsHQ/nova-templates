@@ -12,6 +12,11 @@ variable "cluster_name" {
   type = string
 
 }
+variable "service_account_ns" {
+  type = string
+  description = "Namespace to create pipeops admin service account"
+  default = "pipeops"
+}
 
 variable "bucket_name" {
   description = "Name of S3 bucket to store loki data"

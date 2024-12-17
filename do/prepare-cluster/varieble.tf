@@ -18,7 +18,11 @@ variable "aws_config_path" {
   type        = list(string)
 
 }
-
+variable "service_account_ns" {
+  type = string
+  description = "Namespace to create pipeops admin service account"
+  default = "pipeops"
+}
 variable "aws_profile" {
   description = "AWS PROFILE"
 

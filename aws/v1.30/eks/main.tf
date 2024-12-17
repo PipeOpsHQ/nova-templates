@@ -177,7 +177,16 @@ module "eks" {
     Name  = var.cluster_name
 
   }
-
+  node_security_group_tags = {
+    "Name"                   = var.cluster_name
+    "karpenter.sh/discovery" = var.cluster_name
+    "pipeops.io/cluster"     = "${var.cluster_name}"
+    "Environment"            = "production"
+    "Terraform"              = "true"
+    "ManagedBy"              = "pipeops.io"
+    "DateCreated"            = formatdate("YYYY-MM-DD", timestamp())
+    "kubernetes.io/cluster/${var.cluster_name}" = null
+  }
 }
 
 

@@ -73,6 +73,7 @@ variable "install_karpenter" {
 
 variable "aws_region" {
   description = "AWS region to launch servers."
+
 }
 
 variable "aws_access_key" {}

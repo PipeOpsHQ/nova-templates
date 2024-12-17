@@ -1,44 +1,44 @@
-output "kube_prom_auth_secret_password" {
+output "kube_prom_auth_username" {
   sensitive = false
-  value     = random_string.kube-prom-password.result
+  value     = random_string.kube_prom_username.result
 }
 
-output "kube-prom-auth-username" {
+output "kube_prom_auth_password" {
   sensitive = false
-  value = random_string.kube-prom-username.result
+  value     = random_string.kube_prom_password.result
 }
 
-output "kube-grafana_auth_secret_password" {
+output "kube_grafana_auth_username" {
   sensitive = false
-  value     = random_string.kube-grafana-password.result
+  value     = random_string.kube_grafana_username.result
 }
 
-output "kube-grafana-auth-username" {
+output "kube_grafana_auth_password" {
   sensitive = false
-  value = random_string.kube-grafana-username.result
+  value     = random_string.kube_grafana_password.result
 }
 
-output "kube-alert-manager-username" {
+output "kube_alert_manager_auth_username" {
   sensitive = false
-  value = random_string.kube-alert-manager-username.result
+  value     = random_string.kube_alert_manager_username.result
 }
 
-output "kube-alert-manager-auth-password" {
+output "kube_alert_manager_auth_password" {
   sensitive = false
-  value = random_string.kube-alert-manager-password.result
+  value     = random_string.kube_alert_manager_password.result
 }
 
 output "kube_prom_host" {
-  sensitive = true
-  value = var.kube_prom_host
+  sensitive = false
+  value     = "kube-prom-${var.cluster_name}.${var.dns_zone}"
 }
 
 output "kube_grafana_host" {
-  sensitive = true
-  value = var.kube_grafana_host
+  sensitive = false
+  value     = "kube-grafana-${var.cluster_name}.${var.dns_zone}"
 }
 
 output "alert_manager_host" {
-  sensitive = true
-  value = var.alert_manager_host
+  sensitive = false
+  value     = "kube-alert-manager-${var.cluster_name}.${var.dns_zone}"
 }

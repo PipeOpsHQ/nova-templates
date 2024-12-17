@@ -52,8 +52,8 @@ resource "helm_release" "grafana-loki" {
   } 
   values = [
     templatefile("${path.module}/templates/values.yaml", {
-      s3 = "s3://eu-west-2/grafana-loki-pipeops",
-      host = "${var.grafana-loki-host}"
+      s3 = "s3://${var.region}/${var.bucket_name}",
+      host = "grafana-loki-${var.cluster_name}.${var.dns_zone}"
     })
   ]
 }

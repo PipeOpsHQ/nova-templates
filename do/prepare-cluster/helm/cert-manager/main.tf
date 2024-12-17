@@ -77,7 +77,7 @@ resource "kubectl_manifest" "cluster_issuer" {
         # The ACME server URL
         server: https://acme-v02.api.letsencrypt.org/directory
         # Email address used for ACME registration
-        email: "tech@pipeops.io"
+        email: "acme@pipeops.io"
         # Name of a secret used to store the ACME account private key
         privateKeySecretRef:
           name: letsencrypt-production
