@@ -1,5 +1,5 @@
 data "aws_ecrpublic_authorization_token" "token" {
-  provider = aws.virginia
+  provider = aws.ecr_registry
 }
 
 module "karpenter" {
@@ -30,7 +30,6 @@ module "karpenter" {
     ManagedBy            = "pipeops.io"
     DateCreated          = formatdate("YYYY-MM-DD", timestamp())
   }
-
 }
 
 resource "helm_release" "karpenter" {

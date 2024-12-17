@@ -40,7 +40,8 @@ variable "ami_type" {
 
 variable "eks_instance_class" {
   description = "machine type to be used"
-  default     = ["t3a.large"]
+  type        = list(string)
+  # default     = ["t3a.large"]
   /*
   default = {
     dev     = "t3a.large"
@@ -70,23 +71,11 @@ variable "install_karpenter" {
   default     = false
 }
 
-variable "aws_config_path" {
-  description = "path to aws config"
-  type        = string
-
-}
-
-variable "aws_profile" {
-  description = "AWS PROFILE"
-
-}
-
 variable "aws_region" {
   description = "AWS region to launch servers."
 
 }
 
-variable "ecr_region" {
-  description = "AWS region for Public ECR Authentication"
-  default = "us-east-1"
-}
+variable "aws_access_key" {}
+variable "aws_secret_key" {}
+variable "aws_session_token" {}
