@@ -35,7 +35,8 @@ variable "eks_max_node" {
 
 variable "eks_instance_class" {
   description = "machine type to be used"
-  default     = ["t3a.large"]
+  type        = list(string)
+  # default     = ["t3a.large"]
   /*
   default = {
     dev     = "t3a.large"
@@ -91,5 +92,5 @@ variable "aws_region" {
 
 variable "ecr_region" {
   description = "AWS region for Public ECR Authentication"
-  default = "us-east-1"
+  default     = "us-east-1"
 }
