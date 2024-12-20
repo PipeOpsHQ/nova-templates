@@ -58,3 +58,19 @@ variable "install_kube_prometheus_stack" {
   description = "To install kube prom stack or not"
   default = true
 }
+
+variable "aws_config_path" {
+  description = "path to aws config"
+  type        = list(string)
+  default     = ["~/.aws/credentials"]
+}
+
+variable "aws_profile" {
+  description = "AWS PROFILE"
+  default     = "default"
+}
+
+variable "aws_region" {
+  description = "AWS region to launch servers."
+  default     = "eu-west-2"
+}

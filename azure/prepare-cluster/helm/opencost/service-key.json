@@ -1,0 +1,9 @@
+{
+  "subscriptionId": "replace_with_subscription_id",
+  "serviceKey": {
+      "appId": "replace_with_app_id",
+      "displayName": "OpenCostAccess",
+      "password": "replace_with_client_secret",
+      "tenant": "replace_with_tenant_id"
+  }
+}
