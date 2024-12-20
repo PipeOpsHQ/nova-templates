@@ -21,6 +21,7 @@ data "aws_subnets" "private_subnets" {
     name   = "vpc-id"
     values = [data.aws_vpc.selected.id]
   }
+
   tags = {
     "kubernetes.io/role/internal-elb" = "1"
     "subnet"                          = "private"
@@ -143,7 +144,7 @@ module "eks" {
     one = {
       name                     = var.cluster_name
       subnet_ids               = data.aws_subnets.private_subnets.ids
-      instance_types           = [var.eks_instance_class]
+      instance_models          = [var.eks_instance_class]
       min_size                 = var.eks_min_node
       max_size                 = var.eks_max_node
       desired_size             = var.eks_cluster_desired_node

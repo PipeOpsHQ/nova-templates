@@ -14,22 +14,7 @@ output "cluster_name" {
 }
 
 locals {
-  config_map_aws_auth = <<CONFIGMAPAWSAUTH
-apiVersion: v1
-kind: ConfigMap
-metadata:
-  name: aws-auth
-  namespace: kube-system
-data:
-  mapRoles: |
-    - rolearn: ${module.eks.cluster_iam_role_arn}
-      username: system:node:{{EC2PrivateDNSName}}
-      groups:
-        - system:bootstrappers
-        - system:nodes
-CONFIGMAPAWSAUTH
-
-  kubeconfig = <<KUBECONFIG
+  kube_config_aws_auth = <<KUBECONFIG
 apiVersion: v1
 clusters:
 - cluster:
@@ -57,20 +42,13 @@ users:
       - --cluster-name
       - "${module.eks.cluster_name}"
       command: aws
-      env:
-      - name: AWS_PROFILE
-        value: "${var.aws_profile}"
       interactiveMode: IfAvailable
       provideClusterInfo: true
 KUBECONFIG
 }
 
-output "config_map_aws_auth" {
-  value = local.config_map_aws_auth
-}
-
-output "kubeconfig" {
-  value = local.kubeconfig
+output "kube_config_aws_auth" {
+  value = local.kube_config_aws_auth
 }
 
 output "eks_certificate_authority" {

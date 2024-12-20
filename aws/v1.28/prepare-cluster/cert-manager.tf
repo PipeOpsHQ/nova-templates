@@ -5,7 +5,6 @@
 
 module "cert-manager" {
   source           = "./helm/cert-manager"
-  k8_config        = var.k8_config
   context        = var.eks_cluster_name
 }
 

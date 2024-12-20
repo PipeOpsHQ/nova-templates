@@ -20,12 +20,6 @@ variable "aws_region" {
   description = "AWS region where secrets are stored."
 }
 
-
-variable "k8_config" {
-  type        = string
-  description = "Path to current kube-config"
-}
-
 variable "k8s_namespace" {
   type        = string
   default     = "cluster-autoscaler"

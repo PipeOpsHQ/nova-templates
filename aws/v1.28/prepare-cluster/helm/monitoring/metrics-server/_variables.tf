@@ -35,12 +35,6 @@ variable "namespace" {
   description = "Kubernetes namespace to deploy Metrics Server Helm chart."
 }
 
-variable "k8_config" {
-  description = "path to k8 config"
-  type = string
-
-}
-
 variable "cluster_package" {
   description = "Package a cluster belongs to"
   type = string

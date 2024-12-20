@@ -24,7 +24,7 @@
 
 module "ingress-controller" {
   source           = "./helm/networking/ingress-controller"
-  k8_config        = var.k8_config
+  # k8_config        = var.k8_config
   additional_set = [
     {
       name  = "controller.service.annotations.service\\.beta\\.kubernetes\\.io/aws-load-balancer-type"

@@ -25,7 +25,7 @@ resource "helm_release" "prometheus_monitoring" {
   version = var.helm_chart_version
   namespace = var.k8s_namespace
   create_namespace = var.helm_create_namespace
-  force_update = true
+  # force_update = true
 
 
   values = [
