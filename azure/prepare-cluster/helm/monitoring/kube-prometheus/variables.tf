@@ -29,5 +29,5 @@ variable "cluster_name" {
 }
 variable "dns_zone" {
   type = string
-
+  default = "pipeops.io"
 }

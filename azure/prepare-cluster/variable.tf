@@ -5,23 +5,24 @@ variable "subscription_id" {
 
 variable "resource_group_name" {
   type = string
-  default = "sre-test"
+
 }
 
 variable "resource_group_location" {
   type = string
-  default = "East US"
+
 }
 
 variable "cluster_name" {
   description = "cluster name"
-  default     = "pipeops-tests"
+  type = string
+
 }
 
 
 variable "bucket_name" {
   description = "Name of S3 bucket to store loki data"
-  default     = "grafana-loki-pipeops"
+  type = string
 }
 
 variable "install_cert_manager" {
@@ -78,12 +79,6 @@ variable "install_opencost" {
   default     = true
 }
 
-variable "install_rabbitmq" {
-  type = bool
-  description = "To install rabbitmq"
-  default = true
-}
-
 variable "service_account_ns" {
   type = string
   description = "Namespace to create pipeops admin service account"
@@ -108,6 +103,6 @@ variable "aws_region" {
 
 variable "dns_zone" {
   description = "DNS_Zone for all created addons"
-  default     = "pipeops.dev"
+  default     = "pipeops.io"
 }
 

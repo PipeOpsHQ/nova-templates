@@ -67,5 +67,5 @@ variable "namespace" {
 }
 
 variable "dns_zone" {
-  default = "pipeops.dev"
+  default = "pipeops.io"
 }

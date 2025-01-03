@@ -39,6 +39,7 @@ resource "helm_release" "grafana-loki" {
   values = [
     templatefile("${path.module}/templates/values.yaml", {
       s3 = "s3://${var.aws_access_key_s3}:${var.aws_secret_key_s3}@${var.aws_region_S3}",
+      bucket_name = "${var.bucket_name}"
       host = "grafana-loki-${var.cluster_name}.${var.dns_zone}"
     })
   ]

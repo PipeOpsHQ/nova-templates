@@ -1,11 +1,48 @@
+module "avm-res-network-virtualnetwork" {
+  source = "Azure/avm-res-network-virtualnetwork/azurerm"
 
-resource "azurerm_virtual_network" "pipeops_virtual_network" {
+  address_space       = var.vpc_cidr
   name                = var.vnet_name
   location            = azurerm_resource_group.pipeops.location
   resource_group_name = azurerm_resource_group.pipeops.name
-  address_space       = var.vpc_cidr
-  dns_servers         = var.dns_servers_ip
-
+  subnets = {
+    "subnet1" = {
+      name             = "pipeops-subnet-1"
+      address_prefixes = var.pipeops_subnet_1_cidr
+      default_outbound_access_enabled = true
+    }
+    "subnet2" = {
+      name             = "pipeops-subnet-2"
+      address_prefixes = var.pipeops_subnet_2_cidr
+      default_outbound_access_enabled = true
+    }
+    "subnet3" = {
+      name             = "pipeops-subnet-3"
+      address_prefixes = var.pipeops_subnet_3_cidr
+      default_outbound_access_enabled = true
+    }
+    "subnet4" = {
+      name             = "pipeops-subnet-4"
+      address_prefixes = var.pipeops_subnet_4_cidr
+      nat_gateway = {
+        id = azurerm_nat_gateway.pipeops_ng.id
+      }
+    }
+    "subnet5" = {
+      name             = "pipeops-subnet-5"
+      address_prefixes = var.pipeops_subnet_5_cidr
+      nat_gateway = {
+        id = azurerm_nat_gateway.pipeops_ng.id
+      }
+    }
+    "subnet6" = {
+      name             = "pipeops-subnet-6"
+      address_prefixes = var.pipeops_subnet_6_cidr
+      nat_gateway = {
+        id = azurerm_nat_gateway.pipeops_ng.id
+      }
+    }
+  }
   tags = {
     "Name"        = var.cluster_name
     "Environment" = "production"
@@ -13,32 +50,6 @@ resource "azurerm_virtual_network" "pipeops_virtual_network" {
     "ManagedBy"   = "pipeops.io"
 
   }
-}
-
-resource "azurerm_subnet" "pipeops_subnet_1" {
-  name = var.pipeops_subnet_1_name
-  resource_group_name = azurerm_resource_group.pipeops.name
-  virtual_network_name = azurerm_virtual_network.pipeops_virtual_network.name
-  address_prefixes = var.pipeops_subnet_1_cidr
-  depends_on = [ azurerm_virtual_network.pipeops_virtual_network ]
-  
-}
-
-resource "azurerm_subnet" "pipeops_subnet_2" {
-  name = var.pipeops_subnet_2_name
-  resource_group_name = azurerm_resource_group.pipeops.name
-  virtual_network_name = azurerm_virtual_network.pipeops_virtual_network.name
-  address_prefixes = var.pipeops_subnet_2_cidr
-  depends_on = [ azurerm_virtual_network.pipeops_virtual_network ]
-}
-
-resource "azurerm_subnet" "pipeops_subnet_3" {
-  name = var.pipeops_subnet_3_name
-  resource_group_name = azurerm_resource_group.pipeops.name
-  virtual_network_name = azurerm_virtual_network.pipeops_virtual_network.name
-  address_prefixes = var.pipeops_subnet_3_cidr
-  default_outbound_access_enabled = false
-  depends_on = [ azurerm_virtual_network.pipeops_virtual_network ]
 }
 
 resource "azurerm_public_ip" "nat_ip" {
@@ -62,10 +73,4 @@ resource "azurerm_nat_gateway" "pipeops_ng" {
 resource "azurerm_nat_gateway_public_ip_association" "ng_ip_association" {
   nat_gateway_id       = azurerm_nat_gateway.pipeops_ng.id
   public_ip_address_id = azurerm_public_ip.nat_ip.id
-}
-
-resource "azurerm_subnet_nat_gateway_association" "example" {
-  subnet_id      = azurerm_subnet.pipeops_subnet_3.id
-  nat_gateway_id = azurerm_nat_gateway.pipeops_ng.id
-  depends_on = [ azurerm_subnet.pipeops_subnet_3, azurerm_nat_gateway.pipeops_ng]
 }

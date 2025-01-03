@@ -3,7 +3,7 @@ data "azurerm_resource_group" "pipeops_rg" {
 }
 
 data "azurerm_subnet" "pipeops_subnet"{
-  name = var.pipeops_subnet_3_name
+  name = var.pipeops_subnet_name
   virtual_network_name = var.vnet_name
   resource_group_name = var.resource_group_name
 }

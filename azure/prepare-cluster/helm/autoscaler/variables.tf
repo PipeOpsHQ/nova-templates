@@ -66,3 +66,29 @@ variable "helm_create_namespace" {
   default     = true
   description = "Create the namespace if it does not yet exist"
 }
+
+variable "subscription_id" {
+  type = string
+
+}
+
+variable "resource_group_name" {
+  type = string
+
+}
+
+variable "client_id" {
+  description = "The Client ID (appId) for the Service Principal used for the AKS deployment"
+  type = string
+
+}
+
+variable "client_secret" {
+  description = "The Client Secret (password) for the Service Principal used for the AKS deployment"
+  type = string
+
+}
+
+variable "tenant_id" {
+  type = string
+}

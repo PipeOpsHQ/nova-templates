@@ -1,20 +1,20 @@
 variable "subscription_id" {
   type = string
-  default = "f18d01a6-5d47-4be7-9765-6b456b90df09"
+
 }
 
 variable "resource_group_name" {
   type = string
-  default = "sre-test"
+
 }
 
 variable "resource_group_location" {
   type = string
-  default = "East US"
+
 }
 
 variable "cluster_name" {
-  default = "pipeops-tests"
+  type = string
 }
 
 variable "vnet_name" {
@@ -22,22 +22,22 @@ variable "vnet_name" {
   default = "pipeops-network"
 }
 
-variable "pipeops_subnet_3_name" {
+variable "pipeops_subnet_name" {
   description = "Name of public subnet"
   type = string
   default = "pipeops-subnet-3"
 }
 
 variable "client_id" {
-  description = "value"
+  description = "The Client ID (appId) for the Service Principal used for the AKS deployment"
   type = string
-  default = "ae2f2166-765e-4ca4-a765-ecd9f5d69c7a"
+
 }
 
 variable "client_secret" {
-  description = "value"
+  description = "The Client Secret (password) for the Service Principal used for the AKS deployment"
   type = string
-  default = "nzJ8Q~NOtI9UvMn3oWn61.vIQKCNOt8DbKcx4dxo"
+
 }
 
 variable "kubernetes_version" {
@@ -47,8 +47,9 @@ variable "kubernetes_version" {
 }
 
 variable "node_pool_name" {
+  description = " The name of the Node Pool created within the Kubernetes Cluster."
   type = string
-  default = "test"
+
 } 
 
 variable "node_count" {
