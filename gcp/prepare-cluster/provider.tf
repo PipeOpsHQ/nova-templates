@@ -11,7 +11,10 @@ terraform {
     google-beta = {
       source = "hashicorp/google-beta"
     }
-
+    aws = {
+      source  = "hashicorp/aws"
+      version = ">=5.0.0"
+    }
   }
 }
 data "google_client_config" "provider" {}
@@ -19,6 +22,12 @@ data "google_client_config" "provider" {}
 data "google_container_cluster" "my_cluster" {
   name     = var.cluster_name
   location = var.region
+}
+
+provider "aws" {
+  shared_credentials_files = var.aws_config_path
+  profile                  = var.aws_profile
+  region                   = var.aws_region
 }
 
 provider "google" {

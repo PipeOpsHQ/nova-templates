@@ -23,6 +23,17 @@ resource "kubernetes_secret" "opencost-basic-auth" {
   }
 }
 
+resource "kubernetes_secret" "opencost_key" {
+  metadata {
+    name = "azure-service-key"
+  }
+
+  data = {
+    "azure-service-key" = "${file("${path.module}/service-key.json")}"
+  }
+
+  type = "Opaque"
+}
 
 resource "helm_release" "opencost" {
 

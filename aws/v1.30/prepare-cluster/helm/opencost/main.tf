@@ -3,14 +3,14 @@ resource "random_string" "opencost_username" {
   special = false
 }
 
-resource "random_string" "opencost-password" {
+resource "random_string" "opencost_password" {
   length           = 16
   special          = true
   override_special = "_@"
 }
 
 resource "kubernetes_secret" "opencost-basic-auth" {
-  depends_on = [random_string.opencost-password, random_string.opencost_username]
+  depends_on = [random_string.opencost_password, random_string.opencost_username]
 
   type = "Opaque"
   metadata {
@@ -19,7 +19,7 @@ resource "kubernetes_secret" "opencost-basic-auth" {
   }
 
   data = {
-    "auth" : "${random_string.opencost_username.result}:${bcrypt(random_string.opencost-password.result)}"
+    "auth" : "${random_string.opencost_username.result}:${bcrypt(random_string.opencost_password.result)}"
   }
 }
 

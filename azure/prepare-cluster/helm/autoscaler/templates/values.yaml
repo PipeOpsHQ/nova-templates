@@ -1,0 +1,53 @@
+## Ref: https://kubernetes.io/docs/concepts/configuration/assign-pod-node/#affinity-and-anti-affinity
+# affinity -- Affinity for pod assignment
+affinity: {}
+
+# additionalLabels -- Labels to add to each object of the chart.
+additionalLabels: {}
+
+autoDiscovery:
+  # cloudProviders `aws`, `gce`, `azure`, `magnum`, `clusterapi` and `oci` are supported by auto-discovery at this time
+  # AWS: Set tags as described in https://github.com/kubernetes/autoscaler/blob/master/cluster-autoscaler/cloudprovider/aws/README.md#auto-discovery-setup
+
+  # autoDiscovery.clusterName -- Enable autodiscovery for `cloudProvider=aws`, for groups matching `autoDiscovery.tags`.
+  # autoDiscovery.clusterName -- Enable autodiscovery for `cloudProvider=azure`, using tags defined in https://github.com/kubernetes/autoscaler/blob/master/cluster-autoscaler/cloudprovider/azure/README.md#auto-discovery-setup.
+  # Enable autodiscovery for `cloudProvider=clusterapi`, for groups matching `autoDiscovery.labels`.
+  # Enable autodiscovery for `cloudProvider=gce`, but no MIG tagging required.
+  # Enable autodiscovery for `cloudProvider=magnum`, for groups matching `autoDiscovery.roles`.
+  clusterName:  ${cluster-name}
+
+  # autoDiscovery.tags -- ASG tags to match, run through `tpl`.
+  tags:
+    - cluster-autoscaler-enabled=true
+    - cluster-autoscaler-name=${cluster-name}
+
+# azureClientID -- Service Principal ClientID with contributor permission to Cluster and Node ResourceGroup.
+# Required if `cloudProvider=azure`
+azureClientID: ${client_id}
+
+# azureClientSecret -- Service Principal ClientSecret with contributor permission to Cluster and Node ResourceGroup.
+# Required if `cloudProvider=azure`
+azureClientSecret: ${client_secret}
+
+# azureResourceGroup -- Azure resource group that the cluster is located.
+# Required if `cloudProvider=azure`
+azureResourceGroup: ${resource_group_name}
+
+# azureSubscriptionID -- Azure subscription where the resources are located.
+# Required if `cloudProvider=azure`
+azureSubscriptionID: ${subscription_id}
+
+# azureTenantID -- Azure tenant where the resources are located.
+# Required if `cloudProvider=azure`
+azureTenantID: ${tenant_id}
+
+
+# azureVMType -- Azure VM type.
+azureVMType: "vmss"
+
+
+# cloudProvider -- The cloud provider where the autoscaler runs.
+# Currently only `gce`, `aws`, `azure`, `magnum` and `clusterapi` are supported.
+# `aws` supported for AWS. `gce` for GCE. `azure` for Azure AKS.
+# `magnum` for OpenStack Magnum, `clusterapi` for Cluster API.
+cloudProvider: azure
