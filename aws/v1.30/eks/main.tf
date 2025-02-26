@@ -125,22 +125,10 @@ module "eks" {
           ENABLE_PREFIX_DELEGATION = "true"
           WARM_PREFIX_TARGET = "1"
         }
-        tolerations = [{
-          key = "CriticalAddonsOnly"
-          operator = "Exists"
-          effect = "NoSchedule"
-        }]
       })
     }
     eks-pod-identity-agent = {
       most_recent = true
-      configuration_values = jsonencode({
-        tolerations = [{
-          key = "CriticalAddonsOnly"
-          operator = "Exists"
-          effect = "NoSchedule"
-        }]
-      })
     }
     coredns = {
       preserve = true
@@ -159,13 +147,6 @@ module "eks" {
     }
     kube-proxy = {
       most_recent = true
-      configuration_values = jsonencode({
-        tolerations = [{
-          key = "CriticalAddonsOnly"
-          operator = "Exists"
-          effect = "NoSchedule"
-        }]
-      })
     }
     aws-ebs-csi-driver = {
       most_recent = true
