@@ -70,7 +70,7 @@ variable "install_opencost" {
 variable "install_rabbitmq" {
   type = bool
   description = "To install rabbitmq"
-  default = true
+  default = false
 }
 
 variable "service_account_ns" {

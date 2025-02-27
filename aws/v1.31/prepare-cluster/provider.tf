@@ -13,9 +13,7 @@ terraform {
 }
 
 provider "aws" {
-  shared_credentials_files = var.aws_config_path
-  profile                  = var.aws_profile
-  region                   = var.aws_region
+  region = var.aws_region
 }
 
 data "aws_eks_cluster" "eks_cluster" {
