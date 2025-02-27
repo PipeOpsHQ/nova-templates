@@ -200,7 +200,7 @@ module "eks" {
 module "default_managed_node_group" {
   source                            = "terraform-aws-modules/eks/aws//modules/eks-managed-node-group"
   count                             = var.install_karpenter ? 0 : 1
-  name                              = "one"
+  name                              = module.eks.cluster_name
   cluster_name                      = module.eks.cluster_name
   cluster_service_cidr              = "10.0.0.0/16"
   cluster_primary_security_group_id = module.eks.cluster_primary_security_group_id
@@ -226,7 +226,7 @@ module "default_managed_node_group" {
 module "karpenter_managed_node_group" {
   source                            = "terraform-aws-modules/eks/aws//modules/eks-managed-node-group"
   count                             = var.install_karpenter ? 1 : 0
-  name                              = "karpenter"
+  name                              = module.eks.cluster_name
   cluster_name                      = module.eks.cluster_name
   cluster_service_cidr              = "10.0.0.0/16"
   cluster_primary_security_group_id = module.eks.cluster_primary_security_group_id
