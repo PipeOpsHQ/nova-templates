@@ -141,7 +141,7 @@ module "eks" {
         tolerations = [{
           key = "CriticalAddonsOnly"
           operator = "Exists"
-          effect = "NoSchedule"
+          effect = "NO_SCHEDULE"
         }]
       })
     }
@@ -160,7 +160,7 @@ module "eks" {
           tolerations = [{
             key = "CriticalAddonsOnly"
             operator = "Exists"
-            effect = "NoSchedule"
+            effect = "NO_SCHEDULE"
           }]
         }
       })
