@@ -8,7 +8,6 @@ module "autoscaler" {
   count        = var.install_autoscaler ? 1 : 0
   cluster_name = var.eks_cluster_name
   aws_region   = var.aws_region
-  k8_config    = var.k8_config
 }
 
 ################ End Configure Cluster Auto Scaler  #######################################

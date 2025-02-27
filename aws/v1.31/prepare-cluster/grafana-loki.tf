@@ -71,6 +71,9 @@ resource "aws_iam_role_policy" "loki_s3_policy" {
 module "grafana-loki" {
   source = "./helm/monitoring/grafana-loki"
   count  = var.install_grafana_loki ? 1 : 0
+  cluster_name = var.eks_cluster_name
+  dns_zone = var.dns_zone
+  region = var.aws_region
 }
 
 ################ End Configure Grafana-Loki  #######################################

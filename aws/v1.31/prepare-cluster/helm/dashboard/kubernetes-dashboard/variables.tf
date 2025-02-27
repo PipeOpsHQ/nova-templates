@@ -15,11 +15,6 @@ variable "cluster_name" {
   description = "The name of the cluster"
 }
 
-variable "k8_config" {
-  type        = string
-  description = "Path to current kube-config"
-}
-
 variable "k8s_namespace" {
   type        = string
   default     = "monitoring"
