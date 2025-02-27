@@ -1,9 +1,3 @@
-variable "k8_config" {
-  description = "path to k8 config"
-  type        = string
-
-}
-
 variable "eks_cluster_name" {
   description = "cluster name"
   default     = "pipeops"
