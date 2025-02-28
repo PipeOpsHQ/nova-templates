@@ -37,7 +37,6 @@ variable "bucket_name" {
 
 variable "region" {
   description = "AWS Region where s3 bucket was created"
-
 }
 
 variable "cluster_name" {
