@@ -45,8 +45,8 @@ resource "aws_iam_role" "loki_irsa" {
 
 resource "aws_iam_role_policy" "loki_s3_policy" {
   count = var.install_grafana_loki ? 1 : 0
-  name  = "loki-policy"
-  role  = aws_iam_role.loki_irsa.name
+  name = "loki-policy"
+  role = aws_iam_role.loki_irsa[count.index].name
   policy = jsonencode({
     Version = "2012-10-17"
     Statement = [
@@ -58,10 +58,10 @@ resource "aws_iam_role_policy" "loki_s3_policy" {
           "s3:DeleteObject"
         ],
         Effect = "Allow",
-        Sid    = ""
+        Sid = ""
         Resource = [
-          "${aws_s3_bucket.grafana-loki-bucket.arn}",
-          "${aws_s3_bucket.grafana-loki-bucket.arn}/*"
+          "${aws_s3_bucket.grafana-loki-bucket[count.index].arn}",
+          "${aws_s3_bucket.grafana-loki-bucket[count.index].arn}/*"
         ]
       }
     ]
