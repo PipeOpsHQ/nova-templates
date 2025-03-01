@@ -74,6 +74,7 @@ module "grafana-loki" {
   cluster_name = var.eks_cluster_name
   dns_zone = var.dns_zone
   region = var.aws_region
+  bucket_name = "${var.eks_cluster_name}-grafana-loki"
 }
 
 ################ End Configure Grafana-Loki  #######################################
