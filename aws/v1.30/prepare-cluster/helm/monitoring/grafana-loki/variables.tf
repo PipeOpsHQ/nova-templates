@@ -32,7 +32,7 @@ variable "k8s_namespace" {
 
 variable "bucket_name" {
   description = "Name of S3 bucket to store loki data"
-  default = "grafana-loki-pipeops"  
+  # default = "grafana-loki-pipeops"  
 }
 
 variable "region" {
