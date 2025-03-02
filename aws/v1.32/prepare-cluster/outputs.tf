@@ -2,15 +2,16 @@ output "k8_dashboard_password" {
   sensitive = true
   value = module.kubernetes-dashboard[0].k8_dashboard_password
 }
-output "grafana_loki_host" {
-  sensitive = true
-  value     = module.grafana-loki[0].grafana-loki-host
-}
 
-output "grafana_loki_auth_password" {
-  sensitive = true
-  value     = module.grafana-loki[0].grafana_loki_auth_password
-}
+# output "grafana_loki_host" {
+#   sensitive = true
+#   value     = module.grafana-loki[0].grafana-loki-host
+# }
+
+# output "grafana_loki_auth_password" {
+#   sensitive = true
+#   value     = module.grafana-loki[0].grafana_loki_auth_password
+# }
 
 output "kube_prom_host" {
   sensitive = true
