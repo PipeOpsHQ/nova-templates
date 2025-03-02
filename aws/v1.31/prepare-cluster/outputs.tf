@@ -97,3 +97,7 @@ output "cluster_role_binding_name" {
   description = "The name of the cluster role binding"
   value       = kubernetes_cluster_role_binding.pipeops_cluster_role_binding.metadata[0].name
 }
+
+output "load_balancer_endpoint" {
+  value = module.ingress-controller.load_balancer_endpoint
+}
