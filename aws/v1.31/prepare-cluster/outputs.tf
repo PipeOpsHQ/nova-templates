@@ -99,5 +99,5 @@ output "cluster_role_binding_name" {
 }
 
 output "load_balancer_endpoint" {
-  value = module.ingress-controller.load_balancer_endpoint
+  value = module.ingress-controller[0].load_balancer_endpoint
 }
