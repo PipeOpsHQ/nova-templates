@@ -18,6 +18,7 @@ module "kube-prometheus-stack" {
   count  = var.install_kube_prometheus_stack ? 1 : 0
   cluster_name     = var.eks_cluster_name
   dns_zone         = var.dns_zone
+  depends_on = [ module.ingress-controller ]
 }
 
 ################ End Configure Kubernetes Monitoring (Kube-Prometheus Stack)  #######################################
