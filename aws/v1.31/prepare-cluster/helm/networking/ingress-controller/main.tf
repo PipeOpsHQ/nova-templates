@@ -82,3 +82,14 @@ resource "random_integer" "https_port" {
   min = 30000
   max = 32767
 }
+
+data "kubernetes_service" "lb" {
+  metadata {
+    name = var.name  
+    namespace = helm_release.application.namespace
+  }
+
+  depends_on = [
+    helm_release.application
+  ]
+}
