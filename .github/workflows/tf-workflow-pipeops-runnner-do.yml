@@ -76,7 +76,7 @@ jobs:
 
       - name: Get Kubeconfig file
         run: |
-          doctl kubernetes cluster kubeconfig save pipeops-runner
+          doctl kubernetes cluster kubeconfig save pipeops-altschool
 
       - name: Install Components
         run: |
