@@ -27,6 +27,7 @@ variable "aws_secret_key_s3" {
 
 variable "aws_region_S3" {
   description = "Region where s3 bucket is created"
+  default = "eu-west-2"
 
 }
 
