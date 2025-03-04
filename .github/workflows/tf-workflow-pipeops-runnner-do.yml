@@ -1,0 +1,87 @@
+name: PipeOps Runner DO Deployment Workflow
+
+on: 
+  workflow_dispatch:
+  push:
+    branches: ["alt-school"]
+
+permissions:
+  id-token: write
+  contents: read
+env:
+  TF_VERSION: "1.6.6"
+
+jobs:
+  pipeops-runner-do-workflow:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Code Checkout
+        uses: actions/checkout@v3
+
+      - name: Install doctl
+        uses: digitalocean/action-doctl@v2
+        with:
+          token: ${{ secrets.DO_TOKEN }}
+      
+      - name: Install Kubectl
+        run: |
+          sudo snap install kubectl --classic
+          kubectl version --client
+
+
+      - name: AWS Authorization
+        uses: aws-actions/configure-aws-credentials@v4
+        with:
+          role-to-assume: ${{ secrets.AWS_SRE_NOVA_GITHUB_DEPLOY_IAM_ROLE_ARN }}
+          role-session-name: GhAWSSession
+          aws-region: eu-west-2
+
+      - name: Check if S3 Bucket Exists
+        run: |
+          BUCKET_NAME="pipeops-altschool-tfstate"
+          if aws s3api head-bucket --bucket "$BUCKET_NAME" 2>/dev/null; then
+            echo "Bucket exists"
+            echo "exists=true" >> $GITHUB_ENV
+          else
+            echo "Bucket does not exist"
+            echo "exists=false" >> $GITHUB_ENV
+          fi
+
+      - name: Create S3 Bucket
+        if: env.exists == 'false'
+        run: |
+          aws s3api create-bucket --bucket "pipeops-altschool-tfstate" \
+            --create-bucket-configuration LocationConstraint=eu-west-2
+          echo "S3 Bucket created" 
+         
+      - name: Setup Terraform
+        uses: hashicorp/setup-terraform@v2
+        with:
+          terraform_version: ${{ env.TF_VERSION }}
+  
+      - name: Create VPC
+        run: |
+          terraform init
+          terraform plan -var="do_token=${{ secrets.DO_TOKEN }}"
+          terraform apply -var="do_token=${{ secrets.DO_TOKEN }}" --auto-approve
+        working-directory: ${{ github.workspace }}/do/network
+      
+      - name: Create Cluster 
+        run: |
+          terraform init
+          terraform plan -var="do_token=${{ secrets.DO_TOKEN }}"
+          terraform apply -var=do_token=${{ secrets.DO_TOKEN }} --auto-approve
+        working-directory: ${{ github.workspace }}/do/dks
+
+      - name: Get Kubeconfig file
+        run: |
+          doctl kubernetes cluster kubeconfig save pipeops-runner
+
+      - name: Install Components
+        run: |
+          export KUBE_CONFIG_PATH=/home/runner/.kube/config
+          terraform init
+          terraform plan -var="do_token=${{ secrets.DO_TOKEN }}" -var="aws_access_key_s3=${{ secrets.ALTSCHOOL_LOKI_ACCESS_KEY}}" -var="aws_secret_key_s3=${{ secrets.ALTSCHOOL_LOKI_SECRET_KEY}}" 
+          terraform apply -var=do_token=${{ secrets.DO_TOKEN }} -var="aws_access_key_s3=${{ secrets.ALTSCHOOL_LOKI_ACCESS_KEY}}" -var="aws_secret_key_s3=${{ secrets.ALTSCHOOL_LOKI_SECRET_KEY}}" --auto-approve
+        working-directory: ${{ github.workspace }}/do/prepare-cluster

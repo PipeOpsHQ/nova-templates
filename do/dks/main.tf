@@ -14,7 +14,7 @@ resource "digitalocean_kubernetes_cluster" "pks_cluster" {
     node_count = var.node_count
     auto_scale = true
     min_nodes  = 1
-    max_nodes  = 6
+    max_nodes  = 3
   }
 }
 

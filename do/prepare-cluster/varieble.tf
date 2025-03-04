@@ -6,29 +6,26 @@ variable "do_token" {
 variable "cluster_name" {
   description = "Name of the DOKS cluster"
   type        = string
-  default     = "pks-lon1"
-}
-variable "bucket_name" {
-  description = "Name of S3 bucket to store loki data"
-  default     = "grafana-loki-pipeops"
+  default     = "pipeops-altschool"
 }
 
-variable "aws_config_path" {
-  description = "path to aws config"
-  type        = list(string)
-
-}
 variable "service_account_ns" {
   type = string
   description = "Namespace to create pipeops admin service account"
   default = "pipeops"
 }
-variable "aws_profile" {
-  description = "AWS PROFILE"
+
+variable "aws_access_key_s3" {
+  description = "Access Key to AWS acc where the s3 bucket is created"
 
 }
 
-variable "aws_region" {
-  description = "AWS region to launch servers."
+variable "aws_secret_key_s3" {
+  description = "Secret Key to AWS acc where the s3 bucket is created"
+
+}
+
+variable "aws_region_S3" {
+  description = "Region where s3 bucket is created"
 
 }

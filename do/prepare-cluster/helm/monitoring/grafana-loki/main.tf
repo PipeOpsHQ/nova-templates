@@ -3,12 +3,12 @@ resource "random_string" "grafana_loki_password" {
   special          = true
   override_special = "_@"
 }
-/*
+
 resource "random_string" "grafana_loki_username" {
-  length  = 5
+  length = 5
   special = false
 }
-*/
+
 resource "kubernetes_secret" "grafana_loki_auth" {
   depends_on = [random_string.grafana_loki_password, random_string.grafana_loki_username]
 
@@ -19,8 +19,7 @@ resource "kubernetes_secret" "grafana_loki_auth" {
   }
 
   data = {
-    "htpasswd": "${bcrypt(random_string.grafana_loki_password.result)}"
-    "password": "${bcrypt(random_string.grafana_loki_password.result)}"
+    "auth" : "${random_string.grafana_loki_username.result}:${bcrypt(random_string.grafana_loki_password.result)}"
   }
 }
 
@@ -34,6 +33,7 @@ resource "helm_release" "grafana-loki" {
 
   values = [
     templatefile("${path.module}/templates/values.yaml", {
+      bucket_name = "${var.cluster_name}-grafana-loki"
       s3   = "s3://${var.aws_access_key_s3}:${var.aws_secret_key_s3}@${var.aws_region_S3}",
       host = "grafana-loki-${var.cluster_name}.${var.dns_zone}"
     })

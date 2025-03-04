@@ -29,15 +29,6 @@ variable "k8s_namespace" {
   description = "The K8s namespace in which the helm chart is installed"
 }
 
-variable "bucket_name" {
-  description = "Name of S3 bucket to store loki data"
-  default     = "grafana-loki-pipeops"
-}
-
-variable "grafana_loki_host" {
-  type = string
-
-}
 variable "cluster_name" {
   type = string
 

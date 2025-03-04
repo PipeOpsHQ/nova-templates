@@ -1,13 +1,17 @@
 module "cert-manager" {
   source     = "./helm/cert-manager"
 }
-/*
-module "prometheus-server" {
-  source       = "./prepare-cluster/helm/monitoring/prometheus"
-  cluster_name = digitalocean_kubernetes_cluster.pks_cluster.name
-  depends_on   = [digitalocean_kubernetes_cluster.pks_cluster]
+module "capsule" {
+  source     = "./prepare-cluster/helm/capsule"
+  depends_on = [digitalocean_kubernetes_cluster.pks_cluster]
 }
-*/
+
+module "capsule-proxy" {
+  source       = "./prepare-cluster/helm/capsule-proxy"
+  depends_on   = [digitalocean_kubernetes_cluster.pks_cluster]
+  cluster_name = digitalocean_kubernetes_cluster.pks_cluster.name
+}
+
 module "metrics-server" {
   source     = "./helm/monitoring/metrics-server"
 }
@@ -24,6 +28,7 @@ module "coredns" {
 
 module "kube-prometheus-stack" {
   source = "./helm/monitoring/kube-prometheus"
+  dns_zone = 
 }
 
 module "opencost" {

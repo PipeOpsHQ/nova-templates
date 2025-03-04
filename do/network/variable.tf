@@ -12,5 +12,5 @@ variable "region" {
 variable "vpc_name" {
   description = "Name of VPC"
   type = string
-  default = "pipeops-vpc"
+  default = "pipeops-altschool-vpc"
 }
