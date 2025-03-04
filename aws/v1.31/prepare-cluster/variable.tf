@@ -1,3 +1,4 @@
+
 variable "k8_config" {
   description = "path to k8 config"
   type        = string
@@ -16,7 +17,7 @@ variable "cluster_package" {
 
 variable "bucket_name" {
   description = "Name of S3 bucket to store loki data"
-  default     = "grafana-loki-pipeops"
+
 }
 
 variable "install_cert_manager" {
@@ -85,20 +86,15 @@ variable "service_account_ns" {
   default = "pipeops"
 }
 
-variable "aws_config_path" {
-  description = "path to aws config"
-  type        = list(string)
-
-}
-
 variable "aws_profile" {
   description = "AWS PROFILE"
+
 
 }
 
 variable "aws_region" {
   description = "AWS region to launch servers."
-  default     = "eu-west-2"
+
 }
 
 variable "dns_zone" {

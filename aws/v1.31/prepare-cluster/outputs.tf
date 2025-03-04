@@ -5,7 +5,10 @@ output "grafana_loki_host" {
   sensitive = false
   value     = module.grafana-loki[0].grafana-loki-host
 }
-
+output "grafana_loki_auth_username" {
+  sensitive = false
+  value     = module.grafana-loki[0].grafana_loki_auth_username
+}
 output "grafana_loki_auth_password" {
   sensitive = false
   value     = module.grafana-loki[0].grafana_loki_auth_password

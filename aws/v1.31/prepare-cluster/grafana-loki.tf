@@ -1,7 +1,6 @@
 data "aws_iam_openid_connect_provider" "eks_oidc" {
   url = data.aws_eks_cluster.eks_cluster.identity[0].oidc[0].issuer
 }
-
 resource "aws_s3_bucket" "grafana-loki-bucket" {
   count  = var.install_grafana_loki ? 1 : 0
   bucket = var.bucket_name
@@ -46,7 +45,7 @@ resource "aws_iam_role" "loki_irsa" {
 resource "aws_iam_role_policy" "loki_s3_policy" {
   count = var.install_grafana_loki ? 1 : 0
   name  = "loki-policy"
-  role  = aws_iam_role.loki_irsa.name
+  role  = aws_iam_role.loki_irsa[0].name
   policy = jsonencode({
     Version = "2012-10-17"
     Statement = [
@@ -60,8 +59,8 @@ resource "aws_iam_role_policy" "loki_s3_policy" {
         Effect = "Allow",
         Sid    = ""
         Resource = [
-          "${aws_s3_bucket.grafana-loki-bucket.arn}",
-          "${aws_s3_bucket.grafana-loki-bucket.arn}/*"
+          "${aws_s3_bucket.grafana-loki-bucket[0].arn}",
+          "${aws_s3_bucket.grafana-loki-bucket[0].arn}/*"
         ]
       }
     ]
@@ -71,6 +70,9 @@ resource "aws_iam_role_policy" "loki_s3_policy" {
 module "grafana-loki" {
   source = "./helm/monitoring/grafana-loki"
   count  = var.install_grafana_loki ? 1 : 0
+  cluster_name     = var.eks_cluster_name
+  dns_zone         = var.dns_zone
+  region = var.aws_region
 }
 
 ################ End Configure Grafana-Loki  #######################################

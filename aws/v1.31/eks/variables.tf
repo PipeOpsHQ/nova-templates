@@ -70,12 +70,6 @@ variable "install_karpenter" {
   default     = false
 }
 
-variable "aws_config_path" {
-  description = "path to aws config"
-  type        = string
-
-}
-
 variable "aws_profile" {
   description = "AWS PROFILE"
 
