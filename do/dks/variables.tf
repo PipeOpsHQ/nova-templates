@@ -30,7 +30,7 @@ variable "k8s_version" {
 variable "node_size" {
   description = "Size of the worker nodes"
   type        = string
-  default     = "s-2vcpu-4gb "
+  default     = "s-2vcpu-4gb"
 }
 
 variable "node_count" {
