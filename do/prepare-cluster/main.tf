@@ -2,12 +2,12 @@ module "cert-manager" {
   source     = "./helm/cert-manager"
 }
 module "capsule" {
-  source     = "./prepare-cluster/helm/capsule"
+  source     = "./helm/capsule"
   depends_on = [digitalocean_kubernetes_cluster.pks_cluster]
 }
 
 module "capsule-proxy" {
-  source       = "./prepare-cluster/helm/capsule-proxy"
+  source       = "./helm/capsule-proxy"
   depends_on   = [digitalocean_kubernetes_cluster.pks_cluster]
   cluster_name = digitalocean_kubernetes_cluster.pks_cluster.name
 }
