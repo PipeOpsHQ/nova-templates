@@ -29,3 +29,9 @@ variable "aws_region_S3" {
   description = "Region where s3 bucket is created"
 
 }
+
+variable "dns_zone" {
+  type        = string
+  default     = "pipeops.co"
+  
+}

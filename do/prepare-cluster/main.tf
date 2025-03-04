@@ -28,10 +28,13 @@ module "coredns" {
 
 module "kube-prometheus-stack" {
   source = "./helm/monitoring/kube-prometheus"
-  dns_zone = 
+  dns_zone = var.dns_zone
+  cluster_name = var.cluster_name
 }
 
 module "opencost" {
   source = "./helm/opencost"
+  dns_zone = var.dns_zone
+  cluster_name = var.cluster_name
 }
 
