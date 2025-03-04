@@ -79,16 +79,10 @@ variable "service_account_ns" {
   default = "pipeops"
 }
 
-# variable "aws_config_path" {
-#   description = "path to aws config"
-#   type        = list(string)
+variable "aws_profile" {
+  description = "AWS PROFILE"
 
-# }
-
-# variable "aws_profile" {
-#   description = "AWS PROFILE"
-
-# }
+ }
 
 variable "aws_region" {
   description = "AWS region to launch servers."
