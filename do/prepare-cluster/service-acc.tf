@@ -1,4 +1,4 @@
-/*
+
 resource "kubernetes_namespace" "service_account_ns" {
   metadata {
     annotations = {
@@ -8,7 +8,7 @@ resource "kubernetes_namespace" "service_account_ns" {
     name = var.service_account_ns
   }
 }
-*/
+
 resource "kubernetes_service_account" "pipeops_admin" {
   metadata {
     name = "pipeops-admin"

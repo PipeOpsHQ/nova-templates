@@ -62,10 +62,11 @@ resource "kubernetes_namespace" "production" {
     name = "staging"
   }
 }
-
+/*
 resource "kubernetes_namespace" "pipeops" {
   metadata {
     name = "pipeops"
   }
 }
 
+*/
