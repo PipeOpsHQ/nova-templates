@@ -26,8 +26,8 @@ grafana:
     - name: loki
       type: loki
       url: http://grafana-loki-querier:3100
-    adminPassword: ${password}
-    adminUser: admin
+  adminPassword: ${password}
+  adminUser: admin
   ingress:
     annotations: 
       cert-manager.io/cluster-issuer: letsencrypt-production

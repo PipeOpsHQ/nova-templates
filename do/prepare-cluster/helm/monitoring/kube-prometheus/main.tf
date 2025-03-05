@@ -99,9 +99,9 @@ resource "helm_release" "kube_prometheus_stack" {
   values = [
     templatefile("${path.module}/templates/values.yaml", {
       namespace          = "monitoring",
-      kube-prom-host     = "kube-prom.${var.cluster_name}.${var.dns_zone}"
-      kube-grafana-host  = "kube-grafana.${var.cluster_name}.${var.dns_zone}"
-      alert-manager-host = "kube-alert-manager.${var.cluster_name}.${var.dns_zone}"
+      kube-prom-host     = "kube-prom-${var.cluster_name}.${var.dns_zone}"
+      kube-grafana-host  = "kube-grafana-${var.cluster_name}.${var.dns_zone}"
+      alert-manager-host = "kube-alert-manager-${var.cluster_name}.${var.dns_zone}"
       password = "${random_string.kube_grafana_password.result}"
     })
   ]
