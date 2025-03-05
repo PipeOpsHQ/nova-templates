@@ -33,6 +33,6 @@ variable "aws_region_S3" {
 
 variable "dns_zone" {
   type        = string
-  default     = "pipeops.co"
+  default     = "pipeops.dev"
   
 }

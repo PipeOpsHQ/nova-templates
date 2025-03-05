@@ -31,15 +31,15 @@ output "kube_alert_manager_auth_password" {
 
 output "kube_prom_host" {
   sensitive = false
-  value     = "kube-prom.${var.cluster_name}.${var.dns_zone}"
+  value     = "kube-prom-${var.cluster_name}.${var.dns_zone}"
 }
 
 output "kube_grafana_host" {
   sensitive = false
-  value     = "kube-grafana.${var.cluster_name}.${var.dns_zone}"
+  value     = "kube-grafana-${var.cluster_name}.${var.dns_zone}"
 }
 
 output "alert_manager_host" {
   sensitive = false
-  value     = "kube-alert-manager.${var.cluster_name}.${var.dns_zone}"
+  value     = "kube-alert-manager-${var.cluster_name}.${var.dns_zone}"
 }

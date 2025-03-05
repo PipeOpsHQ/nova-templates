@@ -3,12 +3,12 @@ output "grafana_loki_host" {
   sensitive = false
   value     = module.grafana-loki.grafana-loki-host
 }
-/*
+
 output "grafana_loki_auth_username" {
   sensitive = false
   value     = module.grafana-loki.grafana_loki_auth_username
 }
-*/
+
 output "grafana_loki_auth_password" {
   sensitive = false
   value     = module.grafana-loki.grafana_loki_auth_password
@@ -72,4 +72,14 @@ output "kube_grafana_auth_username" {
 output "kube_grafana_auth_password" {
   sensitive = false
   value     = module.kube-prometheus-stack.kube_grafana_auth_password
+}
+
+output "opencost_api_auth_username" {
+  sensitive = false
+  value     = module.opencost.opencost_api_auth_username
+}
+
+output "opencost_api_auth_password" {
+  sensitive = false
+  value     = module.opencost.opencost_api_auth_password
 }
