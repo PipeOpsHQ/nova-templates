@@ -35,12 +35,12 @@ resource "random_string" "kube_grafana_password" {
 }
 
 
-resource "kubernetes_secret" "kube-grafana-basic-auth" {
+resource "kubernetes_secret" "kube_grafana_auth" {
   depends_on = [random_string.kube_grafana_password, random_string.kube_grafana_username]
 
   type = "Opaque"
   metadata {
-    name      = "kube-grafana-basic-auth"
+    name      = "kube-grafana-auth"
     namespace = "monitoring"
   }
 
@@ -48,6 +48,7 @@ resource "kubernetes_secret" "kube-grafana-basic-auth" {
     "auth" : "${random_string.kube_grafana_username.result}:${bcrypt(random_string.kube_grafana_password.result)}"
   }
 }
+
 
 resource "random_string" "kube_alert_manager_username" {
   length = 5
@@ -102,6 +103,7 @@ resource "helm_release" "kube_prometheus_stack" {
       kube-prom-host     = "kube-prom-${var.cluster_name}.${var.dns_zone}"
       kube-grafana-host  = "kube-grafana-${var.cluster_name}.${var.dns_zone}"
       alert-manager-host = "kube-alert-manager-${var.cluster_name}.${var.dns_zone}"
+      password = "${random_string.kube_grafana_password.result}"
     })
    ]
 }
