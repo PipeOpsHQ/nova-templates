@@ -274,6 +274,8 @@ module "eks_auth" {
 
   manage_aws_auth_configmap = true
 
+  create_aws_auth_configmap = true
+  
   aws_auth_roles = [
     {
       rolearn  = "arn:aws:iam::022499013216:role/KarpenterIRSA-${var.cluster_name}"
