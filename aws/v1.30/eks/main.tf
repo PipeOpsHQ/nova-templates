@@ -1,3 +1,5 @@
+data "aws_caller_identity" "current" {}
+
 data "aws_availability_zones" "available" {
   filter {
     name   = "opt-in-status"
@@ -275,10 +277,10 @@ module "eks_auth" {
   manage_aws_auth_configmap = true
 
   create_aws_auth_configmap = true
-  
+
   aws_auth_roles = [
     {
-      rolearn  = "arn:aws:iam::022499013216:role/KarpenterIRSA-${var.cluster_name}"
+      rolearn  = "arn:aws:iam::${data.aws_caller_identity.current.account_id}:role/KarpenterIRSA-${var.cluster_name}"
       username = "system:node:{{EC2PrivateDNSName}}"
       groups = [
         "system:bootstrappers",
