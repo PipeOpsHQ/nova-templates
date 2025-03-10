@@ -291,3 +291,16 @@ module "eks_auth" {
 
   aws_auth_users = var.map_users
 }
+
+resource "null_resource" "remove_sg_tag" {
+  count = var.install_karpenter ? 1 : 0
+  provisioner "local-exec" {
+    command = <<EOT
+      aws ec2 delete-tags --resources ${module.eks.cluster_primary_security_group_id} --tags Key=kubernetes.io/cluster/${var.cluster_name}
+
+      aws ec2 create-tags --resources ${module.eks.node_security_group_id} --tags Key=kubernetes.io/cluster/${var.cluster_name},Value=owned
+  
+    EOT
+  }
+  depends_on = [module.eks, module.karpenter_managed_node_group]
+}
