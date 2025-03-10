@@ -1,16 +1,18 @@
-resource "random_string" "grafana-loki-password" {
+data "aws_caller_identity" "current" {}
+
+resource "random_string" "grafana_loki_password" {
   length           = 16
   special          = true
   override_special = "_@"
 }
-/*
-resource "random_string" "grafana-loki-username" {
+
+resource "random_string" "grafana_loki_username" {
   length = 5
   special = false
 }
-*/
-resource "kubernetes_secret" "grafana-loki-auth" {
-  depends_on = [random_string.grafana-loki-password, random_string.grafana-loki-username]
+
+resource "kubernetes_secret" "grafana_loki_auth" {
+  depends_on = [random_string.grafana_loki_password, random_string.grafana_loki_username]
 
   type = "Opaque"
   metadata {
@@ -19,8 +21,7 @@ resource "kubernetes_secret" "grafana-loki-auth" {
   }
 
   data = {
-    "htpasswd": "${bcrypt(random_string.grafana-loki-password.result)}"
-    "password": "${bcrypt(random_string.grafana-loki-password.result)}"
+    "auth" : "${random_string.grafana_loki_username.result}:${bcrypt(random_string.grafana_loki_password.result)}"
   }
 }
 
@@ -48,7 +49,7 @@ resource "helm_release" "grafana-loki" {
 
   set {
     name = "serviceAccount.annotations.eks\\.amazonaws\\.com/role-arn"
-    value = "arn:aws:iam::022499013216:role/pipeops-loki-irsa"
+    value = "arn:aws:iam::${data.aws_caller_identity.current.account_id}:role/pipeops-loki-irsa"
   } 
   values = [
     templatefile("${path.module}/templates/values.yaml", {
