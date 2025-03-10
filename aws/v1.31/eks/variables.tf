@@ -1,10 +1,11 @@
 variable "pipeops_workspace" {
   description = "PipeOps WorkSpace Account"
+  default = "test"
 }
 
 variable "eks_version" {
   type        = string
-  default     = "1.31"
+  default     = "1.30"
   description = "Desired Kubernetes master version. If you do not specify a value, the latest available version is used"
 }
 
@@ -34,7 +35,7 @@ variable "eks_max_node" {
 
 variable "eks_instance_class" {
   description = "machine type to be used"
-  # default     = ["t3a.large"]
+  default     = ["t3.medium"]
   type        = list(string)
   /*
   default = {
@@ -67,17 +68,19 @@ variable "map_users" {
 variable "install_karpenter" {
   type        = bool
   description = "To install karpenter or not"
-  default     = false
+  default     = true
 }
 
 
 variable "aws_profile" {
   description = "AWS PROFILE"
+  default = "default"
 
 }
 
 variable "aws_region" {
   description = "AWS region to launch servers."
+  default = "eu-west-2"
 
 }
 

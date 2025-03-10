@@ -182,8 +182,8 @@ module "eks" {
   tags = {
     Owner = var.pipeops_workspace
     Name  = var.cluster_name
-
   }
+
   node_security_group_tags = {
     "Name"                   = var.cluster_name
     "karpenter.sh/discovery" = var.cluster_name
@@ -194,6 +194,7 @@ module "eks" {
     "DateCreated"            = formatdate("YYYY-MM-DD", timestamp())
     "kubernetes.io/cluster/${var.cluster_name}" = null
   }
+
 }
 
 
@@ -262,7 +263,6 @@ module "karpenter_managed_node_group" {
     "Environment"            = "production"
     "Terraform"              = "true"
     "ManagedBy"              = "pipeops.io"
-    "DateCreated"            = formatdate("YYYY-MM-DD", timestamp())
   }
 
 }
@@ -274,10 +274,12 @@ module "eks_auth" {
   version = "~> 20.0"
 
   manage_aws_auth_configmap = true
+  
+  create_aws_auth_configmap = true
 
   aws_auth_roles = [
     {
-      rolearn  = "arn:aws:iam::022499013216:role/KarpenterIRSA-${var.cluster_name}"
+      rolearn  = "arn:aws:iam::207567755784:role/KarpenterIRSA-${var.cluster_name}"
       username = "system:node:{{EC2PrivateDNSName}}"
       groups = [
         "system:bootstrappers",
@@ -287,4 +289,23 @@ module "eks_auth" {
   ]
 
   aws_auth_users = var.map_users
+}
+
+resource "null_resource" "remove_sg_tag" {
+  provisioner "local-exec" {
+    command = <<EOT
+      aws ec2 delete-tags --resources ${module.eks.cluster_primary_security_group_id} --tags Key=kubernetes.io/cluster/${var.cluster_name}
+
+      aws ec2 create-tags --resources ${module.eks.node_security_group_id} --tags Key=kubernetes.io/cluster/${var.cluster_name},Value=owned
+  
+    EOT
+  }
+  depends_on = [module.eks, module.karpenter_managed_node_group]
+}
+
+output "eks_sg" {
+  value = module.eks.node_security_group_id
+}
+output "eks_sg2" {
+  value = module.eks.cluster_primary_security_group_id
 }

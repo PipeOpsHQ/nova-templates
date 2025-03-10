@@ -1,5 +1,3 @@
-
-
 data "aws_eks_cluster_auth" "default" {
   name = module.eks.cluster_name
 }
@@ -8,6 +6,7 @@ provider "http" {}
 
 provider "aws" {
   region = var.aws_region
+  profile = var.aws_profile
 
 }
 

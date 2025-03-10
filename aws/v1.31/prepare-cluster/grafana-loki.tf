@@ -4,7 +4,7 @@ data "aws_iam_openid_connect_provider" "eks_oidc" {
 
 resource "aws_s3_bucket" "grafana-loki-bucket" {
   count  = var.install_grafana_loki ? 1 : 0
-  bucket = var.bucket_name
+  bucket = "${var.eks_cluster_name}-grafana-loki"
 
   tags = {
     Owner = var.eks_cluster_name
@@ -75,6 +75,7 @@ module "grafana-loki" {
   dns_zone = var.dns_zone
   region = var.aws_region
   bucket_name = "${var.eks_cluster_name}-grafana-loki"
+  depends_on = [ module.ingress-controller ]
 }
 
 ################ End Configure Grafana-Loki  #######################################

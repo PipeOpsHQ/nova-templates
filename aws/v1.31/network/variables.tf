@@ -30,6 +30,7 @@ variable "eks_cluster_name" {
 
 variable "pipeops_workspace_account" {
   description = "PipeOps WorkSpace Name"
+  default = "test"
 
 }
 
@@ -41,10 +42,12 @@ variable "eks_version" {
 
 variable "aws_profile" {
   description = "AWS PROFILE"
+  default = "default"
 
 }
 
 variable "aws_region" {
   description = "AWS region to launch servers."
+  default = "eu-west-2"
 
 }

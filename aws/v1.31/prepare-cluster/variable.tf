@@ -28,7 +28,7 @@ variable "install_k8s_dashboard" {
 variable "install_grafana_loki" {
   type        = bool
   description = "To install Grafana Loki or not"
-  default     = false
+  default     = true
 }
 
 variable "install_prometheus" {
@@ -81,6 +81,7 @@ variable "service_account_ns" {
 
 variable "aws_profile" {
   description = "AWS PROFILE"
+  default = "default"
 
  }
 
