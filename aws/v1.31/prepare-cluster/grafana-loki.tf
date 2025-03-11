@@ -41,6 +41,7 @@ resource "aws_iam_role" "loki_irsa" {
     Name = var.eks_cluster_name
 
   }
+  depends_on = [ kubernetes_namespace.monitoring ]
 }
 
 resource "aws_iam_role_policy" "loki_s3_policy" {
@@ -75,6 +76,7 @@ module "grafana-loki" {
   dns_zone = var.dns_zone
   region = var.aws_region
   bucket_name = "${var.eks_cluster_name}-grafana-loki"
+  depends_on = [ module.ingress-controller, kubernetes_namespace.monitoring]
 }
 
 ################ End Configure Grafana-Loki  #######################################

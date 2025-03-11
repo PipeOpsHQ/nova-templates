@@ -1,6 +1,5 @@
 variable "eks_cluster_name" {
   description = "cluster name"
-  default     = "sugar" //remove
 }
 
 variable "cluster_package" {

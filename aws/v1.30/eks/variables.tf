@@ -36,12 +36,7 @@ variable "eks_instance_class" {
   description = "machine type to be used"
   type        = list(string)
   # default     = ["t3a.large"]
-  /*
-  default = {
-    dev     = "t3a.large"
-    pro     = "m5.large"
-    startup = "c5a.2xlarge"
-  } */
+
 }
 
 variable "ami_type" {
