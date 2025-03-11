@@ -1,6 +1,6 @@
 output "grafana_loki_auth_password" {
   sensitive = false
-  value     = random_string.grafana-loki-password.result
+  value     = random_string.grafana_loki_password.result
 }
 output "grafana_loki_auth_username" {
   sensitive = false

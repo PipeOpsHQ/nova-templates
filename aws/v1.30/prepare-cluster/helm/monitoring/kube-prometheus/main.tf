@@ -93,7 +93,7 @@ resource "helm_release" "kube_prometheus_stack" {
   repository = var.helm_repo_url
   chart      = var.helm_chart_name
   version = var.helm_chart_version
-  create_namespace = "true"
+  # create_namespace = "true"
   namespace = "monitoring"
 
   values = [ 

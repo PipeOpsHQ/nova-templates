@@ -46,7 +46,7 @@ variable "install_kube_prometheus_stack" {
 variable "install_autoscaler" {
   type        = bool
   description = "To install Cluster Autoscaler"
-  default     = true
+  default     = false
 }
 
 variable "install_metrics_server" {
@@ -86,7 +86,6 @@ variable "aws_profile" {
 
 variable "aws_region" {
   description = "AWS region to launch servers."
-  default     = "eu-west-2"
 }
 
 variable "dns_zone" {

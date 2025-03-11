@@ -22,10 +22,10 @@ variable "intra_subnets_cidrs" {
   default     = ["10.0.7.0/24", "10.0.8.0/24", "10.0.9.0/24"]
 }
 
-variable "eks_cluster_name" {
+variable "eks_cluster_name" { 
   description = "Name of Cluster"
   type        = string
-  default     = "pipeops"
+
 }
 
 variable "pipeops_workspace_account" {
@@ -33,21 +33,15 @@ variable "pipeops_workspace_account" {
 
 }
 
+//remove
 variable "eks_version" {
   description = "PipeOps Cluster Version"
   default     = "1.30"
 }
 
-
-variable "aws_config_path" {
-  description = "path to aws config"
-  type = string
-  
-}
-
 variable "aws_profile" {
   description = "AWS PROFILE"
-  
+
   
 }
 

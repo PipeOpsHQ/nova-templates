@@ -1,6 +1,6 @@
 variable "eks_cluster_name" {
   description = "cluster name"
-  default     = "pipeops"
+  default     = "sugar" //remove
 }
 
 variable "cluster_package" {
@@ -28,7 +28,7 @@ variable "install_k8s_dashboard" {
 variable "install_grafana_loki" {
   type        = bool
   description = "To install Grafana Loki or not"
-  default     = false
+  default     = true
 }
 
 variable "install_prometheus" {
@@ -46,7 +46,7 @@ variable "install_kube_prometheus_stack" {
 variable "install_autoscaler" {
   type        = bool
   description = "To install Cluster Autoscaler"
-  default     = true
+  default     = false
 }
 
 variable "install_metrics_server" {
@@ -85,14 +85,13 @@ variable "service_account_ns" {
 
 # }
 
-# variable "aws_profile" {
-#   description = "AWS PROFILE"
+variable "aws_profile" {
+   description = "AWS PROFILE"
 
-# }
+}
 
 variable "aws_region" {
   description = "AWS region to launch servers."
-  default     = "eu-west-2"
 }
 
 variable "dns_zone" {

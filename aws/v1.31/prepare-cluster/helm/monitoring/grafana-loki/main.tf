@@ -49,7 +49,7 @@ resource "helm_release" "grafana-loki" {
 
   set {
     name = "serviceAccount.annotations.eks\\.amazonaws\\.com/role-arn"
-    value = "arn:aws:iam::${data.aws_caller_identity.current.account_id}:role/pipeops-loki-irsa"
+    value = "arn:aws:iam::${data.aws_caller_identity.current.account_id}:role/${var.cluster_name}-loki-irsa"
   } 
   values = [
     templatefile("${path.module}/templates/values.yaml", {
