@@ -9,6 +9,7 @@ resource "aws_s3_bucket" "grafana-loki-bucket" {
   tags = {
     Owner = var.eks_cluster_name
   }
+  force_destroy = true
 }
 
 

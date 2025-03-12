@@ -33,7 +33,6 @@ variable "pipeops_workspace_account" {
 
 }
 
-//remove
 variable "eks_version" {
   description = "PipeOps Cluster Version"
   default     = "1.30"
