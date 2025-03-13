@@ -34,7 +34,6 @@ variable "eks_max_node" {
 
 variable "eks_instance_class" {
   description = "machine type to be used"
-  # default     = ["t3a.large"]
   type        = list(string)
 
 }
