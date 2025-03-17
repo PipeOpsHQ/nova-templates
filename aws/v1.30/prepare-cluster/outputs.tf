@@ -1,6 +1,6 @@
 output "k8_dashboard_password" {
   sensitive = true
-  value = module.kubernetes-dashboard[0].k8_dashboard_password
+  value     = module.kubernetes-dashboard[0].k8_dashboard_password
 }
 # output "grafana_loki_host" {
 #   sensitive = true
@@ -59,12 +59,12 @@ output "opencost_auth_password" {
 
 output "kube_grafana_host" {
   sensitive = true
-  value = module.kube-prometheus-stack[0].kube_grafana_host
+  value     = module.kube-prometheus-stack[0].kube_grafana_host
 }
 
 output "kube_grafana_auth_username" {
   sensitive = true
-  value = module.kube-prometheus-stack[0].kube_grafana_auth_username
+  value     = module.kube-prometheus-stack[0].kube_grafana_auth_username
 }
 
 output "kube_grafana_auth_password" {

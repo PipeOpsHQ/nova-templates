@@ -42,13 +42,13 @@ resource "aws_iam_role" "loki_irsa" {
     Name = var.eks_cluster_name
 
   }
-  depends_on = [ kubernetes_namespace.monitoring ]
+  depends_on = [kubernetes_namespace.monitoring]
 }
 
 resource "aws_iam_role_policy" "loki_s3_policy" {
   count = var.install_grafana_loki ? 1 : 0
-  name = "loki-policy"
-  role = aws_iam_role.loki_irsa[0].name
+  name  = "loki-policy"
+  role  = aws_iam_role.loki_irsa[0].name
   policy = jsonencode({
     Version = "2012-10-17"
     Statement = [
@@ -60,7 +60,7 @@ resource "aws_iam_role_policy" "loki_s3_policy" {
           "s3:DeleteObject"
         ],
         Effect = "Allow",
-        Sid = ""
+        Sid    = ""
         Resource = [
           "${aws_s3_bucket.grafana-loki-bucket[0].arn}",
           "${aws_s3_bucket.grafana-loki-bucket[0].arn}/*"
@@ -71,13 +71,13 @@ resource "aws_iam_role_policy" "loki_s3_policy" {
 }
 
 module "grafana-loki" {
-  source = "./helm/monitoring/grafana-loki"
-  count  = var.install_grafana_loki ? 1 : 0
+  source       = "./helm/monitoring/grafana-loki"
+  count        = var.install_grafana_loki ? 1 : 0
   cluster_name = var.eks_cluster_name
-  dns_zone = var.dns_zone
-  region = var.aws_region
-  bucket_name = "${var.eks_cluster_name}-grafana-loki"
-  depends_on = [ module.ingress-controller, kubernetes_namespace.monitoring]
+  dns_zone     = var.dns_zone
+  region       = var.aws_region
+  bucket_name  = "${var.eks_cluster_name}-grafana-loki"
+  depends_on   = [module.ingress-controller, kubernetes_namespace.monitoring]
 }
 
 ################ End Configure Grafana-Loki  #######################################

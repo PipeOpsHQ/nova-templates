@@ -67,15 +67,15 @@ variable "install_opencost" {
 }
 
 variable "install_rabbitmq" {
-  type = bool
+  type        = bool
   description = "To install rabbitmq"
-  default = false
+  default     = false
 }
 
 variable "service_account_ns" {
-  type = string
+  type        = string
   description = "Namespace to create pipeops admin service account"
-  default = "pipeops"
+  default     = "pipeops"
 }
 
 # variable "aws_config_path" {
@@ -85,7 +85,7 @@ variable "service_account_ns" {
 # }
 
 variable "aws_profile" {
-   description = "AWS PROFILE"
+  description = "AWS PROFILE"
 
 }
 

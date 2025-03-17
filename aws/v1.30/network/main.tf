@@ -19,16 +19,16 @@ module "network" {
 
   public_subnet_tags = {
     "kubernetes.io/cluster/${var.eks_cluster_name}" = "shared"
-    "kubernetes.io/role/elb"                    = 1
-    "subnet"                                    = "public"
-    "map_public_ip_on_launch"                   = true
+    "kubernetes.io/role/elb"                        = 1
+    "subnet"                                        = "public"
+    "map_public_ip_on_launch"                       = true
   }
 
   private_subnet_tags = {
     "kubernetes.io/cluster/${var.eks_cluster_name}" = "shared"
-    "kubernetes.io/role/internal-elb"           = 1
-    "subnet"                                    = "private"
-     "karpenter.sh/discovery"                    = "${var.eks_cluster_name}"
+    "kubernetes.io/role/internal-elb"               = 1
+    "subnet"                                        = "private"
+    "karpenter.sh/discovery"                        = "${var.eks_cluster_name}"
   }
 
   tags = {
