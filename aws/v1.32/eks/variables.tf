@@ -82,5 +82,5 @@ variable "aws_region" {
 
 variable "ecr_region" {
   description = "AWS region for Public ECR Authentication"
-  default = "us-east-1"
+  default     = "us-east-1"
 }

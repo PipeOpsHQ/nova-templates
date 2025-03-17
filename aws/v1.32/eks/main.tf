@@ -120,12 +120,12 @@ module "eks" {
 
   cluster_addons = {
     vpc-cni = {
-      most_recent = true
+      most_recent    = true
       before_compute = true
       configuration_values = jsonencode({
         env = {
           ENABLE_PREFIX_DELEGATION = "true"
-          WARM_PREFIX_TARGET = "1"
+          WARM_PREFIX_TARGET       = "1"
         }
       })
     }
@@ -133,7 +133,7 @@ module "eks" {
       most_recent = true
     }
     coredns = {
-      preserve = true
+      preserve    = true
       most_recent = true
       timeouts = {
         create = "35m"
@@ -141,9 +141,9 @@ module "eks" {
       }
       configuration_values = jsonencode({
         tolerations = [{
-          key = "CriticalAddonsOnly"
+          key      = "CriticalAddonsOnly"
           operator = "Exists"
-          effect = "NoSchedule"
+          effect   = "NoSchedule"
         }]
       })
     }
@@ -151,8 +151,8 @@ module "eks" {
       most_recent = true
     }
     aws-ebs-csi-driver = {
-      most_recent = true
-      resolve_conflicts = "OVERWRITE"
+      most_recent              = true
+      resolve_conflicts        = "OVERWRITE"
       service_account_role_arn = module.ebs_csi_irsa_role.iam_role_arn
       configuration_values = jsonencode({
         controller = {
@@ -160,9 +160,9 @@ module "eks" {
             "Encrypted" = "true"
           }
           tolerations = [{
-            key = "CriticalAddonsOnly"
+            key      = "CriticalAddonsOnly"
             operator = "Exists"
-            effect = "NoSchedule"
+            effect   = "NoSchedule"
           }]
         }
       })
@@ -187,13 +187,13 @@ module "eks" {
 
   }
   node_security_group_tags = {
-    "Name"                   = var.cluster_name
-    "karpenter.sh/discovery" = var.cluster_name
-    "pipeops.io/cluster"     = "${var.cluster_name}"
-    "Environment"            = "production"
-    "Terraform"              = "true"
-    "ManagedBy"              = "pipeops.io"
-    "DateCreated"            = formatdate("YYYY-MM-DD", timestamp())
+    "Name"                                      = var.cluster_name
+    "karpenter.sh/discovery"                    = var.cluster_name
+    "pipeops.io/cluster"                        = "${var.cluster_name}"
+    "Environment"                               = "production"
+    "Terraform"                                 = "true"
+    "ManagedBy"                                 = "pipeops.io"
+    "DateCreated"                               = formatdate("YYYY-MM-DD", timestamp())
     "kubernetes.io/cluster/${var.cluster_name}" = null
   }
 }
@@ -216,8 +216,8 @@ module "default_managed_node_group" {
   disk_size                = var.eks_cluster_storage
   iam_role_use_name_prefix = false
   iam_role_additional_policies = {
-      "ClusterAutoscalerPolicy" = aws_iam_policy.cluster_autoscaler_policy.arn
-    }
+    "ClusterAutoscalerPolicy" = aws_iam_policy.cluster_autoscaler_policy.arn
+  }
   tags = {
     "k8s.io/cluster-autoscaler/${var.cluster_name}" = "owned"
     "k8s.io/cluster-autoscaler/enabled"             = "true"
