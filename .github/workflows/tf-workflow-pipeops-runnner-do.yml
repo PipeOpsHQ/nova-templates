@@ -64,14 +64,14 @@ jobs:
         run: |
           terraform init
           terraform plan -var="do_token=${{ secrets.DO_TOKEN }}"
-          # terraform apply -var="do_token=${{ secrets.DO_TOKEN }}" --auto-approve
+          terraform apply -var="do_token=${{ secrets.DO_TOKEN }}" --auto-approve
         working-directory: ${{ github.workspace }}/do/network
       
       - name: Create Cluster 
         run: |
           terraform init
           terraform plan -var="do_token=${{ secrets.DO_TOKEN }}"
-          # terraform apply -var=do_token=${{ secrets.DO_TOKEN }} --auto-approve
+          terraform apply -var=do_token=${{ secrets.DO_TOKEN }} --auto-approve
         working-directory: ${{ github.workspace }}/do/dks
 
       - name: Get Kubeconfig file
@@ -83,5 +83,5 @@ jobs:
           export KUBE_CONFIG_PATH=/home/runner/.kube/config
           terraform init
           terraform plan -var="do_token=${{ secrets.DO_TOKEN }}" -var="aws_access_key_s3=${{ secrets.ALTSCHOOL_LOKI_ACCESS_KEY}}" -var="aws_secret_key_s3=${{ secrets.ALTSCHOOL_LOKI_SECRET_KEY}}" 
-          # terraform apply -var=do_token=${{ secrets.DO_TOKEN }} -var="aws_access_key_s3=${{ secrets.ALTSCHOOL_LOKI_ACCESS_KEY}}" -var="aws_secret_key_s3=${{ secrets.ALTSCHOOL_LOKI_SECRET_KEY}}" --auto-approve
+          terraform apply -var=do_token=${{ secrets.DO_TOKEN }} -var="aws_access_key_s3=${{ secrets.ALTSCHOOL_LOKI_ACCESS_KEY}}" -var="aws_secret_key_s3=${{ secrets.ALTSCHOOL_LOKI_SECRET_KEY}}" --auto-approve
         working-directory: ${{ github.workspace }}/do/prepare-cluster
