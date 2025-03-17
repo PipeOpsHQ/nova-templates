@@ -10,14 +10,14 @@ resource "kubernetes_namespace" "service_account_ns" {
 
 resource "kubernetes_service_account" "pipeops_admin" {
   metadata {
-    name = "pipeops-admin"
+    name      = "pipeops-admin"
     namespace = var.service_account_ns
   }
 }
 
 resource "kubernetes_secret" "pipeops_admin_secret" {
   metadata {
-    name = "pipeops-admin-secret"
+    name      = "pipeops-admin-secret"
     namespace = var.service_account_ns
     annotations = {
       "kubernetes.io/service-account.name" = kubernetes_service_account.pipeops_admin.metadata.0.name
@@ -38,7 +38,7 @@ resource "kubernetes_cluster_role_binding" "pipeops_cluster_role_binding" {
     kind      = "ClusterRole"
     name      = "cluster-admin"
   }
-  
+
   subject {
     kind      = "ServiceAccount"
     name      = kubernetes_service_account.pipeops_admin.metadata.0.name
