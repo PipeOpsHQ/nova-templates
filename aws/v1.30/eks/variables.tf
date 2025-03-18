@@ -1,6 +1,6 @@
 variable "pipeops_workspace" {
   description = "PipeOps WorkSpace Account"
-  default     = "test"
+
 }
 
 variable "eks_version" {
@@ -12,7 +12,6 @@ variable "eks_version" {
 variable "cluster_name" {
   description = "Name of Cluster"
   type        = string
-  default     = "pipeops"
 }
 
 variable "eks_cluster_desired_node" {
@@ -36,13 +35,8 @@ variable "eks_max_node" {
 variable "eks_instance_class" {
   description = "machine type to be used"
   type        = list(string)
-  # default     = ["t3a.large"]
-  /*
-  default = {
-    dev     = "t3a.large"
-    pro     = "m5.large"
-    startup = "c5a.2xlarge"
-  } */
+
+
 }
 
 variable "ami_type" {
@@ -71,13 +65,6 @@ variable "install_karpenter" {
   type        = bool
   description = "To install karpenter or not"
   default     = false
-}
-
-
-variable "aws_config_path" {
-  description = "path to aws config"
-  type        = string
-
 }
 
 variable "aws_profile" {

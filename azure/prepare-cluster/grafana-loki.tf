@@ -6,6 +6,7 @@ resource "aws_s3_bucket" "grafana-loki-bucket" {
   tags = {
     Owner = var.cluster_name
   }
+  force_destroy = true
 }
 
 module "grafana-loki" {

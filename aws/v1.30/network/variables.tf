@@ -25,7 +25,7 @@ variable "intra_subnets_cidrs" {
 variable "eks_cluster_name" {
   description = "Name of Cluster"
   type        = string
-  default     = "pipeops"
+
 }
 
 variable "pipeops_workspace_account" {
@@ -38,20 +38,13 @@ variable "eks_version" {
   default     = "1.30"
 }
 
-
-variable "aws_config_path" {
-  description = "path to aws config"
-  type = string
-  
-}
-
 variable "aws_profile" {
   description = "AWS PROFILE"
-  
-  
+
+
 }
 
 variable "aws_region" {
   description = "AWS region to launch servers."
-  
+
 }

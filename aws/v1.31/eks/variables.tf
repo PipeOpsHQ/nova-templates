@@ -34,14 +34,7 @@ variable "eks_max_node" {
 
 variable "eks_instance_class" {
   description = "machine type to be used"
-  # default     = ["t3a.large"]
   type        = list(string)
-  /*
-  default = {
-    dev     = "t3a.large"
-    pro     = "m5.large"
-    startup = "c5a.2xlarge"
-  } */
 }
 variable "ami_type" {
   type    = string
@@ -70,11 +63,6 @@ variable "install_karpenter" {
   default     = false
 }
 
-variable "aws_config_path" {
-  description = "path to aws config"
-  type        = string
-
-}
 
 variable "aws_profile" {
   description = "AWS PROFILE"
@@ -88,5 +76,5 @@ variable "aws_region" {
 
 variable "ecr_region" {
   description = "AWS region for Public ECR Authentication"
-  default = "us-east-1"
+  default     = "us-east-1"
 }

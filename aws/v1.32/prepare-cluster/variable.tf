@@ -28,7 +28,7 @@ variable "install_k8s_dashboard" {
 variable "install_grafana_loki" {
   type        = bool
   description = "To install Grafana Loki or not"
-  default     = false
+  default     = true
 }
 
 variable "install_prometheus" {
@@ -68,22 +68,16 @@ variable "install_opencost" {
 }
 
 variable "install_rabbitmq" {
-  type = bool
+  type        = bool
   description = "To install rabbitmq"
-  default = false
+  default     = false
 }
 
 variable "service_account_ns" {
-  type = string
+  type        = string
   description = "Namespace to create pipeops admin service account"
-  default = "pipeops"
+  default     = "pipeops"
 }
-
-# variable "aws_config_path" {
-#   description = "path to aws config"
-#   type        = list(string)
-
-# }
 
 # variable "aws_profile" {
 #   description = "AWS PROFILE"
@@ -91,8 +85,8 @@ variable "service_account_ns" {
 # }
 
 variable "aws_region" {
-  description = "AWS region to launch servers."
-  default     = "eu-west-2"
+  description = "AWS region to create s3 bucket for grafana loki"
+
 }
 
 variable "dns_zone" {

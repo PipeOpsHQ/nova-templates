@@ -1,3 +1,5 @@
+data "aws_caller_identity" "current" {}
+
 data "aws_availability_zones" "available" {
   filter {
     name   = "opt-in-status"
@@ -118,12 +120,12 @@ module "eks" {
 
   cluster_addons = {
     vpc-cni = {
-      most_recent = true
+      most_recent    = true
       before_compute = true
       configuration_values = jsonencode({
         env = {
           ENABLE_PREFIX_DELEGATION = "true"
-          WARM_PREFIX_TARGET = "1"
+          WARM_PREFIX_TARGET       = "1"
         }
       })
     }
@@ -131,7 +133,7 @@ module "eks" {
       most_recent = true
     }
     coredns = {
-      preserve = true
+      preserve    = true
       most_recent = true
       timeouts = {
         create = "35m"
@@ -139,9 +141,9 @@ module "eks" {
       }
       configuration_values = jsonencode({
         tolerations = [{
-          key = "CriticalAddonsOnly"
+          key      = "CriticalAddonsOnly"
           operator = "Exists"
-          effect = "NoSchedule"
+          effect   = "NoSchedule"
         }]
       })
     }
@@ -149,8 +151,8 @@ module "eks" {
       most_recent = true
     }
     aws-ebs-csi-driver = {
-      most_recent = true
-      resolve_conflicts = "OVERWRITE"
+      most_recent              = true
+      resolve_conflicts        = "OVERWRITE"
       service_account_role_arn = module.ebs_csi_irsa_role.iam_role_arn
       configuration_values = jsonencode({
         controller = {
@@ -158,9 +160,9 @@ module "eks" {
             "Encrypted" = "true"
           }
           tolerations = [{
-            key = "CriticalAddonsOnly"
+            key      = "CriticalAddonsOnly"
             operator = "Exists"
-            effect = "NoSchedule"
+            effect   = "NoSchedule"
           }]
         }
       })
@@ -185,13 +187,13 @@ module "eks" {
 
   }
   node_security_group_tags = {
-    "Name"                   = var.cluster_name
-    "karpenter.sh/discovery" = var.cluster_name
-    "pipeops.io/cluster"     = "${var.cluster_name}"
-    "Environment"            = "production"
-    "Terraform"              = "true"
-    "ManagedBy"              = "pipeops.io"
-    "DateCreated"            = formatdate("YYYY-MM-DD", timestamp())
+    "Name"                                      = var.cluster_name
+    "karpenter.sh/discovery"                    = var.cluster_name
+    "pipeops.io/cluster"                        = "${var.cluster_name}"
+    "Environment"                               = "production"
+    "Terraform"                                 = "true"
+    "ManagedBy"                                 = "pipeops.io"
+    "DateCreated"                               = formatdate("YYYY-MM-DD", timestamp())
     "kubernetes.io/cluster/${var.cluster_name}" = null
   }
 }
@@ -214,8 +216,8 @@ module "default_managed_node_group" {
   disk_size                = var.eks_cluster_storage
   iam_role_use_name_prefix = false
   iam_role_additional_policies = {
-      "ClusterAutoscalerPolicy" = aws_iam_policy.cluster_autoscaler_policy.arn
-    }
+    "ClusterAutoscalerPolicy" = aws_iam_policy.cluster_autoscaler_policy.arn
+  }
   tags = {
     "k8s.io/cluster-autoscaler/${var.cluster_name}" = "owned"
     "k8s.io/cluster-autoscaler/enabled"             = "true"
@@ -275,9 +277,11 @@ module "eks_auth" {
 
   manage_aws_auth_configmap = true
 
+  create_aws_auth_configmap = true
+
   aws_auth_roles = [
     {
-      rolearn  = "arn:aws:iam::022499013216:role/KarpenterIRSA-${var.cluster_name}"
+      rolearn  = "arn:aws:iam::${data.aws_caller_identity.current.account_id}:role/KarpenterIRSA-${var.cluster_name}"
       username = "system:node:{{EC2PrivateDNSName}}"
       groups = [
         "system:bootstrappers",
@@ -287,4 +291,17 @@ module "eks_auth" {
   ]
 
   aws_auth_users = var.map_users
+}
+
+resource "null_resource" "remove_sg_tag" {
+  count = var.install_karpenter ? 1 : 0
+  provisioner "local-exec" {
+    command = <<EOT
+      aws ec2 delete-tags --resources ${module.eks.cluster_primary_security_group_id} --tags Key=kubernetes.io/cluster/${var.cluster_name}
+
+      aws ec2 create-tags --resources ${module.eks.node_security_group_id} --tags Key=kubernetes.io/cluster/${var.cluster_name},Value=owned
+  
+    EOT
+  }
+  depends_on = [module.eks, module.karpenter_managed_node_group]
 }
