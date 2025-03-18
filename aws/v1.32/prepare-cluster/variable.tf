@@ -28,7 +28,7 @@ variable "install_k8s_dashboard" {
 variable "install_grafana_loki" {
   type        = bool
   description = "To install Grafana Loki or not"
-  default     = false
+  default     = true
 }
 
 variable "install_prometheus" {
