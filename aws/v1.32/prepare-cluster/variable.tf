@@ -79,20 +79,14 @@ variable "service_account_ns" {
   default     = "pipeops"
 }
 
-# variable "aws_config_path" {
-#   description = "path to aws config"
-#   type        = list(string)
-
-# }
-
 # variable "aws_profile" {
 #   description = "AWS PROFILE"
 
 # }
 
 variable "aws_region" {
-  description = "AWS region to launch servers."
-  default     = "eu-west-2"
+  description = "AWS region to create s3 bucket for grafana loki"
+
 }
 
 variable "dns_zone" {
