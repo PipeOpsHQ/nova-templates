@@ -12,7 +12,7 @@ resource "digitalocean_kubernetes_cluster" "pks_cluster" {
     name       = "${var.cluster_name}-pool"
     size       = var.node_size
     node_count = var.node_count
-    auto_scale = true
+    auto_scale = false
     min_nodes  = 1
     max_nodes  = 3
   }
