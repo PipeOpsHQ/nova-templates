@@ -36,10 +36,11 @@ resource "helm_release" "grafana-loki" {
   version = var.helm_chart_version
   namespace = "monitoring"
    
-  values = [
-    templatefile("${path.module}/templates/values.yaml", {
-      s3 = "s3://${var.aws_access_key_s3}:${var.aws_secret_key_s3}@${var.aws_region_S3}",
-      host = "grafana-loki-${var.cluster_name}.${var.dns_zone}"
-    })
-  ]
+   #  Wrong use DO bucket instead
+  # values = [
+  #   templatefile("${path.module}/templates/values.yaml", {
+  #     s3 = "s3://${var.aws_access_key_s3}:${var.aws_secret_key_s3}@${var.aws_region_S3}",
+  #     host = "grafana-loki-${var.cluster_name}.${var.dns_zone}"
+  #   })
+  # ]
 }
