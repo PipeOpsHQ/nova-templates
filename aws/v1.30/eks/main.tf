@@ -81,29 +81,29 @@ module "cluster_autoscaler_irsa_role" {
   }
 }
 
-resource "aws_iam_policy" "cluster_autoscaler_policy" {
-  name        = "${var.cluster_name}-cluster-autoscaler-policy"
-  description = "Policy for EKS Cluster Autoscaler"
+# resource "aws_iam_policy" "cluster_autoscaler_policy" {
+#   name        = "${var.cluster_name}-cluster-autoscaler-policy"
+#   description = "Policy for EKS Cluster Autoscaler"
 
-  policy = jsonencode({
-    Version = "2012-10-17",
-    Statement = [
-      {
-        Effect = "Allow",
-        Action = [
-          "autoscaling:DescribeAutoScalingGroups",
-          "autoscaling:DescribeAutoScalingInstances",
-          "autoscaling:DescribeLaunchConfigurations",
-          "autoscaling:DescribeTags",
-          "autoscaling:SetDesiredCapacity",
-          "autoscaling:TerminateInstanceInAutoScalingGroup",
-          "ec2:DescribeLaunchTemplateVersions"
-        ],
-        Resource = "*"
-      }
-    ]
-  })
-}
+#   policy = jsonencode({
+#     Version = "2012-10-17",
+#     Statement = [
+#       {
+#         Effect = "Allow",
+#         Action = [
+#           "autoscaling:DescribeAutoScalingGroups",
+#           "autoscaling:DescribeAutoScalingInstances",
+#           "autoscaling:DescribeLaunchConfigurations",
+#           "autoscaling:DescribeTags",
+#           "autoscaling:SetDesiredCapacity",
+#           "autoscaling:TerminateInstanceInAutoScalingGroup",
+#           "ec2:DescribeLaunchTemplateVersions"
+#         ],
+#         Resource = "*"
+#       }
+#     ]
+#   })
+# }
 
 
 module "eks" {
