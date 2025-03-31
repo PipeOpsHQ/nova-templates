@@ -28,7 +28,7 @@ resource "helm_release" "capsule_proxy" {
     replicaCount: 3
     ingress:
       annotations:
-        cert-manager.io/cluster-issuer: letsencrypt-prod
+        cert-manager.io/cluster-issuer: letsencrypt-production
         kubernetes.io/tls-acme: 'true'
       className: nginx
       enabled: true
