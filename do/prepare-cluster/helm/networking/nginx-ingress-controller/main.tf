@@ -1,11 +1,15 @@
 resource "helm_release" "application" {
+  depends_on = [ kubectl_manifest.default_backend ]
   name       = var.name
   chart      = local.helm_chart
   namespace  = var.namespace
   repository = local.helm_repository
   version    = var.chart_version
 
-  values = [var.disable_heavyweight_metrics ? file("${path.module}/templates/metrics-disable.yaml") : ""]
+  values = [templatefile("${path.module}/templates/values.yaml", {
+
+    }),
+    var.disable_heavyweight_metrics ? file("${path.module}/templates/metrics-disable.yaml") : ""]
 
   set {
     name  = "controller.kind"
@@ -49,20 +53,20 @@ resource "helm_release" "application" {
     value = "Deployment"
   }
 
-  set {
-    name  = "defaultBackend.enabled"
-    value = true
-  }
+  # set {
+  #   name  = "defaultBackend.enabled"
+  #   value = true
+  # }
 
-  set {
-      name  = "defaultBackend.image.repository"
-      value = "nitrocode/pipeops-custom-backend"
-  }
+  # set {
+  #     name  = "defaultBackend.image.repository"
+  #     value = "nitrocode/pipeops-custom-backend"
+  # }
 
-  set{
-      name  = "defaultBackend.image.tag"
-      value = "latest"
-  }
+  # set{
+  #     name  = "defaultBackend.image.tag"
+  #     value = "latest"
+  # }
 
   set {
     name  = "controller.config.keepalive"
@@ -74,25 +78,25 @@ resource "helm_release" "application" {
   #   value = "60s"  # Resync period set to 1 minute
   # }
 
-  set {
-    name  = "defaultBackend.image.readOnlyRootFilesystem"
-    value = false
-  }
+  # set {
+  #   name  = "defaultBackend.image.readOnlyRootFilesystem"
+  #   value = false
+  # }
 
-  set {
-    name  = "defaultBackend.image.pullPolicy"
-    value = "Always"
-  }
+  # set {
+  #   name  = "defaultBackend.image.pullPolicy"
+  #   value = "Always"
+  # }
 
-  set {
-    name  = "defaultBackend.image.runAsNonRoot"
-    value = false
-  }
+  # set {
+  #   name  = "defaultBackend.image.runAsNonRoot"
+  #   value = false
+  # }
 
-  set {
-    name  = "defaultBackend.port"
-    value = 8080
-  }
+  # set {
+  #   name  = "defaultBackend.port"
+  #   value = 8080
+  # }
 
   dynamic "set" {
     for_each = local.controller_service_nodePorts
