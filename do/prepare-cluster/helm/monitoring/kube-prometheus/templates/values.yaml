@@ -1,6 +1,15 @@
 ## If nil, select own namespace. Namespaces to be selected for scrapeConfig discovery.
 ## If null, exclude the field from the prometheusSpec (keeping downward compatibility with older versions of CRD)
 alertmanager:
+  alertmanagerSpec:
+    tolerations:
+    - effect: NoSchedule
+      key: managed-by
+      operator: Equal
+      value: helper-pool
+    nodeSelector:
+      doks.digitalocean.com/node-pool: helper-pool
+      kubernetes.io/os: linux
   ingress:
     annotations: 
       cert-manager.io/cluster-issuer: letsencrypt-production
@@ -44,9 +53,38 @@ grafana:
     - hosts:
       - ${kube-grafana-host}
       secretName: kube-grafana-tls
+  persistence:
+    enabled: true
+    storageClassName: "do-block-storage"
+    accessModes:
+      - ReadWriteOnce
+    size: 30Gi
+  nodeSelector:
+    doks.digitalocean.com/node-pool: helper-pool
+    kubernetes.io/os: linux
+  tolerations:
+  - effect: NoSchedule
+    key: managed-by
+    operator: Equal
+    value: helper-pool
+
+kube-state-metrics:
+  nodeSelector:
+    doks.digitalocean.com/node-pool: helper-pool
+    kubernetes.io/os: linux
+  tolerations:
+  - effect: NoSchedule
+    key: managed-by
+    operator: Equal
+    value: helper-pool
+
 
 prometheus:
   prometheusSpec:
+    persistentVolumeClaimRetentionPolicy: 
+      whenDeleted: Retain
+      whenScaled: Retain
+    retention: 94d
     scrapeConfigNamespaceSelector: 
       matchLabels:
         prometheus: ${namespace}
@@ -62,6 +100,22 @@ prometheus:
           - opencost.default.svc
           type: 'A'
           port: 9003
+    storageSpec:
+      volumeClaimTemplate:
+        spec:
+          storageClassName: do-block-storage
+          accessModes: ["ReadWriteOnce"]
+          resources:
+            requests:
+              storage: 300Gi
+    nodeSelector:
+      doks.digitalocean.com/node-pool: helper-pool
+      kubernetes.io/os: linux
+    tolerations:
+    - effect: NoSchedule
+      key: managed-by
+      operator: Equal
+      value: helper-pool
   ingress: 
     annotations:
       cert-manager.io/cluster-issuer: letsencrypt-production
@@ -80,3 +134,22 @@ prometheus:
     - hosts:
       - ${kube-prom-host}
       secretName: kube-prom-tls
+prometheusOperator:
+  nodeSelector:
+    doks.digitalocean.com/node-pool: helper-pool
+    kubernetes.io/os: linux
+  tolerations:
+  - effect: NoSchedule
+    key: managed-by
+    operator: Equal
+    value: helper-pool
+
+prometheus-node-exporter:
+  nodeSelector:
+    doks.digitalocean.com/node-pool: helper-pool
+    kubernetes.io/os: linux
+  tolerations:
+  - effect: NoSchedule
+    key: managed-by
+    operator: Equal
+    value: helper-pool
