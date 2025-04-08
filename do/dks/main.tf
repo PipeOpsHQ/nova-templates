@@ -23,11 +23,61 @@ resource "digitalocean_kubernetes_node_pool" "bar" {
 
   name       = "helper-pool"
   size       = "s-2vcpu-2gb"
-  node_count = 3
+  node_count = 2
+  min_nodes = 2
+  auto_scale = true
+  max_nodes = 4
   tags       = ["backup-helper"]
 
   labels = {
     service  = "backup-helper"
     priority = "high"
   }
+  taint {
+    key    = "managed-by"
+    value  = "helper-pool"
+    effect = "NoSchedule"
+  }
+}
+
+resource "digitalocean_kubernetes_node_pool" "ingress_pool" {
+  cluster_id = digitalocean_kubernetes_cluster.pks_cluster.id
+
+  name       = "ingress-pool"
+  size       = "s-8vcpu-16gb-amd"
+  node_count = 1
+  min_nodes  = 1
+  max_nodes  = 1
+
+  labels = {
+    service  = "ingress-pool"
+    priority = "high"
+  }
+  taint {
+    key    = "managed-by"
+    value  = "ingress-pool"
+    effect = "NoSchedule"
+  }
+}
+
+resource "digitalocean_kubernetes_node_pool" "default_pool" {
+  cluster_id = digitalocean_kubernetes_cluster.pks_cluster.id
+
+  name       = "default-pool"
+  size       = "s-2vcpu-4gb-120gb-intel"
+  node_count = 1
+  min_nodes  = 1
+  auto_scale = true
+  max_nodes  = 2
+
+  labels = {
+    service  = "pool-bcoxp9dy8"
+    priority = "high"
+  }
+  taint {
+    key    = "managed-by"
+    value  = "pool-bcoxp9dy8"
+    effect = "NoSchedule"
+  }
+
 }
