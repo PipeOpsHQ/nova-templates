@@ -14,36 +14,11 @@ resource "helm_release" "capsule_proxy" {
   version    = var.helm_chart_version
 
   values = [
-    <<-EOF
-    autoscaling:
-      enabled: false
-      maxReplicas: 5
-      minReplicas: 1
-      targetCPUUtilizationPercentage: 80
-    image:
-      pullPolicy: IfNotPresent
-      registry: ghcr.io
-      repository: projectcapsule/capsule-proxy
-      tag: ''
-    replicaCount: 3
-    ingress:
-      annotations:
-        cert-manager.io/cluster-issuer: letsencrypt-production
-        kubernetes.io/tls-acme: 'true'
-      className: nginx
-      enabled: true
-      hosts:
-      - host: ${var.cluster_name}.pipeops.dev
-        paths:
-        - /
-      tls:
-      - hosts:
-        - ${var.cluster_name}.pipeops.dev
-        secretName: ${var.cluster_name}-tls
-    options:
-      enableSSL: false
-    EOF
-  ]
+    templatefile("${path.module}/templates/values.yaml", {
+      value="default-pool"
+      cluster_name = var.cluster_name
+    })
+    ]
 
   depends_on = [
     kubernetes_namespace.capsule_proxy,

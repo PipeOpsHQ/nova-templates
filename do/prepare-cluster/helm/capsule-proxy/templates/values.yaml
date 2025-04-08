@@ -1,0 +1,40 @@
+autoscaling:
+  enabled: false
+  maxReplicas: 5
+  minReplicas: 1
+  targetCPUUtilizationPercentage: 80
+image:
+  pullPolicy: IfNotPresent
+  registry: ghcr.io
+  repository: projectcapsule/capsule-proxy
+  tag: ''
+replicaCount: 3
+ingress:
+  annotations:
+    cert-manager.io/cluster-issuer: letsencrypt-production
+    kubernetes.io/tls-acme: 'true'
+  className: nginx
+  enabled: true
+  hosts:
+  - host: ${var.cluster_name}.pipeops.dev
+    paths:
+    - /
+  tls:
+  - hosts:
+    - ${var.cluster_name}.pipeops.dev
+    secretName: ${var.cluster_name}-tls
+options:
+  enableSSL: false
+jobs:
+  tolerations:
+  - effect: NoSchedule
+    key: managed-by
+    operator: Equal
+    value: ${value}
+options:
+  enableSSL: false
+tolerations:
+- effect: NoSchedule
+  key: managed-by
+  operator: Equal
+  value: ${value}
