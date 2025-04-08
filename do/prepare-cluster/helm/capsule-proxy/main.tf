@@ -15,9 +15,9 @@ resource "helm_release" "capsule_proxy" {
 
   values = [
     templatefile("${path.module}/templates/values.yaml", {
-      value="default-pool"
-      cluster_name = "${var.cluster_name}"
-    })
+      value="default-pool",
+      cluster_name = "${var.cluster_name}" 
+      })
     ]
 
   depends_on = [
