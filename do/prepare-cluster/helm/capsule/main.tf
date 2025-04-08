@@ -50,7 +50,9 @@ resource "helm_release" "capsule" {
     value = "capsule-tls"
   }
 
-
+  values = [
+    templatefile("${path.module}/templates/values.yaml",{})
+    ]
 
   depends_on = [
     kubernetes_namespace.capsule,

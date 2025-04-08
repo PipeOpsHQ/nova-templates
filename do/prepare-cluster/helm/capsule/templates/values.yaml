@@ -1,0 +1,16 @@
+jobs:
+  tolerations:
+  - effect: NoSchedule
+    key: managed-by
+    operator: Equal
+    value: 
+manager:
+  nodeSelector:
+    doks.digitalocean.com/node-pool: default-pool
+nodeSelector:
+  doks.digitalocean.com/node-pool: default-pool
+tolerations:
+- effect: NoSchedule
+  key: managed-by
+  operator: Equal
+  value: default-pool

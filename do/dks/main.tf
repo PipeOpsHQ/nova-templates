@@ -71,12 +71,12 @@ resource "digitalocean_kubernetes_node_pool" "default_pool" {
   max_nodes  = 2
 
   labels = {
-    service  = "pool-bcoxp9dy8"
+    service  = "default-pool"
     priority = "high"
   }
   taint {
     key    = "managed-by"
-    value  = "pool-bcoxp9dy8"
+    value  = "default-pool"
     effect = "NoSchedule"
   }
 
