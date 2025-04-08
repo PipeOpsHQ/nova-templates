@@ -16,13 +16,13 @@ ingress:
   className: nginx
   enabled: true
   hosts:
-  - host: ${var.cluster_name}.pipeops.dev
+  - host: ${cluster_name}.pipeops.dev
     paths:
     - /
   tls:
   - hosts:
-    - ${var.cluster_name}.pipeops.dev
-    secretName: ${var.cluster_name}-tls
+    - ${cluster_name}.pipeops.dev
+    secretName: ${cluster_name}-tls
 options:
   enableSSL: false
 jobs:
