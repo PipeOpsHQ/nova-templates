@@ -46,3 +46,4 @@ defaultBackend:
     key: managed-by
     operator: Equal
     value: ingress-pool
+    
