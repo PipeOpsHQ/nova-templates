@@ -1,6 +1,23 @@
 controller:
   config: 
     custom-http-errors: "404,502,503"
+  patch:
+    nodeSelector:
+        doks.digitalocean.com/node-pool: ingress-pool
+        kubernetes.io/os: linux
+    tolerations:
+      - effect: NoSchedule
+        key: managed-by
+        operator: Equal
+        value: ingress-pool
+  nodeSelector:
+    doks.digitalocean.com/node-pool: ingress-pool
+    kubernetes.io/os: linux
+  tolerations:
+  - effect: NoSchedule
+    key: managed-by
+    operator: Equal
+    value: ingress-pool
 defaultBackend:
   enabled: true
   image:
@@ -21,3 +38,11 @@ defaultBackend:
   extraVolumeMounts:
   - name: custom-error-pages
     mountPath: /www
+  nodeSelector:
+    doks.digitalocean.com/node-pool: ingress-pool
+    kubernetes.io/os: linux
+  tolerations:
+  - effect: NoSchedule
+    key: managed-by
+    operator: Equal
+    value: ingress-pool
