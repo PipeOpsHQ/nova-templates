@@ -17,6 +17,26 @@ resource "helm_release" "cert_manager" {
     name  = "installCRDs"
     value = "true"
   }
+  set {
+    name  = "nodeSelector.doks\\.digitalocean\\.com/node-pool"
+    value = "default-pool"
+  }
+  
+  # Add toleration
+  set {
+    name  = "tolerations[0].key"
+    value = "managed-by"
+  }
+  
+  set {
+    name  = "tolerations[0].operator"
+    value = "Equal"
+  }
+  
+  set {
+    name  = "tolerations[0].value"
+    value = "default-pool"
+  }
 
   values = [
     templatefile("${path.module}/values.yaml.tpl", {
