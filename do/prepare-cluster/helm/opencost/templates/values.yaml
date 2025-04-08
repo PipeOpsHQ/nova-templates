@@ -1,16 +1,44 @@
 
 opencost:
+  customPricing:
+    configPath: /tmp/custom-config
+    configmapName: custom-pricing-model
+    costModel:
+      CPU: 0.0245
+      GPU: 0.95
+      RAM: 0.0081
+      description: Modified pricing configuration.
+      internetNetworkEgress: 0.12
+      regionNetworkEgress: 0.01
+      spotCPU: 0.0245
+      spotRAM: 0.0081
+      storage: 0.000139
+      zoneNetworkEgress: 0.01
+    createConfigmap: true
+    enabled: true
+    provider: custom
+  dataRetention:
+    dailyResolutionDays: 94
   exporter:
+    defaultClusterId: pipeops-altschool
     persistence:
       enabled: true
       size: "50Gi"
       accessMode: "ReadWriteOnce"
+  nodeSelector:
+    doks.digitalocean.com/node-pool: helper-pool
+    kubernetes.io/os: linux
   prometheus:
     internal:
       enabled: true
       serviceName: kube-prometheus-stack-prometheus
       namespaceName: monitoring
       port: 9090
+  tolerations:
+  - effect: NoSchedule
+    key: managed-by
+    operator: Equal
+    value: helper-pool
   ui:
     ingress:
       annotations: 
