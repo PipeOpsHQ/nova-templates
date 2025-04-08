@@ -1,4 +1,24 @@
-
+compactor:
+  tolerations:
+  - effect: NoSchedule
+    key: managed-by
+    operator: Equal
+    value: pipeops
+  updateStrategy:
+    # rollingUpdate: null
+    type: Recreate
+diagnosticMode:
+  args:
+  - infinity
+  command:
+  - sleep
+  enabled: false
+distributor:
+  tolerations:
+  - effect: NoSchedule
+    key: managed-by
+    operator: Equal
+    value: helper-pool
 gateway:
   auth:
     enabled: false
@@ -23,7 +43,19 @@ gateway:
     tls:
     - hosts:
       - ${host}
-      secretName: grafana-loki-tls
+      secretName: grafana-loki-
+  tolerations:
+    - effect: NoSchedule
+      key: managed-by
+      operator: Equal
+      value: helper-pool
+
+ingester:
+  tolerations:
+  - effect: NoSchedule
+    key: managed-by
+    operator: Equal
+    value: helper-pool
 
 loki:
   configuration: |
@@ -200,3 +232,34 @@ loki:
       rule_path: /tmp/loki/scratch
       alertmanager_url: https://alertmanager.xx
       external_url: https://alertmanager.xx
+
+memcachedchunks:
+  tolerations:
+  - effect: NoSchedule
+    key: managed-by
+    operator: Equal
+    value: helper-pool
+memcachedfrontend:
+  tolerations:
+  - effect: NoSchedule
+    key: managed-by
+    operator: Equal
+    value: helper-pool
+promtail:
+  tolerations:
+  - effect: NoSchedule
+    key: managed-by
+    operator: Equal
+    value: helper-pool
+querier:
+  tolerations:
+  - effect: NoSchedule
+    key: managed-by
+    operator: Equal
+    value: helper-pool
+queryFrontend:
+  tolerations:
+  - effect: NoSchedule
+    key: managed-by
+    operator: Equal
+    value: helper-pool
