@@ -33,6 +33,11 @@ resource "digitalocean_kubernetes_node_pool" "bar" {
     service  = "backup-helper"
     priority = "high"
   }
+  taint {
+    key    = "managed-by"
+    value  = "helper-pool"
+    effect = "NoSchedule"
+  }
 }
 
 resource "digitalocean_kubernetes_node_pool" "ingress_pool" {
@@ -47,6 +52,11 @@ resource "digitalocean_kubernetes_node_pool" "ingress_pool" {
   labels = {
     service  = "ingress-pool"
     priority = "high"
+  }
+  taint {
+    key    = "managed-by"
+    value  = "ingress-pool"
+    effect = "NoSchedule"
   }
 }
 
@@ -63,6 +73,11 @@ resource "digitalocean_kubernetes_node_pool" "default_pool" {
   labels = {
     service  = "pool-bcoxp9dy8"
     priority = "high"
+  }
+  taint {
+    key    = "managed-by"
+    value  = "pool-bcoxp9dy8"
+    effect = "NoSchedule"
   }
 
 }
