@@ -24,7 +24,7 @@ variable "region" {
 variable "k8s_version" {
   description = "Kubernetes version for the DOKS cluster"
   type        = string
-  default     = "1.30.9-do.0"
+  default     = "1.30.10-do.0"
 }
 
 variable "node_size" {
