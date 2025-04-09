@@ -36,5 +36,5 @@ variable "node_size" {
 variable "node_count" {
   description = "Number of worker nodes in the cluster"
   type        = number
-  default     = 3
+  default     = 1
 }
