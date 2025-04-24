@@ -51,7 +51,6 @@ output "kube_alert_manager_username" {
 output "kube_alert_manager_password" {
   sensitive = true
   value     = try(module.kube-prometheus-stack[0].kube_alert_manager_auth_password, null)
-
 }
 
 output "opencost_host" {
@@ -67,18 +66,11 @@ output "opencost_auth_username" {
 output "opencost_auth_password" {
   sensitive = true
   value     = try(module.opencost[0].opencost_auth_password, null)
-
 }
 
 output "kube_grafana_host" {
   sensitive = true
   value     = try(module.kube-prometheus-stack[0].kube_grafana_host, null)
-}
-
-output "kube_grafana_auth_username" {
-  sensitive = true
-  value     = try(module.kube-prometheus-stack[0].kube_grafana_auth_username, null)
-
 }
 
 output "kube_grafana_auth_password" {

@@ -16,7 +16,6 @@ output "grafana_loki_auth_password" {
 output "grafana_loki_auth_username" {
   sensitive = true
   value     = try(module.grafana-loki[0].grafana_loki_auth_username, null)
-
 }
 
 output "kube_prom_host" {
@@ -72,7 +71,6 @@ output "kube_grafana_host" {
 output "kube_grafana_auth_username" {
   sensitive = true
   value     = try(module.kube-prometheus-stack[0].kube_grafana_auth_username, null)
-
 }
 
 output "kube_grafana_auth_password" {
