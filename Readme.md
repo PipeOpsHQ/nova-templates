@@ -1,3 +1,9 @@
-#### Current provisioner script we used in provisioning servers on aws goal is to move stable versions of the gcp here too and our runner will programatically always pick from this script to run provision servers on any cloud
+## DEPRECATED
 
-The HIPPA & PCIDSS folder is a way of having a dedicated module for provisioning strictly compliant servers 
+**This repository is now deprecated for our own terraform modules.**
+
+#### Provisioner scripts for servers on AWS
+
+This repository previously contained our provisioning scripts. Our goal was to include stable versions of the GCP implementations here too, with our runner programmatically picking from this script to provision servers on any cloud platform.
+
+The HIPAA & PCIDSS folder served as a dedicated module for provisioning strictly compliant servers that meet regulatory requirements.
